@@ -8,7 +8,6 @@ namespace Zhaoxi.CourseManagement.Model
 {
     public class MaiUserScoresModel
     {
-        // Root myDeserializedClass = JsonConvert.DeserializeObject<Root>(myJsonResponse);
         public class Charts
         {
             public List<Dx> dx { get; set; }
@@ -28,6 +27,7 @@ namespace Zhaoxi.CourseManagement.Model
             public int ra { get; set; }
             public string rate { get; set; }
             public int song_id { get; set; }
+            public string song_img_src { get; set; }
             public string title { get; set; }
             public string type { get; set; }
         }
@@ -56,6 +56,7 @@ namespace Zhaoxi.CourseManagement.Model
             public int ra { get; set; }
             public string rate { get; set; }
             public int song_id { get; set; }
+            public string song_img_src { get; set; }
             public string title { get; set; }
             public string type { get; set; }
         }

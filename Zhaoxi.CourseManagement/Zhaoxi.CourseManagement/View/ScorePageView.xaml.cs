@@ -1,10 +1,12 @@
 ﻿using Google.Protobuf.WellKnownTypes;
+using Newtonsoft.Json;
 using Org.BouncyCastle.Asn1.Crmf;
 using RestSharp;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Text.Json.Serialization;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
@@ -15,7 +17,9 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using Zhaoxi.CourseManagement.Model;
 using Zhaoxi.CourseManagement.ViewModel;
+using static Zhaoxi.CourseManagement.Model.MaiUserScoresModel;
 
 namespace Zhaoxi.CourseManagement.View
 {
@@ -27,22 +31,9 @@ namespace Zhaoxi.CourseManagement.View
         public PointsSearchView()
         {
             InitializeComponent();
-            DataContext = new CoursePageViewModel();
 
-            var client = new RestClient("https://www.diving-fish.com/api/maimaidxprober/query/player");
-            //client.Timeout = -1;
-            var request = new RestRequest("",RestSharp.Method.Post);
-            request.AddHeader("Content-Type", "application/json");
-            var body = @"{
-                " + "\n" +
-                @"    ""b50"": true,
-                " + "\n" +
-                @"    ""username"": ""AkiraX""
-                " + "\n" +
-                            @"}";
-            request.AddParameter("application/json", body, ParameterType.RequestBody);
-            RestResponse response = client.Execute(request);
-            Console.WriteLine(response.Content);
+            var DataContext = new ScorePageViewModel().GetScorePageData();
+            this.DataContext = DataContext;
         }
     }
 }

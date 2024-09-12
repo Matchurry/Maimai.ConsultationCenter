@@ -90,6 +90,9 @@
     <Reference Include="MySql.Data, Version=9.0.0.0, Culture=neutral, PublicKeyToken=c5687fc88969c44d, processorArchitecture=MSIL">
       <HintPath>packages\MySql.Data.9.0.0\lib\net462\MySql.Data.dll</HintPath>
     </Reference>
+    <Reference Include="Newtonsoft.Json, Version=13.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>packages\Newtonsoft.Json.13.0.3\lib\net45\Newtonsoft.Json.dll</HintPath>
+    </Reference>
     <Reference Include="RestSharp, Version=112.0.0.0, Culture=neutral, PublicKeyToken=598062e77f915f75, processorArchitecture=MSIL">
       <HintPath>packages\RestSharp.112.0.0\lib\net471\RestSharp.dll</HintPath>
     </Reference>
@@ -162,7 +165,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="View\PointsSearchView.xaml">
+    <Page Include="View\ScorePageView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -194,15 +197,15 @@
     <Compile Include="Model\MaiUserScoresModel.cs" />
     <Compile Include="Model\SeriesModel.cs" />
     <Compile Include="Model\UserModel.cs" />
-    <Compile Include="ViewModel\CoursePageViewModel.cs" />
+    <Compile Include="ViewModel\ScorePageViewModel.cs" />
     <Compile Include="ViewModel\FirstPageViewModel.cs" />
     <Compile Include="View\FirstPageView.xaml.cs">
       <DependentUpon>FirstPageView.xaml</DependentUpon>
     </Compile>
     <Compile Include="ViewModel\LoginViewModel.cs" />
     <Compile Include="ViewModel\MainViewModel.cs" />
-    <Compile Include="View\PointsSearchView.xaml.cs">
-      <DependentUpon>PointsSearchView.xaml</DependentUpon>
+    <Compile Include="View\ScorePageView.xaml.cs">
+      <DependentUpon>ScorePageView.xaml</DependentUpon>
     </Compile>
     <Compile Include="View\LoginView.xaml.cs">
       <DependentUpon>LoginView.xaml</DependentUpon>
