@@ -25,6 +25,7 @@ namespace Zhaoxi.CourseManagement.View
         public MainView()
         {
             InitializeComponent();
+            this.Topmost = true;
             MainViewModel model = new MainViewModel();
             DataContext = model;
             model.UserInfo.Avatar = GlobalValues.UserInfo.Avatar;

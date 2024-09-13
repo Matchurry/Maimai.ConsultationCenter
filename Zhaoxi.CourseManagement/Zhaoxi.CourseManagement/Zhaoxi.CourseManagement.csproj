@@ -196,6 +196,7 @@
     <Compile Include="Model\LoginModel.cs" />
     <Compile Include="Model\MaiUserScoresModel.cs" />
     <Compile Include="Model\SeriesModel.cs" />
+    <Compile Include="Model\SongModel.cs" />
     <Compile Include="Model\UserModel.cs" />
     <Compile Include="ViewModel\ScorePageViewModel.cs" />
     <Compile Include="ViewModel\FirstPageViewModel.cs" />
@@ -233,6 +234,7 @@
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
+    <None Include="Assets\MaiMusicData\MusicData.json" />
     <None Include="Zhaoxi.CourseManagement_TemporaryKey.pfx" />
     <Resource Include="Assets\Fonts\iconfont.ttf" />
     <None Include="packages.config" />
@@ -282,6 +284,36 @@
       <ProductName>.NET Framework 3.5 SP1</ProductName>
       <Install>false</Install>
     </BootstrapperPackage>
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Assets\Images\MaiRanks\s.png" />
+    <Resource Include="Assets\Images\MaiRanks\sp.png" />
+    <Resource Include="Assets\Images\MaiRanks\ss.png" />
+    <Resource Include="Assets\Images\MaiRanks\ssp.png" />
+    <Resource Include="Assets\Images\MaiRanks\sss.png" />
+    <Resource Include="Assets\Images\MaiRanks\sssp.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Assets\Images\MaiType\DX.png" />
+    <Resource Include="Assets\Images\MaiType\SD.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Assets\Images\MaiFcAp\ap.png" />
+    <Resource Include="Assets\Images\MaiFcAp\fc.png" />
+    <Resource Include="Assets\Images\MaiFcAp\fcp.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Assets\Images\MaiFsFDX\fs.png" />
+    <Resource Include="Assets\Images\MaiFsFDX\fsd.png" />
+    <Resource Include="Assets\Images\MaiFsFDX\fsp.png" />
+    <Resource Include="Assets\Images\MaiFsFDX\sync.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Assets\Images\MaiDxScoreRank\1.png" />
+    <Resource Include="Assets\Images\MaiDxScoreRank\2.png" />
+    <Resource Include="Assets\Images\MaiDxScoreRank\3.png" />
+    <Resource Include="Assets\Images\MaiDxScoreRank\4.png" />
+    <Resource Include="Assets\Images\MaiDxScoreRank\5.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
