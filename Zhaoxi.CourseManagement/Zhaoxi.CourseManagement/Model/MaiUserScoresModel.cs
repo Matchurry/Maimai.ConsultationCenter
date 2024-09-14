@@ -16,6 +16,7 @@ namespace Zhaoxi.CourseManagement.Model
 
         public class Dx
         {
+            public int Zindex { get; set; }
             public int id { get; set; }
             public double achievements { get; set; }
             public double ds { get; set; }

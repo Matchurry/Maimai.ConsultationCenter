@@ -17,10 +17,57 @@
                     <RowDefinition Height="auto"/>
                     <RowDefinition/>
                 </Grid.RowDefinitions>
+<!--
+                <Viewport3D>
+                    
+                    <Viewport3D.Camera>
+                        <PerspectiveCamera Position="0,0,70" LookDirection="0,0,-1" UpDirection="0,1,0">
+                            <PerspectiveCamera.Transform>
+                                <RotateTransform3D CenterX="1.5" CenterY="1" CenterZ="0.5">
+                                    <RotateTransform3D.Rotation>
+                                        <AxisAngleRotation3D Angle="45" Axis="0.2,0.5,0"/>
+                                    </RotateTransform3D.Rotation>
+                                </RotateTransform3D>
+                            </PerspectiveCamera.Transform>
+                        </PerspectiveCamera>
+                    </Viewport3D.Camera>
+
+                    <Viewport3D.Children>
+                        
+                        <ModelVisual3D>
+                            <ModelVisual3D.Content>
+                                <AmbientLight Color="#EEEEEE"/>
+                            </ModelVisual3D.Content>
+                        </ModelVisual3D>
+
+                        <Viewport2DVisual3D>
+                            <Viewport2DVisual3D.Geometry>
+                                <MeshGeometry3D Positions="0,0,1 0,2,1 3,2,1 3,0,1
+                                           0,0,0 0,2,0 3,2,0 3,0,0"
+                                TriangleIndices="0,2,1 0,3,2 6,4,5 6,7,4"
+                                TextureCoordinates="0,1 0,0 1,0 1,1"/>
+                               
+                            </Viewport2DVisual3D.Geometry>
+
+                            <Viewport2DVisual3D.Material>
+                                <DiffuseMaterial Viewport2DVisual3D.IsVisualHostMaterial="True" Brush="White"/>
+                            </Viewport2DVisual3D.Material>
+                            <Viewport2DVisual3D.Visual>
+                                <Border BorderThickness="1" BorderBrush="Yellow">
+                                    <StackPanel>
+                                        <TextBlock Text="Hello World" Foreground="Green" />
+                                        <Button Content="Button"/>
+                                    </StackPanel>
+                                </Border>
+                            </Viewport2DVisual3D.Visual>
+                        </Viewport2DVisual3D>
+
+                    </Viewport3D.Children>
+                </Viewport3D>
+    -->
 
 
-
-                <Border BorderBrush="#DDD" BorderThickness="0,0,0,1" Margin="20,0">
+                <Border Grid.Row="0" BorderBrush="#DDD" BorderThickness="0,0,0,1" Margin="20,0">
                     <Grid Margin="10,18">
                         <Grid.RowDefinitions>
                             <RowDefinition Height="auto"/>
@@ -28,7 +75,7 @@
                         </Grid.RowDefinitions>
 
                         <Grid VerticalAlignment="Top">
-                            <TextBlock VerticalAlignment="Center" Margin="0,0,10,0" Foreground="#666"/>
+
                             <ItemsControl ItemsSource="{Binding charts.dx}">
                                 <ItemsControl.ItemsPanel>
                                     <ItemsPanelTemplate>
@@ -37,37 +84,273 @@
                                 </ItemsControl.ItemsPanel>
                                 <ItemsControl.ItemTemplate>
                                     <DataTemplate>
+                                        <Grid Background="Transparent" RenderTransformOrigin="0.5, 0.5" Panel.ZIndex="{Binding Zindex}" Name="ScoreShow">
 
-                                        <Grid Background="Transparent">
+                                                <Grid.RenderTransform>
+                                                    <ScaleTransform/>
+                                                </Grid.RenderTransform>
+
+                                                <Grid.Effect>
+                                                    <DropShadowEffect Color="Gray" ShadowDepth="0" BlurRadius="5" Opacity="0.3" Direction="0"/>
+                                                </Grid.Effect>
+
+                                                <Grid.Triggers>
+                                                    <EventTrigger RoutedEvent="Grid.MouseEnter">
+                                                        <BeginStoryboard>
+                                                            <Storyboard>
+                                                                <DoubleAnimation Storyboard.TargetProperty="(Grid.RenderTransform).(ScaleTransform.ScaleX)" To="1.3" Duration="0:0:0.1"/>
+                                                                <DoubleAnimation Storyboard.TargetProperty="(Grid.RenderTransform).(ScaleTransform.ScaleY)" To="1.3" Duration="0:0:0.1"/>
+                                                            </Storyboard>
+                                                        </BeginStoryboard>
+                                                    </EventTrigger>
+                                                    <EventTrigger RoutedEvent="Grid.MouseLeave">
+                                                        <BeginStoryboard>
+                                                            <Storyboard>
+                                                                <DoubleAnimation Storyboard.TargetProperty="(Grid.RenderTransform).(ScaleTransform.ScaleX)" To="1" Duration="0:0:0.1"/>
+                                                                <DoubleAnimation Storyboard.TargetProperty="(Grid.RenderTransform).(ScaleTransform.ScaleY)" To="1" Duration="0:0:0.1"/>
+                                                            </Storyboard>
+                                                        </BeginStoryboard>
+                                                    </EventTrigger>
+                                                </Grid.Triggers>
+
+                                                <Border Grid.Row="0" Background="White" Height="85" Width="205" Margin="5" CornerRadius="5"/>
+                                                <Grid Height="100" Width="216">
+
+                                                    <Border Grid.Row="0" Height="79" Width="199" CornerRadius="5" Name="back">
+
+                                                        <Border.Style>
+                                                            <Style TargetType="{x:Type Border}">
+                                                                <Setter Property="Background" Value="#9F51DB"/>
+                                                                <!--默认紫谱-->
+                                                                <Style.Triggers>
+                                                                    <DataTrigger Binding="{Binding level_index}" Value="4">
+                                                                        <!--白谱-->
+                                                                        <Setter Property="Background" Value="#EFE0FF"/>
+                                                                    </DataTrigger>
+                                                                    <DataTrigger Binding="{Binding level_index}" Value="2">
+                                                                        <!--红谱-->
+                                                                        <Setter Property="Background" Value="#FF818D"/>
+                                                                    </DataTrigger>
+                                                                    <DataTrigger Binding="{Binding level_index}" Value="1">
+                                                                        <!--黄谱-->
+                                                                        <Setter Property="Background" Value="#F9B709"/>
+                                                                    </DataTrigger>
+                                                                    <DataTrigger Binding="{Binding level_index}" Value="0">
+                                                                        <!--绿谱-->
+                                                                        <Setter Property="Background" Value="#70D43E"/>
+                                                                    </DataTrigger>
+                                                                </Style.Triggers>
+                                                            </Style>
+                                                        </Border.Style>
+
+                                                    </Border>
+
+                                                    <Grid Grid.Row="0" Background="Transparent" Height="80" Width="200">
+                                                        <Grid.RowDefinitions>
+                                                            <RowDefinition MinHeight="60"/>
+                                                            <RowDefinition MinHeight="20"/>
+                                                        </Grid.RowDefinitions>
+
+                                                        <Grid Grid.Row="0" Panel.ZIndex="1">
+                                                            <!--这里是每一块的带图的那一行-->
+
+                                                            <Grid.ColumnDefinitions>
+                                                                <ColumnDefinition Width="1*"/>
+                                                                <ColumnDefinition Width="3*"/>
+                                                            </Grid.ColumnDefinitions>
+                                                            <Border Background="White" Width="42" Height="42"/>
+                                                            <Image Source="{Binding song_img_src}" Grid.Column="0" HorizontalAlignment="Left" Margin="5" MaxHeight="40"/>
+                                                            <Image Source="{Binding type_src}" VerticalAlignment="Bottom" HorizontalAlignment="Center" Width="30" Margin="0,0,0,0"/>
+
+                                                            <Grid Grid.Column="1">
+                                                                <!--这里是每一块图右边的文字部分-->
+                                                                <Grid.RowDefinitions>
+                                                                    <RowDefinition/>
+                                                                    <RowDefinition/>
+                                                                    <RowDefinition/>
+                                                                </Grid.RowDefinitions>
+
+                                                                <TextBlock Grid.Row="0" Text="{Binding title}"  FontSize="12" FontWeight="Medium" TextAlignment="Left" MaxWidth="140" Margin="0" VerticalAlignment="Center" HorizontalAlignment="Left">
+                                                                    <TextBlock.Style>
+                                                                        <Style TargetType="{x:Type TextBlock}">
+                                                                            <Setter Property="Foreground" Value="White"/>
+                                                                            <Style.Triggers>
+                                                                                <DataTrigger Binding="{Binding level_index}" Value="4">
+                                                                                    <Setter Property="Foreground" Value="#B054CD"/>
+                                                                                </DataTrigger>
+                                                                            </Style.Triggers>
+                                                                        </Style>
+                                                                    </TextBlock.Style>
+                                                                </TextBlock>
+                                                                <Separator Grid.Row="1" Margin="0,0,5,19">
+                                                                    <Separator.Style>
+                                                                        <Style TargetType="{x:Type Separator}">
+                                                                            <Setter Property="Background" Value="White"/>
+                                                                            <Style.Triggers>
+                                                                                <DataTrigger Binding="{Binding level_index}" Value="4">
+                                                                                    <Setter Property="Background" Value="#B054CD"/>
+                                                                                </DataTrigger>
+                                                                            </Style.Triggers>
+                                                                        </Style>
+                                                                    </Separator.Style>
+                                                                </Separator>
+                                                                <TextBlock Grid.Row="1" Text="{Binding song_id}" FontSize="10" TextAlignment="Left"  VerticalAlignment="Center" HorizontalAlignment="Left">
+                                                                    <TextBlock.Style>
+                                                                        <Style TargetType="{x:Type TextBlock}">
+                                                                            <Setter Property="Foreground" Value="White"/>
+                                                                            <Style.Triggers>
+                                                                                <DataTrigger Binding="{Binding level_index}" Value="4">
+                                                                                    <Setter Property="Foreground" Value="#B054CD"/>
+                                                                                </DataTrigger>
+                                                                            </Style.Triggers>
+                                                                        </Style>
+                                                                    </TextBlock.Style>
+                                                                </TextBlock>
+                                                                <TextBlock Grid.Row="1" Text="{Binding dx_max_str}" FontSize="10" TextAlignment="Left"  VerticalAlignment="Center" HorizontalAlignment="Right" Margin="5,0">
+                                                                    <TextBlock.Style>
+                                                                        <Style TargetType="{x:Type TextBlock}">
+                                                                            <Setter Property="Foreground" Value="White"/>
+                                                                            <Style.Triggers>
+                                                                                <DataTrigger Binding="{Binding level_index}" Value="4">
+                                                                                    <Setter Property="Foreground" Value="#B054CD"/>
+                                                                                </DataTrigger>
+                                                                            </Style.Triggers>
+                                                                        </Style>
+                                                                    </TextBlock.Style>
+                                                                </TextBlock>
+                                                                <TextBlock Grid.Row="1" Name="ZIndextb" FontSize="10" Foreground="White" VerticalAlignment="Center" TextAlignment="Center"/>
+                                                                <TextBlock Grid.Row="2" Text="{Binding Path=achievements, StringFormat=' {0:F4}%'}" FontSize="18" FontWeight="Bold" Margin="0,0,51,5" TextAlignment="Left"  VerticalAlignment="Center" HorizontalAlignment="Right">
+                                                                    <TextBlock.Style>
+                                                                        <Style TargetType="{x:Type TextBlock}">
+                                                                            <Setter Property="Foreground" Value="White"/>
+                                                                            <Style.Triggers>
+                                                                                <DataTrigger Binding="{Binding level_index}" Value="4">
+                                                                                    <Setter Property="Foreground" Value="#B054CD"/>
+                                                                                </DataTrigger>
+                                                                            </Style.Triggers>
+                                                                        </Style>
+                                                                    </TextBlock.Style>
+                                                                </TextBlock>
+
+                                                            </Grid>
+
+
+                                                        </Grid>
+
+
+                                                        <Border Grid.Row="1" Background="White" MinHeight="20" MinWidth="200"/>
+                                                        <TextBlock Grid.Row="2" Text="{Binding id, StringFormat='#{0}'}" FontSize="10" FontWeight="Medium" Margin="5,0,0,0" TextAlignment="Left"  VerticalAlignment="Center" HorizontalAlignment="Left"/>
+                                                        <TextBlock Grid.Row="2" Text="{Binding ds, StringFormat=' {0:F1}  ▶'}" FontSize="10" FontWeight="Medium" Margin="30,0,0,0" TextAlignment="Left"  VerticalAlignment="Center" HorizontalAlignment="Left"/>
+                                                        <Image Grid.Row="0" Panel.ZIndex="0" Source="{Binding rate_src}" HorizontalAlignment="Right" VerticalAlignment="Bottom" Stretch="Uniform" MinHeight="22" MaxHeight="22" Margin="0,0,0,0"/>
+
+                                                        <TextBlock Grid.Row="2" Text="{Binding ra}" FontSize="12" FontWeight="Bold" Margin="72,0,0,0" TextAlignment="Left"  VerticalAlignment="Center" HorizontalAlignment="Left"/>
+                                                        <Image Source="{Binding fc_src}" Grid.Row="2" Margin="85,0,0,0"/>
+                                                        <Image Source="{Binding fs_src}" Grid.Row="2" Margin="160,0,0,0"/>
+                                                        <Image Source="{Binding dx_src}" Grid.Row="2" Margin="20,0,0,0" MaxHeight="17"/>
+                                                    </Grid>
+
+
+                                                </Grid>
+                                            </Grid>
+                                        
+                                    </DataTemplate>
+                                </ItemsControl.ItemTemplate>
+                            </ItemsControl>
+                            
+                        </Grid>
+
+                        
+
+                    </Grid>
+                </Border>
+
+                <Border Grid.Row="1" BorderBrush="#DDD" BorderThickness="0,0,0,1" Margin="20,0">
+                    <Grid Margin="10,18">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="auto"/>
+                            <RowDefinition Height="auto"/>
+                        </Grid.RowDefinitions>
+
+                        <Grid VerticalAlignment="Top">
+
+                            <ItemsControl ItemsSource="{Binding charts.sd}">
+                                <ItemsControl.ItemsPanel>
+                                    <ItemsPanelTemplate>
+                                        <WrapPanel Orientation="Horizontal"/>
+                                    </ItemsPanelTemplate>
+                                </ItemsControl.ItemsPanel>
+                                <ItemsControl.ItemTemplate>
+                                    <DataTemplate>
+                                        <Grid Background="Transparent" RenderTransformOrigin="0.5, 0.5" Panel.ZIndex="{Binding Zindex}" Name="ScoreShow">
+
+                                            <Grid.RenderTransform>
+                                                <ScaleTransform/>
+                                            </Grid.RenderTransform>
+
                                             <Grid.Effect>
                                                 <DropShadowEffect Color="Gray" ShadowDepth="0" BlurRadius="5" Opacity="0.3" Direction="0"/>
                                             </Grid.Effect>
+
+                                            <Grid.Triggers>
+                                                <EventTrigger RoutedEvent="Grid.MouseEnter">
+                                                    <BeginStoryboard>
+                                                        <Storyboard>
+                                                            <DoubleAnimation Storyboard.TargetProperty="(Grid.RenderTransform).(ScaleTransform.ScaleX)" To="1.3" Duration="0:0:0.1"/>
+                                                            <DoubleAnimation Storyboard.TargetProperty="(Grid.RenderTransform).(ScaleTransform.ScaleY)" To="1.3" Duration="0:0:0.1"/>
+                                                        </Storyboard>
+                                                    </BeginStoryboard>
+                                                </EventTrigger>
+                                                <EventTrigger RoutedEvent="Grid.MouseLeave">
+                                                    <BeginStoryboard>
+                                                        <Storyboard>
+                                                            <DoubleAnimation Storyboard.TargetProperty="(Grid.RenderTransform).(ScaleTransform.ScaleX)" To="1" Duration="0:0:0.1"/>
+                                                            <DoubleAnimation Storyboard.TargetProperty="(Grid.RenderTransform).(ScaleTransform.ScaleY)" To="1" Duration="0:0:0.1"/>
+                                                        </Storyboard>
+                                                    </BeginStoryboard>
+                                                </EventTrigger>
+                                            </Grid.Triggers>
+
                                             <Border Grid.Row="0" Background="White" Height="85" Width="205" Margin="5" CornerRadius="5"/>
                                             <Grid Height="100" Width="216">
-                                                
+
                                                 <Border Grid.Row="0" Height="79" Width="199" CornerRadius="5" Name="back">
-  
+
                                                     <Border.Style>
                                                         <Style TargetType="{x:Type Border}">
                                                             <Setter Property="Background" Value="#9F51DB"/>
+                                                            <!--默认紫谱-->
                                                             <Style.Triggers>
                                                                 <DataTrigger Binding="{Binding level_index}" Value="4">
+                                                                    <!--白谱-->
                                                                     <Setter Property="Background" Value="#EFE0FF"/>
+                                                                </DataTrigger>
+                                                                <DataTrigger Binding="{Binding level_index}" Value="2">
+                                                                    <!--红谱-->
+                                                                    <Setter Property="Background" Value="#FF818D"/>
+                                                                </DataTrigger>
+                                                                <DataTrigger Binding="{Binding level_index}" Value="1">
+                                                                    <!--黄谱-->
+                                                                    <Setter Property="Background" Value="#F9B709"/>
+                                                                </DataTrigger>
+                                                                <DataTrigger Binding="{Binding level_index}" Value="0">
+                                                                    <!--绿谱-->
+                                                                    <Setter Property="Background" Value="#70D43E"/>
                                                                 </DataTrigger>
                                                             </Style.Triggers>
                                                         </Style>
                                                     </Border.Style>
-                                                    
+
                                                 </Border>
-                                                
+
                                                 <Grid Grid.Row="0" Background="Transparent" Height="80" Width="200">
                                                     <Grid.RowDefinitions>
                                                         <RowDefinition MinHeight="60"/>
                                                         <RowDefinition MinHeight="20"/>
                                                     </Grid.RowDefinitions>
 
-                                                    <Grid Grid.Row="0" Panel.ZIndex="1"> <!--这里是每一块的带图的那一行-->
-                                                       
+                                                    <Grid Grid.Row="0" Panel.ZIndex="1">
+                                                        <!--这里是每一块的带图的那一行-->
+
                                                         <Grid.ColumnDefinitions>
                                                             <ColumnDefinition Width="1*"/>
                                                             <ColumnDefinition Width="3*"/>
@@ -76,7 +359,8 @@
                                                         <Image Source="{Binding song_img_src}" Grid.Column="0" HorizontalAlignment="Left" Margin="5" MaxHeight="40"/>
                                                         <Image Source="{Binding type_src}" VerticalAlignment="Bottom" HorizontalAlignment="Center" Width="30" Margin="0,0,0,0"/>
 
-                                                        <Grid Grid.Column="1"> <!--这里是每一块图右边的文字部分-->
+                                                        <Grid Grid.Column="1">
+                                                            <!--这里是每一块图右边的文字部分-->
                                                             <Grid.RowDefinitions>
                                                                 <RowDefinition/>
                                                                 <RowDefinition/>
@@ -131,6 +415,7 @@
                                                                     </Style>
                                                                 </TextBlock.Style>
                                                             </TextBlock>
+                                                            <TextBlock Grid.Row="1" Name="ZIndextb" FontSize="10" Foreground="White" VerticalAlignment="Center" TextAlignment="Center"/>
                                                             <TextBlock Grid.Row="2" Text="{Binding Path=achievements, StringFormat=' {0:F4}%'}" FontSize="18" FontWeight="Bold" Margin="0,0,51,5" TextAlignment="Left"  VerticalAlignment="Center" HorizontalAlignment="Right">
                                                                 <TextBlock.Style>
                                                                     <Style TargetType="{x:Type TextBlock}">
@@ -145,7 +430,7 @@
                                                             </TextBlock>
 
                                                         </Grid>
-                                                        
+
 
                                                     </Grid>
 
@@ -164,16 +449,17 @@
 
                                             </Grid>
                                         </Grid>
-
                                     </DataTemplate>
                                 </ItemsControl.ItemTemplate>
                             </ItemsControl>
+
                         </Grid>
 
-                        
+
 
                     </Grid>
                 </Border>
+
             </Grid>
         </Border>
     </ScrollViewer>

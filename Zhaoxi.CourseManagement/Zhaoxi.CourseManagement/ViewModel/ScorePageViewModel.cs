@@ -26,7 +26,7 @@ namespace Zhaoxi.CourseManagement.ViewModel
                 " + "\n" +
                 @"    ""b50"": true,
                 " + "\n" +
-                @"    ""username"": ""maxtune""
+                @"    ""username"": ""AkiraX""
                 " + "\n" +
                             @"}";
             request.AddParameter("application/json", body, ParameterType.RequestBody);
@@ -47,6 +47,7 @@ namespace Zhaoxi.CourseManagement.ViewModel
             var cnt = 1;
             foreach(var item in userMaiData.charts.dx)
             {
+                item.Zindex = 15 - cnt;
                 item.song_img_src = String.Format("https://www.diving-fish.com/covers/{0:D5}.png", item.song_id);
                 item.id = cnt++;
                 item.rate_src = String.Format("../Assets/Images/MaiRanks/{0}.png", item.rate);
