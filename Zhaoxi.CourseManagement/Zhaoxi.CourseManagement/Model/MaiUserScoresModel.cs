@@ -39,6 +39,7 @@ namespace Zhaoxi.CourseManagement.Model
             public string title { get; set; }
             public string type { get; set; }
             public string type_src { get; set; }
+            public string animationlengh { get; set; }
         }
 
         public class Root
@@ -76,6 +77,7 @@ namespace Zhaoxi.CourseManagement.Model
             public string title { get; set; }
             public string type { get; set; }
             public string type_src { get; set; }
+            public string animationlengh { get; set; }
         }
 
 

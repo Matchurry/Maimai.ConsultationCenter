@@ -53,9 +53,9 @@ namespace Zhaoxi.CourseManagement.ViewModel
                 item.rate_src = String.Format("../Assets/Images/MaiRanks/{0}.png", item.rate);
                 item.type_src = String.Format("../Assets/Images/MaiType/{0}.png",item.type);
                 item.fc_src = string.Format("../Assets/Images/MaiFcAp/{0}.png", item.fc);
-                if (item.fc == "app") item.fc_src = "../Assets/Images/MaiFcAp/ap.png";
                 item.fs_src = string.Format("../Assets/Images/MaiFsFDX/{0}.png", item.fs);
-                if (item.fs == "fdsp") item.fs_src = "../Assets/Images/MaiFcAp/fsd.png";
+                if (item.fs == "fsdp") item.fs_src = "../Assets/Images/MaiFcAp/fsd.png";
+                item.animationlengh = string.Format("0:0:{0}.{1}",item.id/10+1,item.id%10);
 
                 //获取歌曲的dxScore上限
                 var foundSong = songDatas.FirstOrDefault(song => song.id == item.song_id.ToString());
@@ -92,9 +92,9 @@ namespace Zhaoxi.CourseManagement.ViewModel
                 item.rate_src = String.Format("../Assets/Images/MaiRanks/{0}.png", item.rate);
                 item.type_src = String.Format("../Assets/Images/MaiType/{0}.png", item.type);
                 item.fc_src = string.Format("../Assets/Images/MaiFcAp/{0}.png", item.fc);
-                if (item.fc == "app") item.fc_src = "../Assets/Images/MaiFcAp/ap.png";
                 item.fs_src = string.Format("../Assets/Images/MaiFsFDX/{0}.png", item.fs);
                 if (item.fs == "fdsp") item.fs_src = "../Assets/Images/MaiFcAp/fsd.png";
+                item.animationlengh = string.Format("0:0:{0}.{1}", (item.id+15) / 10 + 1, (item.id+15) % 10);
 
                 //获取歌曲的dxScore上限
                 var foundSong = songDatas.FirstOrDefault(song => song.id == item.song_id.ToString());

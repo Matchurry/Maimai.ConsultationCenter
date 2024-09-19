@@ -268,9 +268,9 @@
     <Resource Include="Assets\Images\avatarakira.jpg" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Zhaoxi.Controls\Zhaoxi.Controls.csproj">
+    <ProjectReference Include="..\Zhaoxi.Controls\Maimai.Controls.csproj">
       <Project>{24bd1cfe-6bf6-4776-a199-866655a8a15f}</Project>
-      <Name>Zhaoxi.Controls</Name>
+      <Name>Maimai.Controls</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
