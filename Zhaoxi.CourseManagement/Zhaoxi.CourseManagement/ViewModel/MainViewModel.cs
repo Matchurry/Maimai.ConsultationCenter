@@ -38,11 +38,18 @@ namespace Zhaoxi.CourseManagement.ViewModel
 			DoNavChanged("FirstPageView");
 		}
 
-		private void DoNavChanged(object o)
+		private async void DoNavChanged(object o)
 		{
-			Type type = Type.GetType("Zhaoxi.CourseManagement.View."+ o.ToString());
-			ConstructorInfo cti = type.GetConstructor(System.Type.EmptyTypes);
-			MainContent = (FrameworkElement)cti.Invoke(null);
+			await Task.Run(() =>
+			{	
+                Application.Current.Dispatcher.BeginInvoke(new Action(() =>
+                {
+					Type type = Type.GetType("Zhaoxi.CourseManagement.View." + o.ToString());
+					ConstructorInfo cti = type.GetConstructor(System.Type.EmptyTypes);
+					MainContent = (FrameworkElement)cti.Invoke(null);
+                }));
+            });
+	
 		}
 	}
 }
