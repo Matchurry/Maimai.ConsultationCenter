@@ -73,6 +73,8 @@
                                     <ColumnDefinition/>
                                 </Grid.ColumnDefinitions>
                                 <TextBlock Text="&#xe611;" FontFamily="../Assets/Fonts/#iconfont" FontSize="20" HorizontalAlignment="Center" VerticalAlignment="Center" Foreground="#DDD"/>
+                                <TextBlock Grid.Column="1" VerticalAlignment="Center" Text="请输入水鱼账户名" 
+                                           Foreground="#DDDDDD" Name="mt" Visibility="Collapsed"/>
                                 <ScrollViewer x:Name="PART_ContentHost" Grid.Column="1" 
                                               Focusable="false" 
                                               HorizontalScrollBarVisibility="Hidden" 
@@ -90,6 +92,13 @@
                             <Trigger Property="IsKeyboardFocused" Value="true">
                                 <Setter Property="BorderBrush" TargetName="border" Value="{StaticResource TextBox.Focus.Border}"/>
                             </Trigger>
+                            <MultiTrigger>
+                                <MultiTrigger.Conditions>
+                                    <Condition Property="Text" Value=""/>
+                                    <Condition Property="IsKeyboardFocused" Value="False"/>  
+                                </MultiTrigger.Conditions>
+                                <Setter TargetName="mt" Property="Visibility" Value="Visible"/>          
+                            </MultiTrigger>
                         </ControlTemplate.Triggers>
                     </ControlTemplate>
                 </Setter.Value>
@@ -132,6 +141,8 @@
                                     <ColumnDefinition/>
                                 </Grid.ColumnDefinitions>
                                 <TextBlock Text="&#xe61d;" FontFamily="../Assets/Fonts/#iconfont" FontSize="22.5" HorizontalAlignment="Center" VerticalAlignment="Center" Foreground="#DDD"/>
+                                <TextBlock Grid.Column="1" VerticalAlignment="Center" Text="请输入水鱼账户密码（可为空）" 
+                                    Foreground="#DDDDDD" Name="mt2" Visibility="Collapsed"/>
                                 <ScrollViewer x:Name="PART_ContentHost" Grid.Column="1" 
                                               Focusable="false" 
                                               HorizontalScrollBarVisibility="Hidden" 
@@ -149,6 +160,13 @@
                             <Trigger Property="IsKeyboardFocused" Value="true">
                                 <Setter Property="BorderBrush" TargetName="border" Value="{StaticResource TextBox.Focus.Border1}"/>
                             </Trigger>
+                            <MultiTrigger>
+                                <MultiTrigger.Conditions>
+                                    <Condition Property="common:PasswordHelper.Password" Value=""/>
+                                    <Condition Property="IsKeyboardFocused" Value="False"/>  
+                                </MultiTrigger.Conditions>
+                                <Setter TargetName="mt2" Property="Visibility" Value="Visible"/>
+                            </MultiTrigger>
                         </ControlTemplate.Triggers>
                     </ControlTemplate>
                 </Setter.Value>
@@ -186,15 +204,15 @@
                                 <Grid.ColumnDefinitions>
                                     <ColumnDefinition Width="40"/>
                                     <ColumnDefinition/>
-                                    <ColumnDefinition Width="80"/>
                                 </Grid.ColumnDefinitions>
                                 <TextBlock Text="&#xe667;" FontFamily="../Assets/Fonts/#iconfont" FontSize="22.5" HorizontalAlignment="Center" VerticalAlignment="Center" Foreground="#DDD"/>
+                                <TextBlock Grid.Column="1" VerticalAlignment="Center" Text="成绩查询Token（可为空）" 
+                                    Foreground="#DDDDDD" Name="mt3" Visibility="Collapsed"/>
                                 <ScrollViewer x:Name="PART_ContentHost" Grid.Column="1" 
-                                              Focusable="false" 
-                                              HorizontalScrollBarVisibility="Hidden" 
-                                              VerticalScrollBarVisibility="Hidden"
-                                              VerticalAlignment="Center" MinHeight="20"/>
-                                <Image Source="..\Assets\Images\验证码.jpg" Grid.Column="2" Margin="5,0,0,0"/>
+                                    Focusable="false" 
+                                    HorizontalScrollBarVisibility="Hidden" 
+                                    VerticalScrollBarVisibility="Hidden"
+                                    VerticalAlignment="Center" MinHeight="20"/>
                             </Grid>
                         </Border>
                         <ControlTemplate.Triggers>
@@ -207,6 +225,13 @@
                             <Trigger Property="IsKeyboardFocused" Value="true">
                                 <Setter Property="BorderBrush" TargetName="border" Value="{StaticResource TextBox.Focus.Border2}"/>
                             </Trigger>
+                            <MultiTrigger>
+                                <MultiTrigger.Conditions>
+                                    <Condition Property="Text" Value=""/>
+                                    <Condition Property="IsKeyboardFocused" Value="False"/>
+                                </MultiTrigger.Conditions>
+                                <Setter TargetName="mt3" Property="Visibility" Value="Visible"/>
+                            </MultiTrigger>
                         </ControlTemplate.Triggers>
                     </ControlTemplate>
                 </Setter.Value>
@@ -240,10 +265,9 @@
             </Grid.RowDefinitions>
             <Border CornerRadius="10,10,0,0" MouseLeftButtonDown="WinMove_LeftButtonDown">
                 <Border.Background>
-                    <ImageBrush ImageSource="../Assets/Images/maimai.png" Stretch="UniformToFill" Opacity="0.75"/>
+                    <ImageBrush ImageSource="../Assets/Images/maimai.png" Stretch="UniformToFill" Opacity="0.5"/>
                 </Border.Background>
-                <Border Background="#F79645" Opacity="0.8">
-                </Border>
+                <Border Background="#F79645" Opacity="0.8" CornerRadius="10"/>
             </Border>
             <Button VerticalAlignment="Top" HorizontalAlignment="Right" Style="{StaticResource WindowControlButtonTemplate}" 
                     Content="&#xe62d;" FontSize="16" 
@@ -258,7 +282,7 @@
                         <ImageBrush ImageSource="../Assets/Images/Logo.png"/>
                     </Border.Background>
                 </Border>
-                <TextBlock Text="滴蜡熊咨询中心" HorizontalAlignment="Center" Foreground="White" FontSize="20"/>
+                <TextBlock Text="迪拉熊咨询中心" HorizontalAlignment="Center" Foreground="White" FontSize="20"/>
             </StackPanel>
             <ProgressBar x:Name="pgb" IsIndeterminate="True" Foreground="#F79645" Height="5" Visibility="{Binding ShowProgress}"  VerticalAlignment="Bottom"/>
             <Grid Grid.Row="1" Margin="20,20" FocusManager.FocusedElement="{Binding ElementName=txtUserName}">
@@ -269,6 +293,8 @@
                     <RowDefinition/>
                     <RowDefinition MinHeight="23" Height="auto"/>
                 </Grid.RowDefinitions>
+                
+                <!--用户名输出框-->
                 <TextBox Style="{DynamicResource UserNameTextBoxStyle}" Text="{Binding LoginModel.UserName,UpdateSourceTrigger=PropertyChanged}" 
                          Foreground="#555" FontSize="16" Height="42" x:Name="txtUserName">
                     <TextBox.InputBindings>
@@ -276,6 +302,8 @@
                             CommandParameter="{Binding ElementName=window}"/>
                     </TextBox.InputBindings>
                 </TextBox>
+                
+                <!--密码输入框-->
                 <PasswordBox Style="{DynamicResource PasswordBoxStyle}" common:PasswordHelper.Attach="True" 
                              common:PasswordHelper.Password="{Binding LoginModel.Password,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"
                              Grid.Row="1" Height="42" FontSize="16" Foreground="#555">
@@ -284,6 +312,8 @@
                             CommandParameter="{Binding ElementName=window}"/>
                     </PasswordBox.InputBindings>
                 </PasswordBox>
+                
+                <!--Token输入框-->
                 <TextBox Style="{DynamicResource ValidationCodeTextBoxStyle}" 
                          Text="{Binding LoginModel.ValidationCode,UpdateSourceTrigger=PropertyChanged}" 
                          Grid.Row="2" Height="42" FontSize="16" Foreground="#555">
@@ -292,6 +322,7 @@
                             CommandParameter="{Binding ElementName=window}"/>
                     </TextBox.InputBindings>
                 </TextBox>
+                
                 <Button x:Name="LoginButton" Content="登     录" Grid.Row="3" Height="42" 
                         Foreground="White" FontSize="16" Template="{StaticResource LoginButtonTemplate}"
                         Command="{Binding LoginCommand}" CommandParameter="{Binding ElementName=window}"/>

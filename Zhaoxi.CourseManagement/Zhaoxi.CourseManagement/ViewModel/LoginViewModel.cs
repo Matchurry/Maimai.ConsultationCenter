@@ -15,7 +15,7 @@ namespace Zhaoxi.CourseManagement.ViewModel
 {
     public class LoginViewModel : NotifyBase
     {
-        public LoginModel LoginModel { get; set; } = new LoginModel();
+        public static LoginModel LoginModel { get; set; } = new LoginModel("","","");
         public CommandBase CloseWindowCommand { get; set; }
         public CommandBase LoginCommand { get; set; }
 
@@ -78,13 +78,13 @@ namespace Zhaoxi.CourseManagement.ViewModel
                 DoLoginButtonRecover(bt);
                 return;
             }
-            if (string.IsNullOrEmpty(LoginModel.Password)) {
+/*            if (string.IsNullOrEmpty(LoginModel.Password)) {
                 this.ErrorMessage = "请输入密码！";
                 this.ShowProgress = Visibility.Collapsed;
                 DoLoginButtonRecover(bt);
                 return;
-            }
-            if (string.IsNullOrEmpty(LoginModel.ValidationCode))
+            }*/
+/*            if (string.IsNullOrEmpty(LoginModel.ValidationCode))
             {
                 this.ErrorMessage = "请输入验证码！";
                 this.ShowProgress = Visibility.Collapsed;
@@ -96,7 +96,7 @@ namespace Zhaoxi.CourseManagement.ViewModel
                 this.ShowProgress = Visibility.Collapsed;
                 DoLoginButtonRecover(bt);
                 return;
-            }
+            }*/
 
             Task.Run(new Action(() =>
             {
@@ -106,7 +106,7 @@ namespace Zhaoxi.CourseManagement.ViewModel
                     if (user == null)
                     {
                         this.ShowProgress = Visibility.Collapsed;
-                        throw new Exception("登录失败！用户名或密码错误");
+                        throw new Exception("用户模型为空 请调试");
                     }
                     GlobalValues.UserInfo = user;
                     Application.Current.Dispatcher.Invoke(new Action(() => {(o as Window).DialogResult = true; }));

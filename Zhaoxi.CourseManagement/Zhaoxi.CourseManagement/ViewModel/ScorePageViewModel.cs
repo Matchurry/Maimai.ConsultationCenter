@@ -8,13 +8,15 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Web.Security;
+using Zhaoxi.CourseManagement.Common;
 using Zhaoxi.CourseManagement.Model;
 using static System.Net.WebRequestMethods;
 using static Zhaoxi.CourseManagement.Model.MaiUserScoresModel;
+using static Zhaoxi.CourseManagement.ViewModel.LoginViewModel;
 
 namespace Zhaoxi.CourseManagement.ViewModel
 {
-    public class ScorePageViewModel
+    public class ScorePageViewModel:NotifyBase
     {
         public Root GetScorePageData()
         {
@@ -26,7 +28,7 @@ namespace Zhaoxi.CourseManagement.ViewModel
                 " + "\n" +
                 @"    ""b50"": true,
                 " + "\n" +
-                @"    ""username"": ""AkiraX""
+                $@"    ""username"": ""{LoginViewModel.LoginModel.UserName}""
                 " + "\n" +
                             @"}";
             request.AddParameter("application/json", body, ParameterType.RequestBody);
@@ -45,7 +47,8 @@ namespace Zhaoxi.CourseManagement.ViewModel
             ObservableCollection <SongModel.Root> songDatas = JsonConvert.DeserializeObject<ObservableCollection<SongModel.Root>>(jsonFile);
 
             var cnt = 1;
-            foreach(var item in userMaiData.charts.dx)
+            if(userMaiData.charts!=null && userMaiData.charts.dx.Count != 0)
+            foreach (var item in userMaiData.charts.dx)
             {
                 item.Zindex = 15 - cnt;
                 item.song_img_src = String.Format("https://www.diving-fish.com/covers/{0:D5}.png", item.song_id);
@@ -85,6 +88,7 @@ namespace Zhaoxi.CourseManagement.ViewModel
             }
 
             cnt = 1;
+            if(userMaiData.charts != null && userMaiData.charts.sd.Count!=0)
             foreach (var item in userMaiData.charts.sd)
             {
                 item.song_img_src = String.Format("https://www.diving-fish.com/covers/{0:D5}.png", item.song_id);

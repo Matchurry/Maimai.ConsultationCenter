@@ -11,6 +11,12 @@ namespace Zhaoxi.CourseManagement.Model
     public class LoginModel : NotifyBase
     {
         private string _UserName;
+        public LoginModel(string userName, string password, string validationCode)
+        {
+            UserName = userName;
+            Password = password;
+            ValidationCode = validationCode;
+        }
 
         public string UserName
         {
