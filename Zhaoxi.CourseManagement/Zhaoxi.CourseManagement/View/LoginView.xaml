@@ -4,7 +4,7 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Zhaoxi.CourseManagement.View"
-        xmlns:common="clr-namespace:Zhaoxi.CourseManagement.Common" xmlns:model="clr-namespace:Zhaoxi.CourseManagement.Model" d:DataContext="{d:DesignInstance Type=model:LoginModel}"
+        xmlns:common="clr-namespace:Zhaoxi.CourseManagement.Common" xmlns:model="clr-namespace:Zhaoxi.CourseManagement.Model" xmlns:viewmodel="clr-namespace:Zhaoxi.CourseManagement.ViewModel" d:DataContext="{d:DesignInstance Type=viewmodel:LoginViewModel}"
         mc:Ignorable="d" Name="window"
         Title="系统登录" Height="600" Width="360"
         FontFamily="Microsoft YaHei" FontWeight="ExtraLight"
@@ -16,6 +16,7 @@
             <ResourceDictionary.MergedDictionaries>
                 <ResourceDictionary>
                     <PowerEase x:Key="EaseOut" EasingMode="EaseOut"/>
+                    <PowerEase x:Key="EaseIn" EasingMode="EaseIn"/>
                 </ResourceDictionary>
                 <ResourceDictionary Source="../Assets/Styles/DefaultStyle.xaml">
                     <ResourceDictionary.MergedDictionaries>
@@ -130,10 +131,12 @@
                                                     <Grid.ColumnDefinitions>
                                                         <ColumnDefinition Width="40"/>
                                                         <ColumnDefinition/>
+                                                        <ColumnDefinition Width="40"/>
                                                     </Grid.ColumnDefinitions>
                                                     <TextBlock Text="&#xe61d;" FontFamily="../Assets/Fonts/#iconfont" FontSize="22.5" HorizontalAlignment="Center" VerticalAlignment="Center" Foreground="#DDD"/>
                                                     <TextBlock Grid.Column="1" VerticalAlignment="Center" Text="请输入水鱼账户密码（可为空）" 
                                         Foreground="#DDDDDD" Name="mt2" Visibility="Collapsed"/>
+                                                    <TextBlock Grid.Column="2" Text="&#xe8c8;" FontFamily="../Assets/Fonts/#iconfont" FontSize="20" HorizontalAlignment="Center" VerticalAlignment="Center" Foreground="#DDD" ToolTip="键入密码可享受更多功能"/>
                                                     <ScrollViewer x:Name="PART_ContentHost" Grid.Column="1" 
                                                   Focusable="false" 
                                                   HorizontalScrollBarVisibility="Hidden" 
@@ -195,10 +198,12 @@
                                                     <Grid.ColumnDefinitions>
                                                         <ColumnDefinition Width="40"/>
                                                         <ColumnDefinition/>
+                                                        <ColumnDefinition Width="40"/>
                                                     </Grid.ColumnDefinitions>
                                                     <TextBlock Text="&#xe667;" FontFamily="../Assets/Fonts/#iconfont" FontSize="22.5" HorizontalAlignment="Center" VerticalAlignment="Center" Foreground="#DDD"/>
                                                     <TextBlock Grid.Column="1" VerticalAlignment="Center" Text="成绩查询Token（可为空）" 
                                         Foreground="#DDDDDD" Name="mt3" Visibility="Collapsed"/>
+                                                    <TextBlock Grid.Column="2" Text="&#xe8c8;" FontFamily="../Assets/Fonts/#iconfont" FontSize="20" HorizontalAlignment="Center" VerticalAlignment="Center" Foreground="#DDD" ToolTip="键入Token可享受更多功能"/>
                                                     <ScrollViewer x:Name="PART_ContentHost" Grid.Column="1" 
                                         Focusable="false" 
                                         HorizontalScrollBarVisibility="Hidden" 
@@ -246,11 +251,10 @@
         
     </Window.Resources>
     
-    <Border Margin="5" Background="White" CornerRadius="10" Height="10">
+    <Border x:Name="MainBoder" Margin="5" VerticalAlignment="Top" Background="White" CornerRadius="10" Height="0">
 
         <Border.RenderTransform>
             <TransformGroup x:Name="Bdgroup">
-                <TranslateTransform Y="600" x:Name="_1bd"/>
                 <ScaleTransform ScaleX="1" ScaleY="1"/>
             </TransformGroup>
         </Border.RenderTransform>
@@ -259,20 +263,26 @@
                 <BeginStoryboard>
                     <Storyboard>
                         <DoubleAnimation
-                            Storyboard.TargetName="_1bd"
-                            Storyboard.TargetProperty="Y"
-                            To="0" Duration="0:0:0.5"
-                            EasingFunction="{StaticResource EaseOut}"/>
-                        <DoubleAnimation BeginTime="0:0:0.2"
                             Storyboard.TargetProperty="Height"
-                            To="600" Duration="0:0:0.8"
+                            To="590" Duration="0:0:0.8"
                             EasingFunction="{StaticResource EaseOut}"/>
                     </Storyboard>
                 </BeginStoryboard>
             </EventTrigger>
+            <!--
+            <EventTrigger RoutedEvent="Border.AfterLogin">
+                <BeginStoryboard>
+                    <Storyboard>
+                        <DoubleAnimation
+                            Storyboard.TargetProperty="Height"
+                            To="0" Duration="0:0:0.5"
+                            EasingFunction="{StaticResource EaseIn}"/>
+                    </Storyboard>
+                </BeginStoryboard>
+            </EventTrigger>-->
         </Border.Triggers>
         <Border.Effect>
-            <DropShadowEffect Color="Gray" ShadowDepth="0" BlurRadius="5" Opacity="0.3" Direction="0"/>
+            <DropShadowEffect Color="Gray" ShadowDepth="0" BlurRadius="5" Opacity="0.75" Direction="0"/>
         </Border.Effect>
         <Grid>
 
@@ -285,7 +295,19 @@
                 <Border.Background>
                     <ImageBrush ImageSource="../Assets/Images/maimai.png" Stretch="UniformToFill" Opacity="0.5"/>
                 </Border.Background>
-                <Border Background="#F79645" Opacity="0.8" CornerRadius="10,10,0,0"/>
+                <Border Background="#F79645" Opacity="1" CornerRadius="10,10,0,0">
+                    <Border.Triggers>
+                        <EventTrigger RoutedEvent="Loaded">
+                            <BeginStoryboard>
+                                <Storyboard>
+                                    <DoubleAnimation
+                                        Storyboard.TargetProperty="Opacity"
+                                        To="0.8" Duration="0:0:1"/>
+                                </Storyboard>
+                            </BeginStoryboard>
+                        </EventTrigger>
+                    </Border.Triggers>
+                </Border>
 
             </Border>
             <Button VerticalAlignment="Top" HorizontalAlignment="Right" Style="{StaticResource WindowControlButtonTemplate}" 
@@ -301,7 +323,7 @@
                         <EventTrigger RoutedEvent="Loaded">
                             <BeginStoryboard>
                                 <Storyboard>
-                                    <DoubleAnimation BeginTime="0:0:0.5"
+                                    <DoubleAnimation BeginTime="0:0:0.3"
                                         Storyboard.TargetName="_3b"
                                         Storyboard.TargetProperty="Y"
                                         To="0" Duration="0:0:1"
@@ -326,7 +348,7 @@
                         <EventTrigger RoutedEvent="Loaded">
                             <BeginStoryboard>
                                 <Storyboard>
-                                    <DoubleAnimation BeginTime="0:0:0.6"
+                                    <DoubleAnimation BeginTime="0:0:0.3"
                                         Storyboard.TargetName="_1tb"
                                         Storyboard.TargetProperty="Y"
                                         To="0" Duration="0:0:1"
@@ -362,7 +384,7 @@
                         <EventTrigger RoutedEvent="Loaded">
                             <BeginStoryboard>
                                 <Storyboard>
-                                    <DoubleAnimation BeginTime="0:0:0.7"
+                                    <DoubleAnimation BeginTime="0:0:0.5"
                                         Storyboard.TargetName="_1tbb"
                                         Storyboard.TargetProperty="Y"
                                         To="0" Duration="0:0:1"
@@ -389,7 +411,7 @@
                         <EventTrigger RoutedEvent="Loaded">
                             <BeginStoryboard>
                                 <Storyboard>
-                                    <DoubleAnimation BeginTime="0:0:0.8"
+                                    <DoubleAnimation BeginTime="0:0:0.7"
                                         Storyboard.TargetName="_1pb"
                                         Storyboard.TargetProperty="Y"
                                         To="0" Duration="0:0:1"
@@ -416,7 +438,7 @@
                         <EventTrigger RoutedEvent="Loaded">
                             <BeginStoryboard>
                                 <Storyboard>
-                                    <DoubleAnimation BeginTime="0:0:0.9"
+                                    <DoubleAnimation BeginTime="0:0:0.7"
                                         Storyboard.TargetName="_2tbb"
                                         Storyboard.TargetProperty="Y"
                                         To="0" Duration="0:0:1"
@@ -428,9 +450,10 @@
                     </TextBox.Triggers>
                 </TextBox>
 
+                 <!--登录按键-->
                 <Button x:Name="LoginButton" Content="登     录" Grid.Row="3" Height="42" 
                         Foreground="White" FontSize="16" Template="{StaticResource LoginButtonTemplate}"
-                        Command="{Binding LoginCommand}" CommandParameter="{Binding ElementName=window}">
+                        Command="{Binding LoginCommand}" CommandParameter="{Binding ElementName=window}" Cursor="Hand">
                     <Button.RenderTransform>
                         <TranslateTransform Y="600" x:Name="_1bb"/>
                     </Button.RenderTransform>
@@ -438,11 +461,11 @@
                         <EventTrigger RoutedEvent="Loaded">
                             <BeginStoryboard>
                                 <Storyboard>
-                                    <DoubleAnimation BeginTime="0:0:1"
-                    Storyboard.TargetName="_1bb"
-                    Storyboard.TargetProperty="Y"
-                    To="0" Duration="0:0:1"
-                    EasingFunction="{StaticResource EaseOut}">
+                                    <DoubleAnimation BeginTime="0:0:0.8"
+                                        Storyboard.TargetName="_1bb"
+                                        Storyboard.TargetProperty="Y"
+                                        To="0" Duration="0:0:1"
+                                        EasingFunction="{StaticResource EaseOut}">
                                     </DoubleAnimation>
                                 </Storyboard>
                             </BeginStoryboard>
@@ -465,7 +488,7 @@
                     <EventTrigger RoutedEvent="Loaded">
                         <BeginStoryboard>
                             <Storyboard>
-                                <DoubleAnimation BeginTime="0:0:1.1"
+                                <DoubleAnimation BeginTime="0:0:0.9"
                                     Storyboard.TargetName="_1gd"
                                     Storyboard.TargetProperty="Y"
                                     To="0" Duration="0:0:1"
@@ -501,11 +524,11 @@
                             </Style.Triggers>
                         </Style>
                     </UniformGrid.Resources>
-                    <TextBlock Text="&#xe887;"/>
+                    <TextBlock Text="&#xe887;"  Cursor="Hand"/>
                     <Border/>
-                    <TextBlock Text="&#xe652;"/>
+                    <TextBlock Text="&#xe652;"  Cursor="Hand"/>
                     <Border/>
-                    <TextBlock Text="&#xe65a;"/>
+                    <TextBlock Text="&#xe65a;"  Cursor="Hand"/>
                 </UniformGrid>
             </Grid>
         </Grid>

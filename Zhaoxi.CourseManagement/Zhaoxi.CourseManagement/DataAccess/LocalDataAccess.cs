@@ -17,6 +17,7 @@ using Zhaoxi.CourseManagement.Common;
 using Zhaoxi.CourseManagement.DataAccess.DataEntity;
 using Newtonsoft.Json;
 using System.Security.Policy;
+using System.Net;
 
 namespace Zhaoxi.CourseManagement.DataAccess
 {
@@ -111,11 +112,22 @@ namespace Zhaoxi.CourseManagement.DataAccess
                         int errCode = Convert.ToInt32(jsonObj["errcode"]);
                         string msg = Convert.ToString(jsonObj["message"]);
                         //throw new Exception(response.Content);
-                        throw new Exception($"错误码:{errCode} - {msg}");
+                        throw new Exception($"{msg}");
                     }
+
 
                     //这里已经登陆成功
                     UserEntity userInfo = new UserEntity();
+                    // 获取 Cookie 信息
+                    if (response.Cookies != null && response.Cookies.Count > 0)
+                    {
+                        foreach (Cookie cookie in response.Cookies)
+                        {
+                            userInfo.Cookie = cookie.Value;
+                            Console.WriteLine($"Name: {cookie.Name}, Value: {cookie.Value}");
+                        }
+                    }
+
                     userInfo.UserName = userName;
                     userInfo.RealName = userName;
                     userInfo.Password = pwd;

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using GalaSoft.MvvmLight.Messaging;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -10,6 +11,7 @@ using Zhaoxi.CourseManagement.Common;
 using Zhaoxi.CourseManagement.DataAccess;
 using Zhaoxi.CourseManagement.DataAccess.DataEntity;
 using Zhaoxi.CourseManagement.Model;
+using static Zhaoxi.CourseManagement.View.LoginView;
 
 namespace Zhaoxi.CourseManagement.ViewModel
 {
@@ -43,10 +45,11 @@ namespace Zhaoxi.CourseManagement.ViewModel
             {
                 (o as Window).Close();
             });
-            this.CloseWindowCommand.DoCanExecute = new Func<object,bool>((o) => {return true;});
+            this.CloseWindowCommand.DoCanExecute = new Func<object,bool>((o) => { return true; });
             this.LoginCommand=new CommandBase();
             this.LoginCommand.DoExecute = new Action<object>(DoLogin);
             this.LoginCommand.DoCanExecute = new Func<object, bool>((o) => { return true; });
+
         }
 
         private void DoLoginButtonHidden(Button bt)
@@ -98,7 +101,7 @@ namespace Zhaoxi.CourseManagement.ViewModel
                 return;
             }*/
 
-            Task.Run(new Action(() =>
+            Task.Run(new Action(async () =>
             {
                 try
                 {
@@ -109,8 +112,12 @@ namespace Zhaoxi.CourseManagement.ViewModel
                         throw new Exception("用户模型为空 请调试");
                     }
                     GlobalValues.UserInfo = user;
-                    Application.Current.Dispatcher.Invoke(new Action(() => {(o as Window).DialogResult = true; }));
                     
+                    //登录成功
+                    Messenger.Default.Send(new LoginSuccessMessage());
+                    await Task.Delay(800);
+                    //这行代码会关闭登录窗口
+                    Application.Current.Dispatcher.Invoke(new Action(() => {(o as Window).DialogResult = true; }));
                 }
                 catch (Exception ex)
                 {

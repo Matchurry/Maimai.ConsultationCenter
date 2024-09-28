@@ -13,5 +13,7 @@ namespace Zhaoxi.CourseManagement.DataAccess.DataEntity
         public string Password { get; set; }
         public string Avatar { get; set; } 
         public int Gender { get; set; }
+        public string Cookie { get; set; } = string.Empty;
+        public string Token { get; set; } = string.Empty;
     }
 }

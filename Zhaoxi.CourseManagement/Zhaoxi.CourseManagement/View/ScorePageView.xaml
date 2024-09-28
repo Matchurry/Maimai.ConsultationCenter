@@ -67,7 +67,7 @@
                 </Viewport3D>
     -->
 
-
+                <!--b15-->
                 <Border Grid.Row="0" BorderBrush="#DDD" BorderThickness="0,0,0,1" Margin="20,0">
                     <Grid Margin="10,18">
                         <Grid.RowDefinitions>
@@ -173,8 +173,11 @@
                                                                 <ColumnDefinition Width="1*"/>
                                                                 <ColumnDefinition Width="3*"/>
                                                             </Grid.ColumnDefinitions>
-                                                            <Border Background="White" Width="42" Height="42"/>
-                                                            <Image Source="{Binding song_img_src}" Grid.Column="0" HorizontalAlignment="Left" Margin="5" MaxHeight="40"/>
+                                                        <Border Background="White" Width="42" Height="42"/>
+                                                        <Image Source="../Assets/Images/music.png" Grid.Column="0" HorizontalAlignment="Left" Margin="5" MaxHeight="40"/>
+
+
+                                                        <Image Source="{Binding song_img_src}" Grid.Column="0" HorizontalAlignment="Left" Margin="5" MaxHeight="40"/>
                                                             <Image Source="{Binding type_src}" VerticalAlignment="Bottom" HorizontalAlignment="Center" Width="30" Margin="0,0,0,0"/>
 
                                                             <Grid Grid.Column="1">
@@ -278,7 +281,7 @@
 
                     </Grid>
                 </Border>
-
+                <!--b35-->
                 <Border Grid.Row="1" BorderBrush="#DDD" BorderThickness="0,0,0,1" Margin="20,0">
                     <Grid Margin="10,18">
                         <Grid.RowDefinitions>
@@ -385,6 +388,7 @@
                                                             <ColumnDefinition Width="3*"/>
                                                         </Grid.ColumnDefinitions>
                                                         <Border Background="White" Width="42" Height="42"/>
+                                                        <Image Source="../Assets/Images/music.png" Grid.Column="0" HorizontalAlignment="Left" Margin="5" MaxHeight="40"/>
                                                         <Image Source="{Binding song_img_src}" Grid.Column="0" HorizontalAlignment="Left" Margin="5" MaxHeight="40"/>
                                                         <Image Source="{Binding type_src}" VerticalAlignment="Bottom" HorizontalAlignment="Center" Width="30" Margin="0,0,0,0"/>
 
