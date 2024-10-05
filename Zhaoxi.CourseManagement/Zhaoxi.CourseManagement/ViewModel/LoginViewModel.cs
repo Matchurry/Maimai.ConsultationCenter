@@ -6,6 +6,8 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Input;
+using System.Windows.Interactivity;
 using System.Windows.Media;
 using Zhaoxi.CourseManagement.Common;
 using Zhaoxi.CourseManagement.DataAccess;
@@ -15,6 +17,7 @@ using static Zhaoxi.CourseManagement.View.LoginView;
 
 namespace Zhaoxi.CourseManagement.ViewModel
 {
+
     public class LoginViewModel : NotifyBase
     {
         public static LoginModel LoginModel { get; set; } = new LoginModel("","","");
@@ -132,4 +135,6 @@ namespace Zhaoxi.CourseManagement.ViewModel
             }, TaskScheduler.FromCurrentSynchronizationContext());
         }
     }
+
+    
 }

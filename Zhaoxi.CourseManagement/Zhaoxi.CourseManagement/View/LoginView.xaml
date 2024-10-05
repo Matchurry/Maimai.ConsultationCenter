@@ -3,7 +3,8 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:Zhaoxi.CourseManagement.View"
+        xmlns:local="clr-namespace:Zhaoxi.CourseManagement.ViewModel"
+        xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
         xmlns:common="clr-namespace:Zhaoxi.CourseManagement.Common" xmlns:model="clr-namespace:Zhaoxi.CourseManagement.Model" xmlns:viewmodel="clr-namespace:Zhaoxi.CourseManagement.ViewModel" d:DataContext="{d:DesignInstance Type=viewmodel:LoginViewModel}"
         mc:Ignorable="d" Name="window"
         Title="系统登录" Height="600" Width="360"
@@ -269,7 +270,6 @@
                     </Storyboard>
                 </BeginStoryboard>
             </EventTrigger>
-            <!--
             <EventTrigger RoutedEvent="Border.AfterLogin">
                 <BeginStoryboard>
                     <Storyboard>
@@ -279,7 +279,7 @@
                             EasingFunction="{StaticResource EaseIn}"/>
                     </Storyboard>
                 </BeginStoryboard>
-            </EventTrigger>-->
+            </EventTrigger>
         </Border.Triggers>
         <Border.Effect>
             <DropShadowEffect Color="Gray" ShadowDepth="0" BlurRadius="5" Opacity="0.75" Direction="0"/>
@@ -454,6 +454,10 @@
                 <Button x:Name="LoginButton" Content="登     录" Grid.Row="3" Height="42" 
                         Foreground="White" FontSize="16" Template="{StaticResource LoginButtonTemplate}"
                         Command="{Binding LoginCommand}" CommandParameter="{Binding ElementName=window}" Cursor="Hand">
+                    <!-- 测试
+                    <i:Interaction.Behaviors>
+                        <local:ResizeByMouseBehavior/>
+                    </i:Interaction.Behaviors>-->
                     <Button.RenderTransform>
                         <TranslateTransform Y="600" x:Name="_1bb"/>
                     </Button.RenderTransform>

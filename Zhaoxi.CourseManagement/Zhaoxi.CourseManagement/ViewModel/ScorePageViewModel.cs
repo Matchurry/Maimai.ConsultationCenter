@@ -8,14 +8,93 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Web.Security;
+using System.Windows.Input;
+using System.Windows.Interactivity;
+using System.Windows;
 using Zhaoxi.CourseManagement.Common;
 using Zhaoxi.CourseManagement.Model;
 using static System.Net.WebRequestMethods;
 using static Zhaoxi.CourseManagement.Model.MaiUserScoresModel;
 using static Zhaoxi.CourseManagement.ViewModel.LoginViewModel;
+using System.Windows.Media;
+using System.Windows.Media.Media3D;
+using Mysqlx.Datatypes;
 
 namespace Zhaoxi.CourseManagement.ViewModel
 {
+    public class ResizeByMouseBehavior : Behavior<FrameworkElement>
+    {
+        private WeakEventManager<Window, MouseEventArgs> _mouseMoveEventManager;
+        protected override void OnAttached()
+        {
+            base.OnAttached();
+            Application.Current.MainWindow.MouseMove += MouseMove;
+        }
+
+        protected override void OnDetaching()
+        {
+            Application.Current.MainWindow.MouseMove -= MouseMove;
+            base.OnDetaching();
+        }
+
+        private void MouseMove(object sender, MouseEventArgs e)
+        {
+            try
+            {
+                Point mousePosition = AssociatedObject.PointToScreen(e.GetPosition(AssociatedObject)); //屏幕坐标系下鼠标的位置
+                double y = mousePosition.Y - (AssociatedObject.PointToScreen(new Point(0, 0)).Y + 100 / 2); // y距离 有正负
+                double x = mousePosition.X - (AssociatedObject.PointToScreen(new Point(0, 0)).X + 216 / 2); // x距离 有正负
+                double distance = Math.Sqrt(x * x + y * y);
+                double maxdis = Math.Sqrt(216 * 216 + 100 * 100) / 2;
+
+                double tarsX=1, tarsY=1, tarX=0, tarY=0;
+                //动画1 鼠标在控件内部时 控件放大
+                if (Math.Abs(x) <= 216 / 2 && Math.Abs(y) <= 100 / 2) //鼠标在控件内 应用缩放
+                {
+                    //最大变为原来的1.3倍 线性
+                    tarsX = 1.3 - distance / maxdis * 0.3;
+                    tarsY = 1.3 - distance / maxdis * 0.3;
+                }
+
+                //动画2 对于同一行布局X大小的变换
+                if (Math.Abs(y) <= 100 / 2) //如果鼠标在我这一行
+                {
+                    if(Math.Abs(x) >= 226/2  && Math.Abs(x) <= 206 + 226/2) //鼠标在我之外一个范围内
+                    {
+                        var cal = Math.Abs(x);
+                        tarX = (cal-226/2)*20/106;
+                        if (cal > 226) tarX = 40 - (cal - 226 / 2) * 20 / 106;
+                        if (x>0) tarX = -tarX;
+                    }
+                }
+                
+                //动画3 对于同一列布局Y大小的变换
+                if (Math.Abs(x) <= 216 / 2) //如果鼠标在我这一行
+                {
+                    if (Math.Abs(y) >= 110 / 2 && Math.Abs(y) <= 90 + 110 / 2) //鼠标在我之外一个范围内
+                    {
+                        var cal = Math.Abs(y);
+                        tarY = (cal - 100 / 2) * 10 / 50;
+                        if (cal > 95) tarY = 20 - (cal - 100 / 2) * 10 / 50;
+                        if (y > 0) tarY = -tarY;
+                    }
+                }
+
+                AssociatedObject.RenderTransform = new TransformGroup
+                {
+                    Children =
+                        {
+                            new TranslateTransform {X = tarX, Y = tarY},
+                            new ScaleTransform { ScaleX = tarsX, ScaleY=tarsY },
+                        }
+                };
+
+            }
+            catch {Application.Current.MainWindow.MouseMove -= MouseMove; }
+
+        }
+
+    }
     public class ScorePageViewModel:NotifyBase
     {
         public Root GetScorePageData()
