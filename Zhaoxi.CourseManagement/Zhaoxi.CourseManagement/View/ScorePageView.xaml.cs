@@ -32,11 +32,12 @@ namespace Zhaoxi.CourseManagement.View
         public PointsSearchView()
         {
             InitializeComponent();
-
-            var DataContext = new ScorePageViewModel().GetScorePageData();
-            this.DataContext = DataContext;
-
+            InitializeScoreData();
         }
-
+        private async void InitializeScoreData()
+        {
+            var DataContext = await new ScorePageViewModel().GetScorePageDataAsync();
+            this.DataContext = DataContext;
+        }
     }
 }

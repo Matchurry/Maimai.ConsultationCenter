@@ -104,12 +104,14 @@
                     </StackPanel>
                 </Grid>
             </Border>
-            
-            
+            <!--第三个卡片-->
+                
+
             <Border CornerRadius="5" Background="White" Margin="10">
                 <Border.Effect>
                     <DropShadowEffect Color="#F2F2F2" ShadowDepth="10" BlurRadius="105" Opacity="0.4" Direction="270"/>
                 </Border.Effect>
+                <MediaElement x:Name="me" Source="../Assets/trans.mp4" Width="auto" Height="auto" LoadedBehavior="Play"/>
             </Border>
             <Border CornerRadius="5" Background="White" Margin="10">
                 <Border.Effect>

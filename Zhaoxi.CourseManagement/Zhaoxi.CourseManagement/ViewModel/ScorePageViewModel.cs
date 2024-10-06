@@ -97,7 +97,7 @@ namespace Zhaoxi.CourseManagement.ViewModel
     }
     public class ScorePageViewModel:NotifyBase
     {
-        public Root GetScorePageData()
+        public async Task<Root> GetScorePageDataAsync()
         {
             var client = new RestClient("https://www.diving-fish.com/api/maimaidxprober/query/player");
             //client.Timeout = -1;
@@ -111,11 +111,11 @@ namespace Zhaoxi.CourseManagement.ViewModel
                 " + "\n" +
                             @"}";
             request.AddParameter("application/json", body, ParameterType.RequestBody);
-            RestResponse response = client.Execute(request);
+            RestResponse response = await client.ExecuteAsync(request);
             Console.WriteLine("玩家数据获取成功");
-            Root userMaiData = JsonConvert.DeserializeObject<Root>(response.Content); //从这开始已经转换为内部Model
+            Root userMaiData = null;
 
-
+            userMaiData = JsonConvert.DeserializeObject<Root>(response.Content); //从这开始已经转换为内部Model
             string jsonFilePath = Path.Combine(
                 Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "..", ".."), // 向上返回两级目录
                 @"Assets\MaiMusicData\MusicData.json"
@@ -123,86 +123,86 @@ namespace Zhaoxi.CourseManagement.ViewModel
             Console.WriteLine(jsonFilePath);
             //读入歌曲json并反序列化
             string jsonFile = System.IO.File.ReadAllText(jsonFilePath);
-            ObservableCollection <SongModel.Root> songDatas = JsonConvert.DeserializeObject<ObservableCollection<SongModel.Root>>(jsonFile);
+            ObservableCollection<SongModel.Root> songDatas = JsonConvert.DeserializeObject<ObservableCollection<SongModel.Root>>(jsonFile);
 
             var cnt = 1;
-            if(userMaiData.charts!=null && userMaiData.charts.dx.Count != 0)
-            foreach (var item in userMaiData.charts.dx)
-            {
-                item.Zindex = 15 - cnt;
-                item.song_img_src = String.Format("https://www.diving-fish.com/covers/{0:D5}.png", item.song_id);
-                item.id = cnt++;
-                item.rate_src = String.Format("../Assets/Images/MaiRanks/{0}.png", item.rate);
-                item.type_src = String.Format("../Assets/Images/MaiType/{0}.png",item.type);
-                item.fc_src = string.Format("../Assets/Images/MaiFcAp/{0}.png", item.fc);
-                item.fs_src = string.Format("../Assets/Images/MaiFsFDX/{0}.png", item.fs);
-                if (item.fs == "fsdp") item.fs_src = "../Assets/Images/MaiFcAp/fsd.png";
-                item.animationlengh = string.Format("0:0:{0}.{1}",item.id/10+1,item.id%10);
+            if (userMaiData.charts != null && userMaiData.charts.dx.Count != 0)
+                foreach (var item in userMaiData.charts.dx)
+                {
+                    item.Zindex = 15 - cnt;
+                    item.song_img_src = String.Format("https://www.diving-fish.com/covers/{0:D5}.png", item.song_id);
+                    item.id = cnt++;
+                    item.rate_src = String.Format("../Assets/Images/MaiRanks/{0}.png", item.rate);
+                    item.type_src = String.Format("../Assets/Images/MaiType/{0}.png", item.type);
+                    item.fc_src = string.Format("../Assets/Images/MaiFcAp/{0}.png", item.fc);
+                    item.fs_src = string.Format("../Assets/Images/MaiFsFDX/{0}.png", item.fs);
+                    if (item.fs == "fsdp") item.fs_src = "../Assets/Images/MaiFcAp/fsd.png";
+                    item.animationlengh = string.Format("0:0:{0}.{1}", item.id / 10 + 1, item.id % 10);
 
-                //获取歌曲的dxScore上限
-                var foundSong = songDatas.FirstOrDefault(song => song.id == item.song_id.ToString());
-                var cal = 0;
-                //随后获取总note数 *3 即为dxScore
+                    //获取歌曲的dxScore上限
+                    var foundSong = songDatas.FirstOrDefault(song => song.id == item.song_id.ToString());
+                    var cal = 0;
+                    //随后获取总note数 *3 即为dxScore
 
-                foreach(var notescnt in foundSong.charts[item.level_index].notes){
-                    cal += notescnt;
+                    foreach (var notescnt in foundSong.charts[item.level_index].notes) {
+                        cal += notescnt;
+                    }
+
+                    item.maxDxScore = cal * 3;
+                    item.dx_max_str = item.dxScore.ToString() + " / " + item.maxDxScore.ToString();
+                    double rate = (double)item.dxScore / item.maxDxScore;
+                    var rate_level = 0;
+                    if (rate >= 0.85)
+                        rate_level = 1;
+                    if (rate >= 0.90)
+                        rate_level = 2;
+                    if (rate >= 0.93)
+                        rate_level = 3;
+                    if (rate >= 0.95)
+                        rate_level = 4;
+                    if (rate >= 0.97)
+                        rate_level = 5;
+                    item.dx_src = String.Format("../Assets/Images/MaiDxScoreRank/{0}.png", rate_level);
+
                 }
-
-                item.maxDxScore = cal*3;
-                item.dx_max_str = item.dxScore.ToString() + " / " + item.maxDxScore.ToString();
-                double rate = (double)item.dxScore / item.maxDxScore;
-                var rate_level = 0;
-                if(rate>=0.85)
-                    rate_level = 1;
-                if(rate>=0.90)
-                    rate_level = 2;
-                if(rate>=0.93)
-                    rate_level = 3;
-                if(rate>=0.95)
-                    rate_level = 4;
-                if(rate>=0.97)
-                    rate_level = 5;
-                item.dx_src = String.Format("../Assets/Images/MaiDxScoreRank/{0}.png", rate_level);
-
-            }
 
             cnt = 1;
-            if(userMaiData.charts != null && userMaiData.charts.sd.Count!=0)
-            foreach (var item in userMaiData.charts.sd)
-            {
-                item.song_img_src = String.Format("https://www.diving-fish.com/covers/{0:D5}.png", item.song_id);
-                item.id = cnt++;
-                item.rate_src = String.Format("../Assets/Images/MaiRanks/{0}.png", item.rate);
-                item.type_src = String.Format("../Assets/Images/MaiType/{0}.png", item.type);
-                item.fc_src = string.Format("../Assets/Images/MaiFcAp/{0}.png", item.fc);
-                item.fs_src = string.Format("../Assets/Images/MaiFsFDX/{0}.png", item.fs);
-                if (item.fs == "fdsp") item.fs_src = "../Assets/Images/MaiFcAp/fsd.png";
-                item.animationlengh = string.Format("0:0:{0}.{1}", (item.id+15) / 10 + 1, (item.id+15) % 10);
-
-                //获取歌曲的dxScore上限
-                var foundSong = songDatas.FirstOrDefault(song => song.id == item.song_id.ToString());
-                var cal = 0;
-                //随后获取总note数 *3 即为dxScore
-                foreach (var notescnt in foundSong.charts[item.level_index].notes)
+            if (userMaiData.charts != null && userMaiData.charts.sd.Count != 0)
+                foreach (var item in userMaiData.charts.sd)
                 {
-                    cal += notescnt;
+                    item.song_img_src = String.Format("https://www.diving-fish.com/covers/{0:D5}.png", item.song_id);
+                    item.id = cnt++;
+                    item.rate_src = String.Format("../Assets/Images/MaiRanks/{0}.png", item.rate);
+                    item.type_src = String.Format("../Assets/Images/MaiType/{0}.png", item.type);
+                    item.fc_src = string.Format("../Assets/Images/MaiFcAp/{0}.png", item.fc);
+                    item.fs_src = string.Format("../Assets/Images/MaiFsFDX/{0}.png", item.fs);
+                    if (item.fs == "fdsp") item.fs_src = "../Assets/Images/MaiFcAp/fsd.png";
+                    item.animationlengh = string.Format("0:0:{0}.{1}", (item.id + 15) / 10 + 1, (item.id + 15) % 10);
+
+                    //获取歌曲的dxScore上限
+                    var foundSong = songDatas.FirstOrDefault(song => song.id == item.song_id.ToString());
+                    var cal = 0;
+                    //随后获取总note数 *3 即为dxScore
+                    foreach (var notescnt in foundSong.charts[item.level_index].notes)
+                    {
+                        cal += notescnt;
+                    }
+                    item.maxDxScore = cal * 3;
+                    item.dx_max_str = item.dxScore.ToString() + " / " + item.maxDxScore.ToString();
+                    double rate = (double)item.dxScore / item.maxDxScore;
+                    var rate_level = 0;
+                    if (rate >= 0.85)
+                        rate_level = 1;
+                    if (rate >= 0.90)
+                        rate_level = 2;
+                    if (rate >= 0.93)
+                        rate_level = 3;
+                    if (rate >= 0.95)
+                        rate_level = 4;
+                    if (rate >= 0.97)
+                        rate_level = 5;
+                    item.dx_src = String.Format("../Assets/Images/MaiDxScoreRank/{0}.png", rate_level);
                 }
-                item.maxDxScore = cal * 3;
-                item.dx_max_str = item.dxScore.ToString() + " / " + item.maxDxScore.ToString();
-                double rate = (double)item.dxScore / item.maxDxScore;
-                var rate_level = 0;
-                if (rate >= 0.85)
-                    rate_level = 1;
-                if (rate >= 0.90)
-                    rate_level = 2;
-                if (rate >= 0.93)
-                    rate_level = 3;
-                if (rate >= 0.95)
-                    rate_level = 4;
-                if (rate >= 0.97)
-                    rate_level = 5;
-                item.dx_src = String.Format("../Assets/Images/MaiDxScoreRank/{0}.png", rate_level);
-            }
 
             return userMaiData;
         }

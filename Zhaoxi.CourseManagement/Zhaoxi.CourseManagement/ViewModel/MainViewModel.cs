@@ -40,16 +40,20 @@ namespace Zhaoxi.CourseManagement.ViewModel
 
 		private async void DoNavChanged(object o)
 		{
-			await Task.Run(() =>
-			{	
-                Application.Current.Dispatcher.BeginInvoke(new Action(() =>
-                {
-					Type type = Type.GetType("Zhaoxi.CourseManagement.View." + o.ToString());
-					ConstructorInfo cti = type.GetConstructor(System.Type.EmptyTypes);
+            await Application.Current.Dispatcher.BeginInvoke(new Action(() =>
+            {
+                MainContent = new MaimaiConsulationCenter.View.LoadingView(); // 加载过渡页面
+            }));
+
+            await Task.Run(async () =>
+			{
+                Type type = Type.GetType("Zhaoxi.CourseManagement.View." + o.ToString());
+                ConstructorInfo cti = type.GetConstructor(System.Type.EmptyTypes);
+				await Application.Current.Dispatcher.BeginInvoke(new Action(() =>
+				{
 					MainContent = (FrameworkElement)cti.Invoke(null);
-                }));
-            });
-	
+				}));
+			});
 		}
 	}
 }

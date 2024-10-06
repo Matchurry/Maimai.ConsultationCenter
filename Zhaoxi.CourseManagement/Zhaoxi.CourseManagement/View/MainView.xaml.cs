@@ -57,6 +57,5 @@ namespace Zhaoxi.CourseManagement.View
         {
             Close();
         }
-        
     }
 }
