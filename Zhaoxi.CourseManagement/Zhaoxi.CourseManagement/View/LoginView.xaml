@@ -252,7 +252,7 @@
         
     </Window.Resources>
     
-    <Border x:Name="MainBoder" Margin="5" VerticalAlignment="Top" Background="White" CornerRadius="10" Height="0">
+    <Border x:Name="MainBoder" Margin="5" VerticalAlignment="Top" Background="White" CornerRadius="10" Height="590">
 
         <Border.RenderTransform>
             <TransformGroup x:Name="Bdgroup">
@@ -265,8 +265,14 @@
                     <Storyboard>
                         <DoubleAnimation
                             Storyboard.TargetProperty="Height"
+                            From="0"
                             To="590" Duration="0:0:0.8"
                             EasingFunction="{StaticResource EaseOut}"/>
+                        <DoubleAnimation
+                            Storyboard.TargetProperty="Opacity"
+                            From="0" To="1" Duration="0:0:0.8"
+                            EasingFunction="{StaticResource EaseOut}">
+                        </DoubleAnimation>
                     </Storyboard>
                 </BeginStoryboard>
             </EventTrigger>
@@ -295,13 +301,14 @@
                 <Border.Background>
                     <ImageBrush ImageSource="../Assets/Images/maimai.png" Stretch="UniformToFill" Opacity="0.5"/>
                 </Border.Background>
-                <Border Background="#F79645" Opacity="1" CornerRadius="10,10,0,0">
+                <Border Background="#F79645" Opacity="0.8" CornerRadius="10,10,0,0">
                     <Border.Triggers>
                         <EventTrigger RoutedEvent="Loaded">
                             <BeginStoryboard>
                                 <Storyboard>
                                     <DoubleAnimation
                                         Storyboard.TargetProperty="Opacity"
+                                        From="1"
                                         To="0.8" Duration="0:0:1"/>
                                 </Storyboard>
                             </BeginStoryboard>
@@ -317,16 +324,22 @@
             <StackPanel VerticalAlignment="Bottom" Margin="0,0,0,30">
                 <Border Width="80" Height="80" Margin="15">
                     <Border.RenderTransform>
-                        <TranslateTransform Y="-1200" x:Name="_3b"/>
+                        <TranslateTransform Y="0" x:Name="_3b"/>
                     </Border.RenderTransform>
                     <Border.Triggers>
                         <EventTrigger RoutedEvent="Loaded">
                             <BeginStoryboard>
                                 <Storyboard>
-                                    <DoubleAnimation BeginTime="0:0:0.3"
+                                    <DoubleAnimation
                                         Storyboard.TargetName="_3b"
                                         Storyboard.TargetProperty="Y"
-                                        To="0" Duration="0:0:1"
+                                        From="-1200"
+                                        To="0" Duration="0:0:1.5"
+                                        EasingFunction="{StaticResource EaseOut}">
+                                    </DoubleAnimation>
+                                    <DoubleAnimation BeginTime="0:0:0.5"
+                                        Storyboard.TargetProperty="Opacity"
+                                        From="0" To="1" Duration="0:0:1.5"
                                         EasingFunction="{StaticResource EaseOut}">
                                     </DoubleAnimation>
                                 </Storyboard>
@@ -342,16 +355,21 @@
                 </Border>
                 <TextBlock Text="迪拉熊咨询中心" HorizontalAlignment="Center" Foreground="White" FontSize="20">
                     <TextBlock.RenderTransform>
-                        <TranslateTransform Y="-1200" x:Name="_1tb"/>
+                        <TranslateTransform Y="0" x:Name="_1tb"/>
                     </TextBlock.RenderTransform>
                     <TextBlock.Triggers>
                         <EventTrigger RoutedEvent="Loaded">
                             <BeginStoryboard>
                                 <Storyboard>
-                                    <DoubleAnimation BeginTime="0:0:0.3"
+                                    <DoubleAnimation
                                         Storyboard.TargetName="_1tb"
                                         Storyboard.TargetProperty="Y"
-                                        To="0" Duration="0:0:1"
+                                        From="-1200" To="0" Duration="0:0:1.3"
+                                        EasingFunction="{StaticResource EaseOut}">
+                                    </DoubleAnimation>
+                                    <DoubleAnimation BeginTime="0:0:0.5"
+                                        Storyboard.TargetProperty="Opacity"
+                                        From="0" To="1" Duration="0:0:1.3"
                                         EasingFunction="{StaticResource EaseOut}">
                                     </DoubleAnimation>
                                 </Storyboard>
@@ -372,7 +390,7 @@
                 
                 <!--用户名输出框-->
                 <TextBox Style="{DynamicResource UserNameTextBoxStyle}" Text="{Binding LoginModel.UserName,UpdateSourceTrigger=PropertyChanged}" 
-                         Foreground="#555" FontSize="16" Height="42" x:Name="txtUserName">
+                         Foreground="#555" FontSize="16" Height="42" x:Name="txtUserName" Opacity="0">
                     <TextBox.InputBindings>
                         <KeyBinding Key="Enter" Command="{Binding LoginCommand}" 
                             CommandParameter="{Binding ElementName=window}"/>
@@ -390,6 +408,11 @@
                                         To="0" Duration="0:0:1"
                                         EasingFunction="{StaticResource EaseOut}">
                                     </DoubleAnimation>
+                                    <DoubleAnimation BeginTime="0:0:1"
+                                        Storyboard.TargetProperty="Opacity"
+                                        From="0" To="1" Duration="0:0:1"
+                                        EasingFunction="{StaticResource EaseOut}">
+                                    </DoubleAnimation>
                                 </Storyboard>
                             </BeginStoryboard>
                         </EventTrigger>
@@ -399,7 +422,7 @@
                 <!--密码输入框-->
                 <PasswordBox Style="{DynamicResource PasswordBoxStyle}" common:PasswordHelper.Attach="True" 
                              common:PasswordHelper.Password="{Binding LoginModel.Password,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"
-                             Grid.Row="1" Height="42" FontSize="16" Foreground="#555">
+                             Grid.Row="1" Height="42" FontSize="16" Foreground="#555" Opacity="0">
                     <PasswordBox.InputBindings>
                         <KeyBinding Key="Enter" Command="{Binding LoginCommand}" 
                             CommandParameter="{Binding ElementName=window}"/>
@@ -411,10 +434,15 @@
                         <EventTrigger RoutedEvent="Loaded">
                             <BeginStoryboard>
                                 <Storyboard>
-                                    <DoubleAnimation BeginTime="0:0:0.7"
+                                    <DoubleAnimation BeginTime="0:0:0.6"
                                         Storyboard.TargetName="_1pb"
                                         Storyboard.TargetProperty="Y"
                                         To="0" Duration="0:0:1"
+                                        EasingFunction="{StaticResource EaseOut}">
+                                    </DoubleAnimation>
+                                    <DoubleAnimation BeginTime="0:0:1.1"
+                                        Storyboard.TargetProperty="Opacity"
+                                        From="0" To="1" Duration="0:0:1"
                                         EasingFunction="{StaticResource EaseOut}">
                                     </DoubleAnimation>
                                 </Storyboard>
@@ -426,7 +454,7 @@
                 <!--Token输入框-->
                 <TextBox Style="{DynamicResource ValidationCodeTextBoxStyle}" 
                          Text="{Binding LoginModel.ValidationCode,UpdateSourceTrigger=PropertyChanged}" 
-                         Grid.Row="2" Height="42" FontSize="16" Foreground="#555">
+                         Grid.Row="2" Height="42" FontSize="16" Foreground="#555" Opacity="0">
                     <TextBox.InputBindings>
                         <KeyBinding Key="Enter" Command="{Binding LoginCommand}" 
                             CommandParameter="{Binding ElementName=window}"/>
@@ -444,6 +472,11 @@
                                         To="0" Duration="0:0:1"
                                         EasingFunction="{StaticResource EaseOut}">
                                     </DoubleAnimation>
+                                    <DoubleAnimation BeginTime="0:0:1.2"
+                                        Storyboard.TargetProperty="Opacity"
+                                        From="0" To="1" Duration="0:0:1"
+                                        EasingFunction="{StaticResource EaseOut}">
+                                    </DoubleAnimation>
                                 </Storyboard>
                             </BeginStoryboard>
                         </EventTrigger>
@@ -453,7 +486,7 @@
                  <!--登录按键-->
                 <Button x:Name="LoginButton" Content="登     录" Grid.Row="3" Height="42" 
                         Foreground="White" FontSize="16" Template="{StaticResource LoginButtonTemplate}"
-                        Command="{Binding LoginCommand}" CommandParameter="{Binding ElementName=window}" Cursor="Hand">
+                        Command="{Binding LoginCommand}" CommandParameter="{Binding ElementName=window}" Cursor="Hand" Opacity="0">
                     <!-- 测试
                     <i:Interaction.Behaviors>
                         <local:ResizeByMouseBehavior/>
@@ -471,6 +504,11 @@
                                         To="0" Duration="0:0:1"
                                         EasingFunction="{StaticResource EaseOut}">
                                     </DoubleAnimation>
+                                    <DoubleAnimation BeginTime="0:0:1.3"
+                                        Storyboard.TargetProperty="Opacity"
+                                        From="0" To="1" Duration="0:0:1"
+                                        EasingFunction="{StaticResource EaseOut}">
+                                    </DoubleAnimation>
                                 </Storyboard>
                             </BeginStoryboard>
                         </EventTrigger>
@@ -479,7 +517,7 @@
                 <TextBlock Text="{Binding ErrorMessage}" Foreground="Red" Grid.Row="4" FontSize="13" HorizontalAlignment="Center" TextWrapping="Wrap" LineHeight="22"/>
             </Grid>
 
-            <Grid Grid.Row="2" Margin="20,0">
+            <Grid Grid.Row="2" Margin="20,0" Opacity="0">
                 <Grid.RowDefinitions>
                     <RowDefinition Height="20"/>
                     <RowDefinition/>
@@ -496,6 +534,11 @@
                                     Storyboard.TargetName="_1gd"
                                     Storyboard.TargetProperty="Y"
                                     To="0" Duration="0:0:1"
+                                    EasingFunction="{StaticResource EaseOut}">
+                                </DoubleAnimation>
+                                <DoubleAnimation BeginTime="0:0:1.4"
+                                    Storyboard.TargetProperty="Opacity"
+                                    From="0" To="1" Duration="0:0:1"
                                     EasingFunction="{StaticResource EaseOut}">
                                 </DoubleAnimation>
                             </Storyboard>

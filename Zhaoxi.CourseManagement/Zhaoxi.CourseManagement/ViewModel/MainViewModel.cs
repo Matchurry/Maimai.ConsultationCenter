@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using System.Windows;
 using Zhaoxi.CourseManagement.Common;
 using Zhaoxi.CourseManagement.Model;
+using static MaimaiConsulationCenter.Common.Interfaces;
 
 namespace Zhaoxi.CourseManagement.ViewModel
 {
@@ -49,10 +50,16 @@ namespace Zhaoxi.CourseManagement.ViewModel
 			{
                 Type type = Type.GetType("Zhaoxi.CourseManagement.View." + o.ToString());
                 ConstructorInfo cti = type.GetConstructor(System.Type.EmptyTypes);
-				await Application.Current.Dispatcher.BeginInvoke(new Action(() =>
+				await Application.Current.Dispatcher.BeginInvoke(new Action(async() =>
 				{
-					MainContent = (FrameworkElement)cti.Invoke(null);
-				}));
+					var tar = (FrameworkElement)cti.Invoke(null);
+					if(tar is IDataLoadable dataLoadablePage)
+					{
+                        await dataLoadablePage.InitializeDataAsync();
+                    }
+					MainContent = tar;
+
+                }));
 			});
 		}
 	}

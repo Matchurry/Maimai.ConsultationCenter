@@ -120,7 +120,6 @@ namespace Zhaoxi.CourseManagement.ViewModel
                 Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "..", ".."), // 向上返回两级目录
                 @"Assets\MaiMusicData\MusicData.json"
             );
-            Console.WriteLine(jsonFilePath);
             //读入歌曲json并反序列化
             string jsonFile = System.IO.File.ReadAllText(jsonFilePath);
             ObservableCollection<SongModel.Root> songDatas = JsonConvert.DeserializeObject<ObservableCollection<SongModel.Root>>(jsonFile);
@@ -136,7 +135,12 @@ namespace Zhaoxi.CourseManagement.ViewModel
                     item.type_src = String.Format("../Assets/Images/MaiType/{0}.png", item.type);
                     item.fc_src = string.Format("../Assets/Images/MaiFcAp/{0}.png", item.fc);
                     item.fs_src = string.Format("../Assets/Images/MaiFsFDX/{0}.png", item.fs);
-                    if (item.fs == "fsdp") item.fs_src = "../Assets/Images/MaiFcAp/fsd.png";
+                    if (item.rate == "")
+                        item.rate_src = "../Assets/Images/MaiRanks/null.png";
+                    if (item.fc == "")
+                        item.fc_src = "../Assets/Images/MaiFcAp/null.png";
+                    if (item.fs == "")
+                        item.fs_src = "../Assets/Images/MaiFsFDX/null.png";
                     item.animationlengh = string.Format("0:0:{0}.{1}", item.id / 10 + 1, item.id % 10);
 
                     //获取歌曲的dxScore上限
@@ -151,17 +155,17 @@ namespace Zhaoxi.CourseManagement.ViewModel
                     item.maxDxScore = cal * 3;
                     item.dx_max_str = item.dxScore.ToString() + " / " + item.maxDxScore.ToString();
                     double rate = (double)item.dxScore / item.maxDxScore;
-                    var rate_level = 0;
+                    var rate_level = "null";
                     if (rate >= 0.85)
-                        rate_level = 1;
+                        rate_level = "1";
                     if (rate >= 0.90)
-                        rate_level = 2;
+                        rate_level = "2";
                     if (rate >= 0.93)
-                        rate_level = 3;
+                        rate_level = "3";
                     if (rate >= 0.95)
-                        rate_level = 4;
+                        rate_level = "4";
                     if (rate >= 0.97)
-                        rate_level = 5;
+                        rate_level = "5";
                     item.dx_src = String.Format("../Assets/Images/MaiDxScoreRank/{0}.png", rate_level);
 
                 }
@@ -176,9 +180,13 @@ namespace Zhaoxi.CourseManagement.ViewModel
                     item.type_src = String.Format("../Assets/Images/MaiType/{0}.png", item.type);
                     item.fc_src = string.Format("../Assets/Images/MaiFcAp/{0}.png", item.fc);
                     item.fs_src = string.Format("../Assets/Images/MaiFsFDX/{0}.png", item.fs);
-                    if (item.fs == "fdsp") item.fs_src = "../Assets/Images/MaiFcAp/fsd.png";
                     item.animationlengh = string.Format("0:0:{0}.{1}", (item.id + 15) / 10 + 1, (item.id + 15) % 10);
-
+                    if (item.rate == "")
+                        item.rate_src = "../Assets/Images/MaiRanks/null.png";
+                    if (item.fc == "")
+                        item.fc_src = "../Assets/Images/MaiFcAp/null.png";
+                    if (item.fs == "")
+                        item.fs_src = "../Assets/Images/MaiFsFDX/null.png";
                     //获取歌曲的dxScore上限
                     var foundSong = songDatas.FirstOrDefault(song => song.id == item.song_id.ToString());
                     var cal = 0;
@@ -190,17 +198,17 @@ namespace Zhaoxi.CourseManagement.ViewModel
                     item.maxDxScore = cal * 3;
                     item.dx_max_str = item.dxScore.ToString() + " / " + item.maxDxScore.ToString();
                     double rate = (double)item.dxScore / item.maxDxScore;
-                    var rate_level = 0;
+                    var rate_level = "null";
                     if (rate >= 0.85)
-                        rate_level = 1;
+                        rate_level = "1";
                     if (rate >= 0.90)
-                        rate_level = 2;
+                        rate_level = "2";
                     if (rate >= 0.93)
-                        rate_level = 3;
+                        rate_level = "3";
                     if (rate >= 0.95)
-                        rate_level = 4;
+                        rate_level = "4";
                     if (rate >= 0.97)
-                        rate_level = 5;
+                        rate_level = "5";
                     item.dx_src = String.Format("../Assets/Images/MaiDxScoreRank/{0}.png", rate_level);
                 }
 

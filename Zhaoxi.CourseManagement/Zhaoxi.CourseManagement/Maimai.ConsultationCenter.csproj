@@ -215,6 +215,7 @@
     <Compile Include="Assets\Convertor\GenderConvertor.cs" />
     <Compile Include="Common\CommandBase.cs" />
     <Compile Include="Common\GlobalValues.cs" />
+    <Compile Include="Common\Interfaces.cs" />
     <Compile Include="Common\MD5Provider.cs" />
     <Compile Include="Common\NotifyBase.cs" />
     <Compile Include="Common\PasswordHelper.cs" />
@@ -349,6 +350,17 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Assets\Images\music.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Assets\Images\MaiDxScoreRank\null.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Assets\Images\MaiFcAp\app.png" />
+    <Resource Include="Assets\Images\MaiFcAp\null.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Assets\Images\MaiFsFDX\fsdp.png" />
+    <Resource Include="Assets\Images\MaiFsFDX\null.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

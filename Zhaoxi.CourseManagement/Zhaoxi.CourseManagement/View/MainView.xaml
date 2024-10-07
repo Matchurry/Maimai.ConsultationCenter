@@ -137,6 +137,7 @@
                     <Storyboard>
                         <DoubleAnimation
                             Storyboard.TargetProperty="Height"
+                            From="0"
                             To="800" Duration="0:0:1"
                             EasingFunction="{StaticResource EaseOut}"/>
                     </Storyboard>
