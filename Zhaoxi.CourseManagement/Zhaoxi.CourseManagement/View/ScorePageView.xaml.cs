@@ -33,7 +33,7 @@ namespace Zhaoxi.CourseManagement.View
         public PointsSearchView()
         {
             InitializeComponent();
-            InitializeDataAsync();
+            //Console.WriteLine("loaded");
         }
         public async Task InitializeDataAsync()
         {

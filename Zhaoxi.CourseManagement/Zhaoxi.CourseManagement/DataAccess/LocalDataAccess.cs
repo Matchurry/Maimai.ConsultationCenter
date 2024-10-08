@@ -150,7 +150,7 @@ namespace Zhaoxi.CourseManagement.DataAccess
                                         @"}";
                     request.AddParameter("application/json", body, ParameterType.RequestBody);
                     RestResponse response = client.Execute(request);
-                    Console.WriteLine("玩家数据获取成功");
+                    Console.WriteLine("登录界面-b50玩家数据获取成功");
                     switch ((int)response.StatusCode)
                     {
                         case 200:

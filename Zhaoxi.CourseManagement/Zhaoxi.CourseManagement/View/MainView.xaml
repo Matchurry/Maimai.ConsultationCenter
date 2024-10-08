@@ -199,7 +199,8 @@
                 <StackPanel Orientation="Horizontal" Grid.Row="1" HorizontalAlignment="Left" VerticalAlignment="Center">
                     <RadioButton Content="首页" Style="{StaticResource NavButtonStyle}" IsChecked="True" 
                                  Command="{Binding NavChangedCommand}" CommandParameter="FirstPageView"/>
-                    <RadioButton Content="机厅查询" Style="{StaticResource NavButtonStyle}"/>
+                    <RadioButton Content="全曲检索" Style="{StaticResource NavButtonStyle}"
+                                 Command="{Binding NavChangedCommand}" CommandParameter="SongsView"/>
                     <RadioButton Content="成绩查询" Style="{StaticResource NavButtonStyle}"
                                  Command="{Binding NavChangedCommand}" CommandParameter="PointsSearchView"/>
                     <RadioButton Content="社区中心" Style="{StaticResource NavButtonStyle}"/>

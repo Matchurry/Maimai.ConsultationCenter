@@ -19,12 +19,17 @@ using static Zhaoxi.CourseManagement.ViewModel.LoginViewModel;
 using System.Windows.Media;
 using System.Windows.Media.Media3D;
 using Mysqlx.Datatypes;
+using System.Windows.Media.Animation;
 
 namespace Zhaoxi.CourseManagement.ViewModel
 {
     public class ResizeByMouseBehavior : Behavior<FrameworkElement>
     {
-        private WeakEventManager<Window, MouseEventArgs> _mouseMoveEventManager;
+        private static Point mousePosition;
+        private Point _lastMousePosition;
+        private const int Threshold = 10; // 鼠标移动阈值
+        private static double _maxDis = Math.Sqrt(216 * 216 + 100 * 100) / 2;
+
         protected override void OnAttached()
         {
             base.OnAttached();
@@ -41,19 +46,25 @@ namespace Zhaoxi.CourseManagement.ViewModel
         {
             try
             {
-                Point mousePosition = AssociatedObject.PointToScreen(e.GetPosition(AssociatedObject)); //屏幕坐标系下鼠标的位置
-                double y = mousePosition.Y - (AssociatedObject.PointToScreen(new Point(0, 0)).Y + 100 / 2); // y距离 有正负
-                double x = mousePosition.X - (AssociatedObject.PointToScreen(new Point(0, 0)).X + 216 / 2); // x距离 有正负
+                mousePosition = AssociatedObject.PointToScreen(e.GetPosition(AssociatedObject)); //屏幕坐标系下鼠标的位置
+                if (!(Math.Abs(mousePosition.X - _lastMousePosition.X) > Threshold ||
+                    Math.Abs(mousePosition.Y - _lastMousePosition.Y) > Threshold))
+                {
+                    _lastMousePosition = mousePosition;
+                    return;
+                }
+                _lastMousePosition = mousePosition;
+                Point objectScreenPosition = AssociatedObject.PointToScreen(new Point(0, 0));
+                double y = mousePosition.Y - (objectScreenPosition.Y + 100 / 2); // y距离 有正负
+                double x = mousePosition.X - (objectScreenPosition.X + 216 / 2); // x距离 有正负
                 double distance = Math.Sqrt(x * x + y * y);
-                double maxdis = Math.Sqrt(216 * 216 + 100 * 100) / 2;
-
-                double tarsX=1, tarsY=1, tarX=0, tarY=0;
+                double tarsX = 1, tarsY = 1, tarX = 0, tarY = 0;
                 //动画1 鼠标在控件内部时 控件放大
                 if (Math.Abs(x) <= 216 / 2 && Math.Abs(y) <= 100 / 2) //鼠标在控件内 应用缩放
                 {
                     //最大变为原来的1.3倍 线性
-                    tarsX = 1.3 - distance / maxdis * 0.3;
-                    tarsY = 1.3 - distance / maxdis * 0.3;
+                    tarsX = 1.3 - distance / _maxDis * 0.3;
+                    tarsY = 1.3 - distance / _maxDis * 0.3;
                 }
 
                 //动画2 对于同一行布局X大小的变换
@@ -90,7 +101,7 @@ namespace Zhaoxi.CourseManagement.ViewModel
                 };
 
             }
-            catch {Application.Current.MainWindow.MouseMove -= MouseMove; }
+            catch(System.InvalidOperationException){ Application.Current.MainWindow.MouseMove -= MouseMove; }
 
         }
 
@@ -112,7 +123,7 @@ namespace Zhaoxi.CourseManagement.ViewModel
                             @"}";
             request.AddParameter("application/json", body, ParameterType.RequestBody);
             RestResponse response = await client.ExecuteAsync(request);
-            Console.WriteLine("玩家数据获取成功");
+            Console.WriteLine("内部界面-玩家数据获取成功");
             Root userMaiData = null;
 
             userMaiData = JsonConvert.DeserializeObject<Root>(response.Content); //从这开始已经转换为内部Model

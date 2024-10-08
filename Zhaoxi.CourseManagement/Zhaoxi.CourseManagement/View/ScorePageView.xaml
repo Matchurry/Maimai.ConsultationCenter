@@ -4,14 +4,14 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:Zhaoxi.CourseManagement.ViewModel"
-             xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
+             xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity" xmlns:local1="clr-namespace:WpfToolkit.Controls;assembly=VirtualizingWrapPanel"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
 
     <UserControl.Resources>
         <PowerEase x:Key="EaseOut" EasingMode="EaseOut"/>
     </UserControl.Resources>
-    
+
     <ScrollViewer VerticalScrollBarVisibility="Hidden">
         <Border CornerRadius="5" Background="White">
             <Grid>
@@ -19,7 +19,7 @@
                     <RowDefinition Height="auto"/>
                     <RowDefinition/>
                 </Grid.RowDefinitions>
-<!--这边是在测试3d控件
+                <!--这边是在测试3d控件
                 <Viewport3D>
                     
                     <Viewport3D.Camera>
@@ -81,16 +81,15 @@
                             <ItemsControl ItemsSource="{Binding charts.dx}">
                                 <ItemsControl.ItemsPanel>
                                     <ItemsPanelTemplate>
-                                        <WrapPanel Orientation="Horizontal"/>
+                                        <local1:VirtualizingWrapPanel Orientation="Horizontal"/>
                                     </ItemsPanelTemplate>
                                 </ItemsControl.ItemsPanel>
                                 <ItemsControl.ItemTemplate>
                                     <DataTemplate> <!--从这里开始是每一块-->
                                         <Grid Background="Transparent" RenderTransformOrigin="0.5, 0.5" Name="ScoreShow">
-                                            <!--
                                             <i:Interaction.Behaviors>
                                                 <local:ResizeByMouseBehavior/>
-                                            </i:Interaction.Behaviors>-->
+                                            </i:Interaction.Behaviors>
                                             <Grid.RenderTransform>
                                                     <TransformGroup x:Name="gridTransformGroup">
                                                         <ScaleTransform ScaleX="1" ScaleY="1" x:Name="gridTransScale"/>
@@ -102,7 +101,7 @@
                                                     <DropShadowEffect Color="Gray" ShadowDepth="0" BlurRadius="5" Opacity="0.3" Direction="0"/>
                                                 </Grid.Effect>
 
-                                            <Grid.Triggers>
+                                            <Grid.Triggers><!--
                                                 <EventTrigger RoutedEvent="Grid.MouseEnter">
                                                         <BeginStoryboard>
                                                             <Storyboard>
@@ -120,7 +119,7 @@
                                                                 <DoubleAnimation Storyboard.TargetName="scoreGridtt" Storyboard.TargetProperty="X" To="0" Duration="0:0:0.1"/>
                                                         </Storyboard>
                                                         </BeginStoryboard>
-                                                    </EventTrigger>
+                                                    </EventTrigger>-->
                                                 <EventTrigger RoutedEvent="Loaded">
                                                     <BeginStoryboard>
                                                         <Storyboard>
@@ -300,17 +299,17 @@
                             <ItemsControl ItemsSource="{Binding charts.sd}">
                                 <ItemsControl.ItemsPanel>
                                     <ItemsPanelTemplate>
-                                        <WrapPanel Orientation="Horizontal"/>
+                                        <local1:VirtualizingWrapPanel Orientation="Horizontal"/>
                                     </ItemsPanelTemplate>
                                 </ItemsControl.ItemsPanel>
                                 <ItemsControl.ItemTemplate>
                                     <DataTemplate>
                                         <!--从这里开始是每一块-->
                                         <Grid Background="Transparent" RenderTransformOrigin="0.5, 0.5" Name="ScoreShow">
-                                            <!--
+
                                             <i:Interaction.Behaviors>
                                                 <local:ResizeByMouseBehavior/>
-                                            </i:Interaction.Behaviors>-->
+                                            </i:Interaction.Behaviors>
                                             <Grid.RenderTransform>
                                                 <TransformGroup x:Name="gridTransformGroup">
                                                     <ScaleTransform ScaleX="1" ScaleY="1" x:Name="gridTransScale"/>
@@ -322,7 +321,7 @@
                                                 <DropShadowEffect Color="Gray" ShadowDepth="0" BlurRadius="5" Opacity="0.3" Direction="0"/>
                                             </Grid.Effect>
 
-                                            <Grid.Triggers>
+                                            <Grid.Triggers><!--
                                                 <EventTrigger RoutedEvent="Grid.MouseEnter">
                                                     <BeginStoryboard>
                                                         <Storyboard>
@@ -340,7 +339,7 @@
                                                             <DoubleAnimation Storyboard.TargetName="scoreGridtt" Storyboard.TargetProperty="X" To="0" Duration="0:0:0.1"/>
                                                         </Storyboard>
                                                     </BeginStoryboard>
-                                                </EventTrigger>
+                                                </EventTrigger>-->
                                                 <EventTrigger RoutedEvent="Loaded">
                                                     <BeginStoryboard>
                                                         <Storyboard>

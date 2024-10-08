@@ -46,21 +46,22 @@ namespace Zhaoxi.CourseManagement.ViewModel
                 MainContent = new MaimaiConsulationCenter.View.LoadingView(); // 加载过渡页面
             }));
 
-            await Task.Run(async () =>
-			{
-                Type type = Type.GetType("Zhaoxi.CourseManagement.View." + o.ToString());
-                ConstructorInfo cti = type.GetConstructor(System.Type.EmptyTypes);
+            //await Task.Run(async () =>
+			//{
+                
 				await Application.Current.Dispatcher.BeginInvoke(new Action(async() =>
 				{
+					Type type = Type.GetType("Zhaoxi.CourseManagement.View." + o.ToString());
+					ConstructorInfo cti = type.GetConstructor(System.Type.EmptyTypes);
 					var tar = (FrameworkElement)cti.Invoke(null);
 					if(tar is IDataLoadable dataLoadablePage)
 					{
-                        await dataLoadablePage.InitializeDataAsync();
+                        await dataLoadablePage.InitializeDataAsync(); //这边等待检测其实也执行了一次 就不需要在初始化的时候再执行了
                     }
 					MainContent = tar;
 
                 }));
-			});
+			//});
 		}
 	}
 }
