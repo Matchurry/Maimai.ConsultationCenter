@@ -26,11 +26,13 @@ namespace MaimaiConsulationCenter.View
         public SongsView()
         {
             InitializeComponent();
+            InitializeDataAsync();
         }
         public async Task InitializeDataAsync()
         {
             await new SongsViewModel().GetSongsDataAsync();
             this.DataContext = GlobalValues.SongsModel;
+            Console.WriteLine(GlobalValues.SongsModel.Count());
         }
     }
 }

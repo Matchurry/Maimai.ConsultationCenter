@@ -2,9 +2,11 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
+using System.Runtime.Caching;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
+using System.Windows.Controls;
 using MaimaiConsulationCenter.Common;
 using MaimaiConsulationCenter.Model;
 using static MaimaiConsulationCenter.Common.Interfaces;
@@ -46,22 +48,23 @@ namespace MaimaiConsulationCenter.ViewModel
                 MainContent = new MaimaiConsulationCenter.View.LoadingView(); // 加载过渡页面
             }));
 
-            //await Task.Run(async () =>
-			//{
-                
-				await Application.Current.Dispatcher.BeginInvoke(new Action(async() =>
-				{
-					Type type = Type.GetType("MaimaiConsulationCenter.View." + o.ToString());
-					ConstructorInfo cti = type.GetConstructor(System.Type.EmptyTypes);
-					var tar = (FrameworkElement)cti.Invoke(null);
-					if(tar is IDataLoadable dataLoadablePage)
-					{
-                        await dataLoadablePage.InitializeDataAsync(); //这边等待检测其实也执行了一次 就不需要在初始化的时候再执行了
-                    }
-					MainContent = tar;
+            MemoryCache cache = MemoryCache.Default;
+            FrameworkElement cachedPage = cache.Get(o.ToString()) as FrameworkElement;
+            MainContent = cachedPage;
 
-                }));
-			//});
-		}
+            /*  时代变了 await Application.Current.Dispatcher.BeginInvoke(new Action(async() =>
+                        {
+                            Type type = Type.GetType("MaimaiConsulationCenter.View." + o.ToString());
+                            ConstructorInfo cti = type.GetConstructor(System.Type.EmptyTypes);
+                            var tar = (FrameworkElement)cti.Invoke(null);
+                            if(tar is IDataLoadable dataLoadablePage)
+                            {
+                                await dataLoadablePage.InitializeDataAsync(); //这边等待检测其实也执行了一次 就不需要在初始化的时候再执行了
+                            }
+                            MainContent = tar;
+
+                        }));*/
+
+        }
 	}
 }

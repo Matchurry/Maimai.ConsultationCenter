@@ -14,6 +14,9 @@ using MaimaiConsulationCenter.DataAccess;
 using MaimaiConsulationCenter.DataAccess.DataEntity;
 using MaimaiConsulationCenter.Model;
 using static MaimaiConsulationCenter.View.LoginView;
+using System.Runtime.Caching;
+using MaimaiConsulationCenter.View;
+using System.Windows.Threading;
 
 namespace MaimaiConsulationCenter.ViewModel
 {
@@ -115,7 +118,16 @@ namespace MaimaiConsulationCenter.ViewModel
                         throw new Exception("用户模型为空 请调试");
                     }
                     GlobalValues.UserInfo = user;
-                    
+
+                    await Application.Current.Dispatcher.BeginInvoke(new Action(() =>
+                    {
+                        //从这里开始缓存所有页面
+                        MemoryCache cache = MemoryCache.Default;
+                        cache.Add("FirstPageView", new FirstPageView(), new CacheItemPolicy() { AbsoluteExpiration = DateTimeOffset.Now.AddDays(1) });
+                        cache.Add("PointsSearchView", new PointsSearchView(), new CacheItemPolicy() { AbsoluteExpiration = DateTimeOffset.Now.AddDays(1) });
+                        cache.Add("SongsView", new SongsView(), new CacheItemPolicy() { AbsoluteExpiration = DateTimeOffset.Now.AddDays(1) });
+                    }));
+
                     //登录成功
                     Messenger.Default.Send(new LoginSuccessMessage());
                     await Task.Delay(800);

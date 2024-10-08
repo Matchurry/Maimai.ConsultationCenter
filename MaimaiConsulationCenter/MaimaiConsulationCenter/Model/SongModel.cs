@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Org.BouncyCastle.Bcpg.OpenPgp;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -29,10 +30,16 @@ namespace MaimaiConsulationCenter.Model
         public class Root
         {
             public string id { get; set; }
+            public string song_img_src { get; set; }
             public string title { get; set; }
             public string type { get; set; }
             public List<double> ds { get; set; }
             public List<string> level { get; set; }
+            public string easy { get; set; } = "";
+            public string advanced { get; set; } = "";
+            public string hard { get; set; } = "";
+            public string master { get; set; } = "";
+            public string remaster { get; set; } = "x";
             public List<int> cids { get; set; }
             public List<Chart> charts { get; set; }
             public BasicInfo basic_info { get; set; }

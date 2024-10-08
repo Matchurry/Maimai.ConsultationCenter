@@ -11,8 +11,230 @@
             <ColumnDefinition Width="1*"/>
             <ColumnDefinition Width="3*"/>
         </Grid.ColumnDefinitions>
-        <ItemsControl ItemsSource="{Binding Root}">
-            
-        </ItemsControl>
+        <ScrollViewer VerticalScrollBarVisibility="Hidden">
+            <ItemsControl ItemsSource="{Binding}" Grid.Column="0">
+                <ItemsControl.ItemsPanel>
+                    <ItemsPanelTemplate>
+                        <VirtualizingStackPanel/>
+                    </ItemsPanelTemplate>
+                </ItemsControl.ItemsPanel>
+                <ItemsControl.ItemTemplate>
+                    <DataTemplate>
+                        
+                        <Grid Background="Transparent" RenderTransformOrigin="0.5, 0.5" Name="SongShow" Margin="0,10" HorizontalAlignment="Center">
+                            <Grid.Effect>
+                                <DropShadowEffect Color="Gray" ShadowDepth="0" BlurRadius="5" Opacity="0.3" Direction="0"/>
+                            </Grid.Effect>
+                             
+                            <Border Background="White" Height="130" Width="275" Margin="10,10,10,10" CornerRadius="20"/>
+                            <Border Margin="7" CornerRadius="15">
+                                <Border.Style>
+                                    <Style TargetType="{x:Type Border}">
+                                        <Setter Property="Background" Value="#9AD2FE"/><!--默认音击&中二节奏与niconico-->
+                                        <Style.Triggers>
+                                            <DataTrigger Binding="{Binding basic_info.genre}" Value="流行&amp;动漫">
+                                                <Setter Property="Background" Value="#FFD522"/>
+                                            </DataTrigger>
+                                            <DataTrigger Binding="{Binding basic_info.genre}" Value="东方Project">
+                                                <Setter Property="Background" Value="#E9A7FF"/>
+                                            </DataTrigger>
+                                            <DataTrigger Binding="{Binding basic_info.genre}" Value="舞萌">
+                                                <Setter Property="Background" Value="#FBAAA9"/>
+                                            </DataTrigger>
+                                            <DataTrigger Binding="{Binding basic_info.genre}" Value="其他游戏">
+                                                <Setter Property="Background" Value="#BDF9A7"/>
+                                            </DataTrigger>
+                                            <DataTrigger Binding="{Binding basic_info.genre}" Value="宴会场">
+                                                <Setter Property="Background" Value="#AC2B76"/>
+                                            </DataTrigger>
+                                        </Style.Triggers>
+                                    </Style>
+                                </Border.Style>
+                            </Border>
+                            <Border Background="White" Margin="11" CornerRadius="10"/>
+                            <Border Margin="12" CornerRadius="10"> <!--以上都是卡片边框装饰-->
+                                <Border.Style>
+                                    <Style TargetType="{x:Type Border}">
+                                        <Setter Property="Background" Value="#319DF8"/> <!--默认音击&中二节奏与niconico-->
+                                        <Style.Triggers>
+                                            <DataTrigger Binding="{Binding basic_info.genre}" Value="流行&amp;动漫">
+                                                <Setter Property="Background" Value="#FF9C24"/>
+                                            </DataTrigger>
+                                            <DataTrigger Binding="{Binding basic_info.genre}" Value="东方Project">
+                                                <Setter Property="Background" Value="#CA6EE9"/>
+                                            </DataTrigger>
+                                            <DataTrigger Binding="{Binding basic_info.genre}" Value="舞萌">
+                                                <Setter Property="Background" Value="#FF4644"/>
+                                            </DataTrigger>
+                                            <DataTrigger Binding="{Binding basic_info.genre}" Value="其他游戏">
+                                                <Setter Property="Background" Value="#69E03E"/>
+                                            </DataTrigger>
+                                            <DataTrigger Binding="{Binding basic_info.genre}" Value="宴会场">
+                                                <Setter Property="Background" Value="#DD38B7"/>
+                                            </DataTrigger>
+                                        </Style.Triggers>
+                                    </Style>
+                                </Border.Style>
+                            </Border>
+                            <Grid Background="Transparent"> <!--卡片内部装饰-->
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="3*"/>
+                                    <RowDefinition Height="2*"/>
+                                </Grid.RowDefinitions>
+                                <Border Background="White" Grid.Row="1" Margin="15,0,15,15" CornerRadius="0,0,8,8"/>
+                            </Grid>
+                             
+                            <!--卡片内部信息-->
+                            <Grid Background="Transparent" Margin="15">
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="2*"/> <!--定数栏上-->
+                                    <RowDefinition Height="1*"/> <!--定数栏下-->
+                                </Grid.RowDefinitions>
+                                <Grid Grid.Row="0">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="1*"/> <!--左图-->
+                                        <ColumnDefinition Width="2*"/> <!--右展示-->
+                                    </Grid.ColumnDefinitions>
+                                    <Border Grid.Column="0" Height="55" Width="55" Margin="10,0,0,0"
+                                        VerticalAlignment="Center" HorizontalAlignment="Left">
+                                        <Border.Style>
+                                            <Style TargetType="{x:Type Border}">
+                                                <Setter Property="Background" Value="#9AD2FE"/>
+                                                <!--默认音击&中二节奏与niconico-->
+                                                <Style.Triggers>
+                                                    <DataTrigger Binding="{Binding basic_info.genre}" Value="流行&amp;动漫">
+                                                        <Setter Property="Background" Value="#FFD522"/>
+                                                    </DataTrigger>
+                                                    <DataTrigger Binding="{Binding basic_info.genre}" Value="东方Project">
+                                                        <Setter Property="Background" Value="#E9A7FF"/>
+                                                    </DataTrigger>
+                                                    <DataTrigger Binding="{Binding basic_info.genre}" Value="舞萌">
+                                                        <Setter Property="Background" Value="#FBAAA9"/>
+                                                    </DataTrigger>
+                                                    <DataTrigger Binding="{Binding basic_info.genre}" Value="其他游戏">
+                                                        <Setter Property="Background" Value="#BDF9A7"/>
+                                                    </DataTrigger>
+                                                    <DataTrigger Binding="{Binding basic_info.genre}" Value="宴会场">
+                                                        <Setter Property="Background" Value="#AC2B76"/>
+                                                    </DataTrigger>
+                                                </Style.Triggers>
+                                            </Style>
+                                        </Border.Style>
+                                        <Grid>
+                                            <Image Source="../Assets/Images/music.png" MaxHeight="50"
+                                            VerticalAlignment="Center" HorizontalAlignment="Center"/>
+                                            <Image Source="{Binding song_img_src}" MaxHeight="50"
+                                           VerticalAlignment="Center" HorizontalAlignment="Center"/>
+                                        </Grid>
+                                    </Border>
+                                    <!--乐曲展示数据部分-->
+                                    <Grid Grid.Column="1">
+                                        <Grid.RowDefinitions>
+                                            <RowDefinition Height="4*"/> <!--标题-->
+                                            <RowDefinition Height="1*"/> <!--ARTISIT-->
+                                            <RowDefinition Height="3*"/> <!--曲绘-->
+                                        </Grid.RowDefinitions>
+                                        <TextBlock Grid.Row="0" Text="{Binding title}" HorizontalAlignment="Left" VerticalAlignment="Center"
+                                                   Foreground="White" FontSize="15" Margin="-5,5,0,0" FontWeight="Medium"/>
+                                        <TextBlock Grid.Row="1" Text="ARTIST" Margin="-5,0,0,0" Foreground="White"/>
+                                        <TextBlock Grid.Row="2" Text="{Binding basic_info.artist}" HorizontalAlignment="Left" VerticalAlignment="Top"
+                                                   Margin="-5,0,0,0" Foreground="White" FontSize="10"/>
+                                    </Grid>
+  
+                                </Grid>
+                                <!--定数栏-->
+                                <Grid Grid.Row="1">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition/>
+                                        <ColumnDefinition/>
+                                        <ColumnDefinition/>
+                                        <ColumnDefinition/>
+                                        <ColumnDefinition/>
+                                    </Grid.ColumnDefinitions>
+                                    <Border Grid.Column="0" Background="#70D43E" Height="40" Width="40" Margin="0,-5,0,0" CornerRadius="5">
+                                        <Grid>
+                                            <Border Background="White" Margin="2" CornerRadius="5"/>
+                                            <Border Background="#70D43E" Margin="3" CornerRadius="4"/>
+                                            <TextBlock Text="{Binding easy}" Foreground="White" VerticalAlignment="Center" HorizontalAlignment="Center" FontWeight="Medium"/>
+                                        </Grid>
+                                    </Border>
+                                    <Border Grid.Column="1" Background="#F9B709" Height="40" Width="40" Margin="0,-5,0,0" CornerRadius="5">
+                                        <Grid>
+                                            <Border Background="White" Margin="2" CornerRadius="5"/>
+                                            <Border Background="#F9B709" Margin="3" CornerRadius="4"/>
+                                            <TextBlock Text="{Binding advanced}" Foreground="White" VerticalAlignment="Center" HorizontalAlignment="Center" FontWeight="Medium"/>
+                                        </Grid>
+                                    </Border>
+                                    <Border Grid.Column="2" Background="#FE818D" Height="40" Width="40" Margin="0,-5,0,0" CornerRadius="5">
+                                        <Grid>
+                                            <Border Background="White" Margin="2" CornerRadius="5"/>
+                                            <Border Background="#FE818D" Margin="3" CornerRadius="4"/>
+                                            <TextBlock Text="{Binding hard}" Foreground="White" VerticalAlignment="Center" HorizontalAlignment="Center" FontWeight="Medium"/>
+                                        </Grid>
+                                    </Border>
+                                    <Border Grid.Column="3" Background="#9D51DD" Height="40" Width="40" Margin="0,-5,0,0" CornerRadius="5">
+                                        <Grid>
+                                            <Border Background="White" Margin="2" CornerRadius="5"/>
+                                            <Border Background="#9D51DD" Margin="3" CornerRadius="4"/>
+                                            <TextBlock Text="{Binding master}" Foreground="White" VerticalAlignment="Center" HorizontalAlignment="Center" FontWeight="Medium"/>
+                                        </Grid>
+                                    </Border>
+                                    <Border Grid.Column="4" Background="#9D51DD" Height="40" Width="40" Margin="0,-5,0,0" CornerRadius="5">
+                                        <Grid>
+                                            <Border Background="White" Margin="2" CornerRadius="5"/>
+                                            <Border Background="#DAAADF" Margin="3" CornerRadius="4"/>
+                                            <Border Background="White" Margin="4" CornerRadius="3"/>
+                                            <TextBlock Text="{Binding remaster}" Foreground="#9D51DD" VerticalAlignment="Center" HorizontalAlignment="Center" FontWeight="Medium"/>
+                                        </Grid>
+                                    </Border>
+                                </Grid>
+                            </Grid>
+                                
+                            
+                            <!--右上的类型标识-->
+                            <Border Background="White" Height="30" Width="150" VerticalAlignment="Top" HorizontalAlignment="Right"
+                                    Margin="0,-5,20,0" CornerRadius="10">
+                                <Border.Effect>
+                                    <DropShadowEffect Color="Gray" ShadowDepth="0" BlurRadius="5" Opacity="0.1" Direction="0"/>
+                                </Border.Effect>
+                                <Border Margin="2" CornerRadius="8">
+                                    <Border.Style>
+                                        <Style TargetType="{x:Type Border}">
+                                            <Setter Property="Background" Value="#319DF8"/>
+                                            <!--默认音击&中二节奏与niconico-->
+                                            <Style.Triggers>
+                                                <DataTrigger Binding="{Binding basic_info.genre}" Value="流行&amp;动漫">
+                                                    <Setter Property="Background" Value="#FF9C24"/>
+                                                </DataTrigger>
+                                                <DataTrigger Binding="{Binding basic_info.genre}" Value="东方Project">
+                                                    <Setter Property="Background" Value="#CA6EE9"/>
+                                                </DataTrigger>
+                                                <DataTrigger Binding="{Binding basic_info.genre}" Value="舞萌">
+                                                    <Setter Property="Background" Value="#FF4644"/>
+                                                </DataTrigger>
+                                                <DataTrigger Binding="{Binding basic_info.genre}" Value="其他游戏">
+                                                    <Setter Property="Background" Value="#69E03E"/>
+                                                </DataTrigger>
+                                            </Style.Triggers>
+                                        </Style>
+                                    </Border.Style>
+                                    <TextBlock Text="{Binding basic_info.genre}" HorizontalAlignment="Center" VerticalAlignment="Center" 
+                                               Foreground="White" FontWeight="SemiBold"/>
+                                    <!--绑定乐曲类型-->
+                                </Border>
+                            </Border>
+
+                            <Border Background="Transparent" Height="18" Width="58" VerticalAlignment="Top" HorizontalAlignment="Left"
+                                Margin="22.5,0,0,0" CornerRadius="8">
+                                <Border.Effect>
+                                    <DropShadowEffect Color="Gray" ShadowDepth="0" BlurRadius="5" Opacity="0.3" Direction="0"/>
+                                </Border.Effect>
+                                <Image Source="../Assets/Images/MaiType/DX.png" MaxHeight="15"/> <!--绑定dx|sd图源-->
+                            </Border>
+                        </Grid>
+                    </DataTemplate>
+                </ItemsControl.ItemTemplate>
+            </ItemsControl>
+        </ScrollViewer>
     </Grid>
 </UserControl>

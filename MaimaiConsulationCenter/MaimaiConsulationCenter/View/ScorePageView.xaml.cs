@@ -33,6 +33,7 @@ namespace MaimaiConsulationCenter.View
         public PointsSearchView()
         {
             InitializeComponent();
+            InitializeDataAsync();
             //Console.WriteLine("loaded");
         }
         public async Task InitializeDataAsync()

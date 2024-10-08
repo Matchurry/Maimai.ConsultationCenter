@@ -12,7 +12,7 @@
     </UserControl.Resources>
     
     <Grid>
-        <Border Background="White"/>
+        <Border/>
 
         <Image Source="../Assets/Images/Logo.png" Height="50" RenderTransformOrigin="0.5, 0.5">
             <Image.RenderTransform>

@@ -13,7 +13,7 @@
     </UserControl.Resources>
 
     <ScrollViewer VerticalScrollBarVisibility="Hidden">
-        <Border CornerRadius="5" Background="White">
+        <Border CornerRadius="5">
             <Grid>
                 <Grid.RowDefinitions>
                     <RowDefinition Height="auto"/>
