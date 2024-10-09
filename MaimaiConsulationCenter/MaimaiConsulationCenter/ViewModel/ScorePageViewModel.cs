@@ -20,39 +20,47 @@ using System.Windows.Media;
 using System.Windows.Media.Media3D;
 using Mysqlx.Datatypes;
 using System.Windows.Media.Animation;
+using System.Windows.Threading;
 
 namespace MaimaiConsulationCenter.ViewModel
 {
     public class ResizeByMouseBehavior : Behavior<FrameworkElement>
     {
+        private DispatcherTimer timer;
         private static Point mousePosition;
         private Point _lastMousePosition;
-        private const int Threshold = 10; // 鼠标移动阈值
         private static double _maxDis = Math.Sqrt(216 * 216 + 100 * 100) / 2;
 
         protected override void OnAttached()
         {
             base.OnAttached();
-            Application.Current.MainWindow.MouseMove += MouseMove;
+            timer = new DispatcherTimer { Interval = TimeSpan.FromMilliseconds(1) };
+            timer.Tick += Timer_Tick;
+            timer.Start();
         }
 
         protected override void OnDetaching()
         {
-            Application.Current.MainWindow.MouseMove -= MouseMove;
+            timer.Stop();
+            timer.Tick -= Timer_Tick;
             base.OnDetaching();
         }
 
-        private void MouseMove(object sender, MouseEventArgs e)
+        private void Timer_Tick(object sender, EventArgs e)
         {
             try
             {
-                mousePosition = AssociatedObject.PointToScreen(e.GetPosition(AssociatedObject)); //屏幕坐标系下鼠标的位置
-                if (!(Math.Abs(mousePosition.X - _lastMousePosition.X) > Threshold ||
+                // 获取鼠标位置
+                Point currentMousePosition = Mouse.GetPosition(Application.Current.MainWindow);
+                // 将鼠标位置转换为屏幕坐标系下的坐标
+                mousePosition = Application.Current.MainWindow.PointToScreen(currentMousePosition);
+                //mousePosition = AssociatedObject.PointToScreen(e.GetPosition(AssociatedObject)); //屏幕坐标系下鼠标的位置
+/*                if (!(Math.Abs(mousePosition.X - _lastMousePosition.X) > Threshold ||
                     Math.Abs(mousePosition.Y - _lastMousePosition.Y) > Threshold))
                 {
                     _lastMousePosition = mousePosition;
                     return;
-                }
+                }*/
                 _lastMousePosition = mousePosition;
                 Point objectScreenPosition = AssociatedObject.PointToScreen(new Point(0, 0));
                 double y = mousePosition.Y - (objectScreenPosition.Y + 100 / 2); // y距离 有正负
@@ -62,9 +70,9 @@ namespace MaimaiConsulationCenter.ViewModel
                 //动画1 鼠标在控件内部时 控件放大
                 if (Math.Abs(x) <= 216 / 2 && Math.Abs(y) <= 100 / 2) //鼠标在控件内 应用缩放
                 {
-                    //最大变为原来的1.3倍 线性
-                    tarsX = 1.3 - distance / _maxDis * 0.3;
-                    tarsY = 1.3 - distance / _maxDis * 0.3;
+                    //变为原来的1.3倍
+                    tarsX = 1.3;
+                    tarsY = 1.3;
                 }
 
                 //动画2 对于同一行布局X大小的变换
@@ -73,8 +81,7 @@ namespace MaimaiConsulationCenter.ViewModel
                     if(Math.Abs(x) >= 226/2  && Math.Abs(x) <= 206 + 226/2) //鼠标在我之外一个范围内
                     {
                         var cal = Math.Abs(x);
-                        tarX = (cal-226/2)*20/106;
-                        if (cal > 226) tarX = 40 - (cal - 226 / 2) * 20 / 106;
+                        tarX = 25;
                         if (x>0) tarX = -tarX;
                     }
                 }
@@ -85,8 +92,7 @@ namespace MaimaiConsulationCenter.ViewModel
                     if (Math.Abs(y) >= 110 / 2 && Math.Abs(y) <= 90 + 110 / 2) //鼠标在我之外一个范围内
                     {
                         var cal = Math.Abs(y);
-                        tarY = (cal - 100 / 2) * 10 / 50;
-                        if (cal > 95) tarY = 20 - (cal - 100 / 2) * 10 / 50;
+                        tarY = 10;
                         if (y > 0) tarY = -tarY;
                     }
                 }
@@ -101,7 +107,10 @@ namespace MaimaiConsulationCenter.ViewModel
                 };
 
             }
-            catch(System.InvalidOperationException){ Application.Current.MainWindow.MouseMove -= MouseMove; }
+            catch(System.InvalidOperationException){
+                timer.Stop();
+                timer.Tick -= Timer_Tick;
+            }
 
         }
 
@@ -140,7 +149,7 @@ namespace MaimaiConsulationCenter.ViewModel
                 foreach (var item in userMaiData.charts.dx)
                 {
                     item.Zindex = 15 - cnt;
-                    item.song_img_src = String.Format("https://www.diving-fish.com/covers/{0:D5}.png", item.song_id);
+                    item.song_img_src = String.Format("../Assets/Images/MaiSongImages/{0:D5}.png", item.song_id);
                     item.id = cnt++;
                     item.rate_src = String.Format("../Assets/Images/MaiRanks/{0}.png", item.rate);
                     item.type_src = String.Format("../Assets/Images/MaiType/{0}.png", item.type);

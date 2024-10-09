@@ -10,7 +10,7 @@ namespace MaimaiConsulationCenter.Model
 {
     public class LoginModel : NotifyBase
     {
-        private string _UserName;
+        private string _UserName = "AkiraX";
         public LoginModel(string userName, string password, string validationCode)
         {
             UserName = userName;

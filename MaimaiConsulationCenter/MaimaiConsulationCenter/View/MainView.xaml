@@ -126,7 +126,7 @@
     
     
     
-    <Border Margin="5" Background="White" CornerRadius="10" Height="800" Width="auto" VerticalAlignment="Top">
+    <Border Margin="5" Background="White" CornerRadius="10" Height="790" Width="auto" VerticalAlignment="Top">
         <Border.Effect>
             <DropShadowEffect Color="Gray" ShadowDepth="0" BlurRadius="5" Opacity="0.3" Direction="0"/>
         </Border.Effect>
@@ -138,7 +138,7 @@
                         <DoubleAnimation
                             Storyboard.TargetProperty="Height"
                             From="0"
-                            To="800" Duration="0:0:1"
+                            To="790" Duration="0:0:1"
                             EasingFunction="{StaticResource EaseOut}"/>
                     </Storyboard>
                 </BeginStoryboard>

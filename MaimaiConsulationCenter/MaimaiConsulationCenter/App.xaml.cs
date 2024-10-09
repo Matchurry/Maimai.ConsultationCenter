@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Configuration;
 using System.Data;
+using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Windows;
@@ -23,6 +24,7 @@ namespace MaimaiConsulationCenter
                 new MainView().ShowDialog();
             }
             Application.Current.Shutdown();
+
         }
     }
 }

@@ -9,6 +9,7 @@ using System.Threading.Tasks;
 using MaimaiConsulationCenter.Common;
 using MaimaiConsulationCenter.Model;
 using static MaimaiConsulationCenter.Model.SongModel;
+using System.Net;
 
 namespace MaimaiConsulationCenter.ViewModel
 {
@@ -29,9 +30,26 @@ namespace MaimaiConsulationCenter.ViewModel
                 });
             }
 
-            foreach(var item in GlobalValues.SongsModel)
+            //string imageDirectory = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "..", "..","Assets", "Images", "MaiSongImages");
+            foreach (var item in GlobalValues.SongsModel)
             {
-                item.song_img_src = String.Format("https://www.diving-fish.com/covers/{0}.png", item.id.PadLeft(5,'0'));
+                item.song_img_src = String.Format("../Assets/Images/MaiSongImages/{0}.png", item.id.PadLeft(5, '0'));
+ /*                 string url = String.Format("https://www.diving-fish.com/covers/{0}.png", item.id.PadLeft(5,'0'));
+              string imagePath = Path.Combine(imageDirectory, $"{item.id.PadLeft(5, '0')}.png");
+                // 下载图片到指定的目录
+                try
+                {
+                    if (!File.Exists(imagePath))
+                    {
+                        using (WebClient client = new WebClient())
+                        {
+                            client.DownloadFile(url, imagePath);
+                            Console.WriteLine(item.id.PadLeft(5, '0'));
+                        }
+                    }
+                }
+                catch{ }*/
+
                 int cnt = 0;
                 foreach(var dif in item.ds)
                 {
