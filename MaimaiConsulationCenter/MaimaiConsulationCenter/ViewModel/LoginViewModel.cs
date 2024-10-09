@@ -120,8 +120,6 @@ namespace MaimaiConsulationCenter.ViewModel
                         throw new Exception("用户模型为空 请调试");
                     }
                     GlobalValues.UserInfo = user;
-
-                    this.ErrorMessage = "登录成功!即将进入……";
                     await Application.Current.Dispatcher.BeginInvoke(new Action(() =>
                     {
                         //从这里开始缓存所有页面
@@ -131,7 +129,6 @@ namespace MaimaiConsulationCenter.ViewModel
                         cache.Add("SongsView", new SongsView(), new CacheItemPolicy() { AbsoluteExpiration = DateTimeOffset.Now.AddDays(1) });
                     }));
 
-                    await Task.Delay(800);
                     //登录成功
                     Messenger.Default.Send(new LoginSuccessMessage());
                     await Task.Delay(800);

@@ -86,9 +86,9 @@
                                 </ItemsControl.ItemsPanel>
                                 <ItemsControl.ItemTemplate>
                                     <DataTemplate> <!--从这里开始是每一块-->
-                                        <Grid Background="Transparent" RenderTransformOrigin="0.5, 0.5" Name="ScoreShow">
+                                        <Grid Background="Transparent" RenderTransformOrigin="0.5, 0.5" Name="ScoreShow" MouseEnter="Border_MouseEnterB15" MouseLeave="Border_MouseLeaveB50">
                                             <i:Interaction.Behaviors>
-                                                <local:ResizeByMouseBehavior/>
+                                                <local:B15MouseEnterBehavior/>
                                             </i:Interaction.Behaviors>
                                             <Grid.RenderTransform>
                                                     <TransformGroup x:Name="gridTransformGroup">
@@ -305,10 +305,9 @@
                                 <ItemsControl.ItemTemplate>
                                     <DataTemplate>
                                         <!--从这里开始是每一块-->
-                                        <Grid Background="Transparent" RenderTransformOrigin="0.5, 0.5" Name="ScoreShow">
-
+                                        <Grid Background="Transparent" RenderTransformOrigin="0.5, 0.5" Name="ScoreShow" MouseEnter="Border_MouseEnterB35" MouseLeave="Border_MouseLeaveB50">
                                             <i:Interaction.Behaviors>
-                                                <local:ResizeByMouseBehavior/>
+                                                <local:B35MouseEnterBehavior/>
                                             </i:Interaction.Behaviors>
                                             <Grid.RenderTransform>
                                                 <TransformGroup x:Name="gridTransformGroup">
@@ -321,25 +320,26 @@
                                                 <DropShadowEffect Color="Gray" ShadowDepth="0" BlurRadius="5" Opacity="0.3" Direction="0"/>
                                             </Grid.Effect>
 
-                                            <Grid.Triggers><!--
+                                            <Grid.Triggers>
+                                                <!--
                                                 <EventTrigger RoutedEvent="Grid.MouseEnter">
-                                                    <BeginStoryboard>
-                                                        <Storyboard>
-                                                            <DoubleAnimation Storyboard.TargetName="gridTransScale" Storyboard.TargetProperty="ScaleX" To="1.3" Duration="0:0:0.1"/>
-                                                            <DoubleAnimation Storyboard.TargetName="gridTransScale" Storyboard.TargetProperty="ScaleY" To="1.3" Duration="0:0:0.1"/>
-                                                            <DoubleAnimation Storyboard.TargetName="scoreGridtt" Storyboard.TargetProperty="X" To="-25" Duration="0:0:0.1"/>
+                                                        <BeginStoryboard>
+                                                            <Storyboard>
+                                                                <DoubleAnimation Storyboard.TargetName="gridTransScale" Storyboard.TargetProperty="ScaleX" To="1.3" Duration="0:0:0.1"/>
+                                                                <DoubleAnimation Storyboard.TargetName="gridTransScale" Storyboard.TargetProperty="ScaleY" To="1.3" Duration="0:0:0.1"/>
+                                                                <DoubleAnimation Storyboard.TargetName="scoreGridtt" Storyboard.TargetProperty="X" To="-25" Duration="0:0:0.1"/>
                                                         </Storyboard>
-                                                    </BeginStoryboard>
-                                                </EventTrigger>
-                                                <EventTrigger RoutedEvent="Grid.MouseLeave">
-                                                    <BeginStoryboard>
-                                                        <Storyboard>
-                                                            <DoubleAnimation Storyboard.TargetName="gridTransScale" Storyboard.TargetProperty="ScaleX" To="1" Duration="0:0:0.1"/>
-                                                            <DoubleAnimation Storyboard.TargetName="gridTransScale" Storyboard.TargetProperty="ScaleY" To="1" Duration="0:0:0.1"/>
-                                                            <DoubleAnimation Storyboard.TargetName="scoreGridtt" Storyboard.TargetProperty="X" To="0" Duration="0:0:0.1"/>
+                                                        </BeginStoryboard>
+                                                    </EventTrigger>
+                                                    <EventTrigger RoutedEvent="Grid.MouseLeave">
+                                                        <BeginStoryboard>
+                                                            <Storyboard>
+                                                                <DoubleAnimation Storyboard.TargetName="gridTransScale" Storyboard.TargetProperty="ScaleX" To="1" Duration="0:0:0.1"/>
+                                                                <DoubleAnimation Storyboard.TargetName="gridTransScale" Storyboard.TargetProperty="ScaleY" To="1" Duration="0:0:0.1"/>
+                                                                <DoubleAnimation Storyboard.TargetName="scoreGridtt" Storyboard.TargetProperty="X" To="0" Duration="0:0:0.1"/>
                                                         </Storyboard>
-                                                    </BeginStoryboard>
-                                                </EventTrigger>-->
+                                                        </BeginStoryboard>
+                                                    </EventTrigger>-->
                                                 <EventTrigger RoutedEvent="Loaded">
                                                     <BeginStoryboard>
                                                         <Storyboard>
@@ -506,7 +506,6 @@
 
                     </Grid>
                 </Border>
-
             </Grid>
         </Border>
     </ScrollViewer>

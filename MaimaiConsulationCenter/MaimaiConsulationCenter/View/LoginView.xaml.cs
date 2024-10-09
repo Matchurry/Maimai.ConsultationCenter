@@ -38,7 +38,7 @@ namespace MaimaiConsulationCenter.View
         {
             Application.Current.Dispatcher.Invoke(new Action(() =>
             {
-                MainBoder.RaiseEvent(new RoutedEventArgs(AfterLogin));//触发动画
+                MainBoder.RaiseEvent(new RoutedEventArgs(AfterLogin)); //触发动画
             }));
         }
 

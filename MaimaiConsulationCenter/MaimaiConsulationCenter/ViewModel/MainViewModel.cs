@@ -43,6 +43,9 @@ namespace MaimaiConsulationCenter.ViewModel
 
 		private async void DoNavChanged(object o)
 		{
+            if(MainContent!=null && MainContent.ToString() == "MaimaiConsulationCenter.View." + o.ToString())
+                return;
+
             await Application.Current.Dispatcher.BeginInvoke(new Action(() =>
             {
                 MainContent = new MaimaiConsulationCenter.View.LoadingView(); // 加载过渡页面

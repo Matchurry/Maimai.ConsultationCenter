@@ -13,5 +13,7 @@ namespace MaimaiConsulationCenter.Common
     {
         public static UserEntity UserInfo { get; set; }
         public static ObservableCollection<SongModel.Root> SongsModel { get; set; }
+        public static int B15_UI_Id {  get; set; } = 0;
+        public static int B35_UI_Id { get; set; } = 0;
     }
 }

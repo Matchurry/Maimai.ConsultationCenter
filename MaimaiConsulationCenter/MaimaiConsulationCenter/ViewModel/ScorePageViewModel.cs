@@ -21,10 +21,154 @@ using System.Windows.Media.Media3D;
 using Mysqlx.Datatypes;
 using System.Windows.Media.Animation;
 using System.Windows.Threading;
+using GalaSoft.MvvmLight.Messaging;
+using static MaimaiConsulationCenter.View.LoginView;
+using System.Windows.Controls;
 
 namespace MaimaiConsulationCenter.ViewModel
 {
-    public class ResizeByMouseBehavior : Behavior<FrameworkElement>
+    public class B35MouseEnterMessage { };
+    public class B15MouseEnterMessage { };
+    public class B50MouseLeaveMessage { };
+
+    public class B35MouseEnterBehavior: Behavior<FrameworkElement>
+    {
+        private int thisid;
+        private object obj;
+        protected override void OnAttached()
+        {
+            base.OnAttached();
+            obj = (AssociatedObject as Grid).DataContext;
+            if (obj is MaiUserScoresModel.Sd dxItem)
+            {
+                thisid = dxItem.id;
+            }
+            Messenger.Default.Register<B35MouseEnterMessage>(this, Resize);
+            Messenger.Default.Register<B50MouseLeaveMessage>(this, Recover);
+        }
+
+        private void Resize(B35MouseEnterMessage msg)
+        {
+            double tarsX = 1, tarsY = 1, tarX = 0, tarY = 0;
+            var subid = GlobalValues.B35_UI_Id - thisid;
+            switch (subid)
+            {
+                case 0:
+                    tarsX = 1.3;
+                    tarsY = 1.3;
+                    break;
+                case -5:
+                    tarY = 10;
+                    break;
+                case 5:
+                    tarY = -10;
+                    break;
+                case -1:
+                    if ((GlobalValues.B35_UI_Id - 1)%5 != 0 && GlobalValues.B35_UI_Id%5!=0)
+                    {
+                        tarX = 25;
+                    }
+                    break;
+                case 1:
+                    if ((GlobalValues.B35_UI_Id - 1)%5 != 0 && GlobalValues.B35_UI_Id % 5 != 0)
+                    {
+                        tarX = -25;
+                    }
+                    break;
+            }
+
+            AssociatedObject.RenderTransform = new TransformGroup
+            {
+                Children =
+                        {
+                            new TranslateTransform {X = tarX, Y = tarY},
+                            new ScaleTransform { ScaleX = tarsX, ScaleY = tarsY },
+                        }
+            };
+        }
+
+        private void Recover(B50MouseLeaveMessage msg)
+        {
+            AssociatedObject.RenderTransform = new TransformGroup
+            {
+                Children =
+                        {
+                            new TranslateTransform {X = 0, Y = 0},
+                            new ScaleTransform { ScaleX = 1, ScaleY = 1 },
+                        }
+            };
+        }
+    }
+
+    public class B15MouseEnterBehavior : Behavior<FrameworkElement>
+    {
+        private int thisid;
+        private object obj;
+        protected override void OnAttached()
+        {
+            base.OnAttached();
+            obj = (AssociatedObject as Grid).DataContext;
+            if (obj is MaiUserScoresModel.Dx dxItem)
+            {
+                thisid = dxItem.id;
+            }
+            Messenger.Default.Register<B15MouseEnterMessage>(this, Resize);
+            Messenger.Default.Register<B50MouseLeaveMessage>(this, Recover);
+        }
+
+        private void Resize(B15MouseEnterMessage msg)
+        {
+            double tarsX = 1, tarsY = 1, tarX = 0, tarY = 0;
+            var subid = GlobalValues.B15_UI_Id - thisid;
+            switch (subid)
+            {
+                case 0:
+                    tarsX = 1.3;
+                    tarsY = 1.3;
+                    break;
+                case -5:
+                    tarY = 10;
+                    break;
+                case 5:
+                    tarY = -10;
+                    break;
+                case -1:
+                    if ((GlobalValues.B15_UI_Id - 1)%5 != 0 && GlobalValues.B15_UI_Id % 5 != 0)
+                    {
+                        tarX = 25;
+                    }
+                    break;
+                case 1:
+                    if ((GlobalValues.B15_UI_Id - 1)%5 != 0 && GlobalValues.B15_UI_Id % 5 != 0)
+                    {
+                        tarX = -25;
+                    }
+                    break;
+            }
+
+            AssociatedObject.RenderTransform = new TransformGroup
+            {
+                Children =
+                        {
+                            new TranslateTransform {X = tarX, Y = tarY},
+                            new ScaleTransform { ScaleX = tarsX, ScaleY=tarsY },
+                        }
+            };
+        }
+        private void Recover(B50MouseLeaveMessage msg)
+        {
+            AssociatedObject.RenderTransform = new TransformGroup
+            {
+                Children =
+                        {
+                            new TranslateTransform {X = 0, Y = 0},
+                            new ScaleTransform { ScaleX = 1, ScaleY = 1 },
+                        }
+            };
+        }
+    }
+
+/*    public class ResizeByMouseBehavior : Behavior<FrameworkElement>
     {
         private DispatcherTimer timer;
         private static Point mousePosition;
@@ -55,12 +199,12 @@ namespace MaimaiConsulationCenter.ViewModel
                 // 将鼠标位置转换为屏幕坐标系下的坐标
                 mousePosition = Application.Current.MainWindow.PointToScreen(currentMousePosition);
                 //mousePosition = AssociatedObject.PointToScreen(e.GetPosition(AssociatedObject)); //屏幕坐标系下鼠标的位置
-/*                if (!(Math.Abs(mousePosition.X - _lastMousePosition.X) > Threshold ||
+               if (!(Math.Abs(mousePosition.X - _lastMousePosition.X) > Threshold ||
                     Math.Abs(mousePosition.Y - _lastMousePosition.Y) > Threshold))
                 {
                     _lastMousePosition = mousePosition;
                     return;
-                }*/
+                }
                 _lastMousePosition = mousePosition;
                 Point objectScreenPosition = AssociatedObject.PointToScreen(new Point(0, 0));
                 double y = mousePosition.Y - (objectScreenPosition.Y + 100 / 2); // y距离 有正负
@@ -114,7 +258,8 @@ namespace MaimaiConsulationCenter.ViewModel
 
         }
 
-    }
+    }*/
+
     public class ScorePageViewModel:NotifyBase
     {
         public async Task<Root> GetScorePageDataAsync()

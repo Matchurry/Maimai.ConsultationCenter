@@ -21,7 +21,10 @@ using System.Windows.Shapes;
 using MaimaiConsulationCenter.Model;
 using MaimaiConsulationCenter.ViewModel;
 using static MaimaiConsulationCenter.Common.Interfaces;
-using static MaimaiConsulationCenter.Model.MaiUserScoresModel;
+using static MaimaiConsulationCenter.Model.MaiUserScoresModel.Root;
+using MaimaiConsulationCenter.Common;
+using GalaSoft.MvvmLight.Messaging;
+using static MaimaiConsulationCenter.View.LoginView;
 
 namespace MaimaiConsulationCenter.View
 {
@@ -40,6 +43,31 @@ namespace MaimaiConsulationCenter.View
         {
             var DataContext = await new ScorePageViewModel().GetScorePageDataAsync();
             this.DataContext = DataContext;
+        }
+
+        private void Border_MouseEnterB35(object sender, MouseEventArgs e)
+        {
+            var item = (sender as Grid).DataContext;
+            if (item is MaiUserScoresModel.Sd dxItem)
+            {
+                GlobalValues.B35_UI_Id = dxItem.id;
+                Messenger.Default.Send(new B35MouseEnterMessage());
+            }
+        }
+
+        private void Border_MouseEnterB15(object sender, MouseEventArgs e)
+        {
+            var item = (sender as Grid).DataContext;
+            if (item is MaiUserScoresModel.Dx dxItem)
+            {
+                GlobalValues.B15_UI_Id = dxItem.id;
+                Messenger.Default.Send(new B15MouseEnterMessage());
+            }
+        }
+
+        private void Border_MouseLeaveB50(object sender, MouseEventArgs e)
+        {
+            Messenger.Default.Send(new B50MouseLeaveMessage());
         }
     }
 }
