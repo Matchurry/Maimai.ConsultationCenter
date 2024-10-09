@@ -35,6 +35,8 @@ namespace MaimaiConsulationCenter.ViewModel
     {
         private int thisid;
         private object obj;
+        private TranslateTransform translateTransform = new TranslateTransform();
+        private ScaleTransform scaleTransform = new ScaleTransform();
         protected override void OnAttached()
         {
             base.OnAttached();
@@ -43,6 +45,14 @@ namespace MaimaiConsulationCenter.ViewModel
             {
                 thisid = dxItem.id;
             }
+            AssociatedObject.RenderTransform = new TransformGroup
+            {
+                Children =
+                {
+                    translateTransform,
+                    scaleTransform
+                }
+            };
             Messenger.Default.Register<B35MouseEnterMessage>(this, Resize);
             Messenger.Default.Register<B50MouseLeaveMessage>(this, Recover);
         }
@@ -64,39 +74,44 @@ namespace MaimaiConsulationCenter.ViewModel
                     tarY = -10;
                     break;
                 case -1:
-                    if ((GlobalValues.B35_UI_Id - 1)%5 != 0 && GlobalValues.B35_UI_Id%5!=0)
+                    if (GlobalValues.B35_UI_Id % 5 != 0)
                     {
                         tarX = 25;
                     }
                     break;
                 case 1:
-                    if ((GlobalValues.B35_UI_Id - 1)%5 != 0 && GlobalValues.B35_UI_Id % 5 != 0)
+                    if ((GlobalValues.B35_UI_Id - 1) % 5 != 0 )
                     {
                         tarX = -25;
                     }
                     break;
+                default:
+                    return;
             }
 
-            AssociatedObject.RenderTransform = new TransformGroup
-            {
-                Children =
-                        {
-                            new TranslateTransform {X = tarX, Y = tarY},
-                            new ScaleTransform { ScaleX = tarsX, ScaleY = tarsY },
-                        }
-            };
+            var xAnimation = new DoubleAnimation(tarX, TimeSpan.FromSeconds(0.1));
+            var yAnimation = new DoubleAnimation(tarY, TimeSpan.FromSeconds(0.1));
+            var xScaleAnimation = new DoubleAnimation(tarsX, TimeSpan.FromSeconds(0.1));
+            var yScaleAnimation = new DoubleAnimation(tarsY, TimeSpan.FromSeconds(0.1));
+            translateTransform.BeginAnimation(TranslateTransform.XProperty, xAnimation);
+            translateTransform.BeginAnimation(TranslateTransform.YProperty, yAnimation);
+            scaleTransform.BeginAnimation(ScaleTransform.ScaleXProperty, xScaleAnimation);
+            scaleTransform.BeginAnimation(ScaleTransform.ScaleYProperty, yScaleAnimation);
         }
 
         private void Recover(B50MouseLeaveMessage msg)
         {
-            AssociatedObject.RenderTransform = new TransformGroup
-            {
-                Children =
-                        {
-                            new TranslateTransform {X = 0, Y = 0},
-                            new ScaleTransform { ScaleX = 1, ScaleY = 1 },
-                        }
-            };
+            double tarsX = 1, tarsY = 1, tarX = 0, tarY = 0;
+            var subid = GlobalValues.B15_UI_Id - thisid;
+
+            var xAnimation = new DoubleAnimation(tarX, TimeSpan.FromSeconds(0.1));
+            var yAnimation = new DoubleAnimation(tarY, TimeSpan.FromSeconds(0.1));
+            var xScaleAnimation = new DoubleAnimation(tarsX, TimeSpan.FromSeconds(0.1));
+            var yScaleAnimation = new DoubleAnimation(tarsY, TimeSpan.FromSeconds(0.1));
+            translateTransform.BeginAnimation(TranslateTransform.XProperty, xAnimation);
+            translateTransform.BeginAnimation(TranslateTransform.YProperty, yAnimation);
+            scaleTransform.BeginAnimation(ScaleTransform.ScaleXProperty, xScaleAnimation);
+            scaleTransform.BeginAnimation(ScaleTransform.ScaleYProperty, yScaleAnimation);
         }
     }
 
@@ -104,6 +119,8 @@ namespace MaimaiConsulationCenter.ViewModel
     {
         private int thisid;
         private object obj;
+        private TranslateTransform translateTransform = new TranslateTransform();
+        private ScaleTransform scaleTransform = new ScaleTransform();
         protected override void OnAttached()
         {
             base.OnAttached();
@@ -112,6 +129,14 @@ namespace MaimaiConsulationCenter.ViewModel
             {
                 thisid = dxItem.id;
             }
+            AssociatedObject.RenderTransform = new TransformGroup
+            {
+                Children =
+                {
+                    translateTransform,
+                    scaleTransform
+                }
+            };
             Messenger.Default.Register<B15MouseEnterMessage>(this, Resize);
             Messenger.Default.Register<B50MouseLeaveMessage>(this, Recover);
         }
@@ -133,38 +158,43 @@ namespace MaimaiConsulationCenter.ViewModel
                     tarY = -10;
                     break;
                 case -1:
-                    if ((GlobalValues.B15_UI_Id - 1)%5 != 0 && GlobalValues.B15_UI_Id % 5 != 0)
+                    if (GlobalValues.B15_UI_Id % 5 != 0)
                     {
                         tarX = 25;
                     }
                     break;
                 case 1:
-                    if ((GlobalValues.B15_UI_Id - 1)%5 != 0 && GlobalValues.B15_UI_Id % 5 != 0)
+                    if ((GlobalValues.B15_UI_Id - 1)%5 != 0)
                     {
                         tarX = -25;
                     }
                     break;
+                default:
+                    return;
             }
 
-            AssociatedObject.RenderTransform = new TransformGroup
-            {
-                Children =
-                        {
-                            new TranslateTransform {X = tarX, Y = tarY},
-                            new ScaleTransform { ScaleX = tarsX, ScaleY=tarsY },
-                        }
-            };
+            var xAnimation = new DoubleAnimation(tarX, TimeSpan.FromSeconds(0.1));
+            var yAnimation = new DoubleAnimation(tarY, TimeSpan.FromSeconds(0.1));
+            var xScaleAnimation = new DoubleAnimation(tarsX, TimeSpan.FromSeconds(0.1));
+            var yScaleAnimation = new DoubleAnimation(tarsY, TimeSpan.FromSeconds(0.1));
+            translateTransform.BeginAnimation(TranslateTransform.XProperty, xAnimation);
+            translateTransform.BeginAnimation(TranslateTransform.YProperty, yAnimation);
+            scaleTransform.BeginAnimation(ScaleTransform.ScaleXProperty, xScaleAnimation);
+            scaleTransform.BeginAnimation(ScaleTransform.ScaleYProperty, yScaleAnimation);
         }
         private void Recover(B50MouseLeaveMessage msg)
         {
-            AssociatedObject.RenderTransform = new TransformGroup
-            {
-                Children =
-                        {
-                            new TranslateTransform {X = 0, Y = 0},
-                            new ScaleTransform { ScaleX = 1, ScaleY = 1 },
-                        }
-            };
+            double tarsX = 1, tarsY = 1, tarX = 0, tarY = 0;
+            var subid = GlobalValues.B15_UI_Id - thisid;
+
+            var xAnimation = new DoubleAnimation(tarX, TimeSpan.FromSeconds(0.1));
+            var yAnimation = new DoubleAnimation(tarY, TimeSpan.FromSeconds(0.1));
+            var xScaleAnimation = new DoubleAnimation(tarsX, TimeSpan.FromSeconds(0.1));
+            var yScaleAnimation = new DoubleAnimation(tarsY, TimeSpan.FromSeconds(0.1));
+            translateTransform.BeginAnimation(TranslateTransform.XProperty, xAnimation);
+            translateTransform.BeginAnimation(TranslateTransform.YProperty, yAnimation);
+            scaleTransform.BeginAnimation(ScaleTransform.ScaleXProperty, xScaleAnimation);
+            scaleTransform.BeginAnimation(ScaleTransform.ScaleYProperty, yScaleAnimation);
         }
     }
 
@@ -289,12 +319,15 @@ namespace MaimaiConsulationCenter.ViewModel
             string jsonFile = System.IO.File.ReadAllText(jsonFilePath);
             ObservableCollection<SongModel.Root> songDatas = JsonConvert.DeserializeObject<ObservableCollection<SongModel.Root>>(jsonFile);
             GlobalValues.SongsModel = songDatas;
-            var cnt = 1;
+            var cnt = 1; string imageDirectory = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "..", "..", "Assets", "Images", "MaiSongImages");
             if (userMaiData.charts != null && userMaiData.charts.dx.Count != 0)
                 foreach (var item in userMaiData.charts.dx)
                 {
                     item.Zindex = 15 - cnt;
                     item.song_img_src = String.Format("../Assets/Images/MaiSongImages/{0:D5}.png", item.song_id);
+                    string imagePath = Path.Combine(imageDirectory, String.Format("{0:D5}.png", item.song_id));
+                    if (!System.IO.File.Exists(imagePath))
+                        item.song_img_src = "../Assets/Images/null.png";
                     item.id = cnt++;
                     item.rate_src = String.Format("../Assets/Images/MaiRanks/{0}.png", item.rate);
                     item.type_src = String.Format("../Assets/Images/MaiType/{0}.png", item.type);
@@ -340,6 +373,9 @@ namespace MaimaiConsulationCenter.ViewModel
                 foreach (var item in userMaiData.charts.sd)
                 {
                     item.song_img_src = String.Format("https://www.diving-fish.com/covers/{0:D5}.png", item.song_id);
+                    string imagePath = Path.Combine(imageDirectory, String.Format("{0:D5}.png", item.song_id));
+                    if (!System.IO.File.Exists(imagePath))
+                        item.song_img_src = "../Assets/Images/null.png";
                     item.id = cnt++;
                     item.rate_src = String.Format("../Assets/Images/MaiRanks/{0}.png", item.rate);
                     item.type_src = String.Format("../Assets/Images/MaiType/{0}.png", item.type);

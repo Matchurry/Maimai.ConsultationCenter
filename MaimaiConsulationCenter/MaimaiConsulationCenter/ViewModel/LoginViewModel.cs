@@ -124,11 +124,14 @@ namespace MaimaiConsulationCenter.ViewModel
                     {
                         //从这里开始缓存所有页面
                         MemoryCache cache = MemoryCache.Default;
+                        //ErrorMessage = "正在加载主界面";
                         cache.Add("FirstPageView", new FirstPageView(), new CacheItemPolicy() { AbsoluteExpiration = DateTimeOffset.Now.AddDays(1) });
+                        //ErrorMessage = "正在加载B50界面";
                         cache.Add("PointsSearchView", new PointsSearchView(), new CacheItemPolicy() { AbsoluteExpiration = DateTimeOffset.Now.AddDays(1) });
+                        //ErrorMessage = "正在加载全歌曲界面";
                         cache.Add("SongsView", new SongsView(), new CacheItemPolicy() { AbsoluteExpiration = DateTimeOffset.Now.AddDays(1) });
-                    }));
-
+                        //ErrorMessage = "加载完毕";
+                    })); 
                     //登录成功
                     Messenger.Default.Send(new LoginSuccessMessage());
                     await Task.Delay(800);
