@@ -12,7 +12,7 @@
             <ColumnDefinition Width="3*"/>
         </Grid.ColumnDefinitions>
 
-            <ItemsControl ItemsSource="{Binding}" Grid.Column="0"
+        <ItemsControl ItemsSource="{Binding}" Grid.Column="0"
                           VirtualizingPanel.ScrollUnit="Pixel"
                           VirtualizingStackPanel.IsVirtualizing="True" 
                           VirtualizingStackPanel.VirtualizationMode="Recycling">
@@ -145,7 +145,7 @@
                                         </Grid.RowDefinitions>
                                         <TextBlock Grid.Row="0" Text="{Binding title}" HorizontalAlignment="Left" VerticalAlignment="Center"
                                                    Foreground="White" FontSize="15" Margin="-5,5,0,0" FontWeight="Medium"/>
-                                        <TextBlock Grid.Row="1" Text="ARTIST" Margin="-5,0,0,0" Foreground="White"/>
+                                        <TextBlock Grid.Row="1" Text="ARTIST" Margin="-5,-5,0,0" Foreground="White"/>
                                         <TextBlock Grid.Row="2" Text="{Binding basic_info.artist}" HorizontalAlignment="Left" VerticalAlignment="Top"
                                                    Margin="-5,0,0,0" Foreground="White" FontSize="10"/>
                                     </Grid>

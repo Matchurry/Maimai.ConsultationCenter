@@ -5,6 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:MaimaiConsulationCenter"
         xmlns:coverter="clr-namespace:MaimaiConsulationCenter.Assets.Convertor"
+        xmlns:vlc="clr-namespace:Vlc.DotNet.Wpf;assembly=Vlc.DotNet.Wpf"
         mc:Ignorable="d"
         Title="迪拉熊咨询平台" Height="800" Width="1250"
         FontFamily="Microsoft YaHei" FontWeight="ExtraLight" FontSize="12"
@@ -23,6 +24,7 @@
                     <coverter:GenderConvertor x:Key="genderConverter"/>
 
                     <Style TargetType="RadioButton" x:Key="NavButtonStyle">
+                        <Setter Property="Cursor" Value="Hand"/>
                         <Setter Property="Foreground" Value="White" />
                         <Setter Property="Template">
                             <Setter.Value>
@@ -146,8 +148,7 @@
         </Border.Triggers>
         
         <Grid>
-
-
+            <vlc:VlcControl x:Name="bud" Opacity="0.1" Margin="0,80,0,0"/>
             <Border Background="#F79645" Height="200" VerticalAlignment="Top" CornerRadius="10,10,0,0"
                     MouseLeftButtonDown="Border_MouseLeftButtonDown"/>
             
@@ -206,6 +207,7 @@
                     <RadioButton Content="社区中心" Style="{StaticResource NavButtonStyle}"/>
                     <RadioButton Content="个人中心" Style="{StaticResource NavButtonStyle}"/>
                 </StackPanel>
+
 
                 <TextBox Template="{StaticResource SearchTextBoxTemplate}" Grid.Row="1" VerticalAlignment="Center" HorizontalAlignment="Right" 
                          Width="300" Height="32" Text="{Binding SearchText}" Foreground="White"/>

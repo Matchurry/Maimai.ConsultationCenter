@@ -1,8 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Web.UI.WebControls;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
@@ -12,6 +14,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using LibVLCSharp.Shared;
 using MaimaiConsulationCenter.Common;
 using MaimaiConsulationCenter.ViewModel;
 
@@ -22,6 +25,10 @@ namespace MaimaiConsulationCenter.View
     /// </summary>
     public partial class MainView : Window
     {
+        protected override void OnClosed(EventArgs e)
+        {
+            base.OnClosed(e);
+        }
         public MainView()
         {
             InitializeComponent();
@@ -31,6 +38,13 @@ namespace MaimaiConsulationCenter.View
             model.UserInfo.Avatar = GlobalValues.UserInfo.Avatar;
             model.UserInfo.UserName = GlobalValues.UserInfo.RealName;
             model.UserInfo.Gender = GlobalValues.UserInfo.Gender;
+            Console.WriteLine(AppDomain.CurrentDomain.BaseDirectory);
+            var currentDirectory = System.IO.Path.Combine(AppDomain.CurrentDomain.BaseDirectory,"..","..","Assets","VLC");
+            var libDirectory = new DirectoryInfo(currentDirectory);
+            bud.SourceProvider.CreatePlayer(libDirectory);
+            var mediaPath = "d:/MatchurryPanMoving/.NET/git/MaimaiConsultationCentre/MaimaiConsulationCenter/MaimaiConsulationCenter/Assets/VIdeos/bud.mp4";
+            bud.SourceProvider.MediaPlayer.Play(new Uri(mediaPath));
+
 
             this.MaxHeight=SystemParameters.PrimaryScreenHeight;
         }
@@ -57,5 +71,7 @@ namespace MaimaiConsulationCenter.View
         {
             Close();
         }
+
+
     }
 }
