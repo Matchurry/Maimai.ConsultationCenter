@@ -25,6 +25,8 @@ namespace MaimaiConsulationCenter.View
     /// </summary>
     public partial class MainView : Window
     {
+        private static DirectoryInfo libDirectory;
+        private static string bud_src = "d:/MatchurryPanMoving/.NET/git/MaimaiConsultationCentre/MaimaiConsulationCenter/MaimaiConsulationCenter/Assets/Videos/bud.mp4";
         protected override void OnClosed(EventArgs e)
         {
             base.OnClosed(e);
@@ -32,6 +34,7 @@ namespace MaimaiConsulationCenter.View
         public MainView()
         {
             InitializeComponent();
+            this.MaxHeight = SystemParameters.PrimaryScreenHeight;
             this.Topmost = true;
             MainViewModel model = new MainViewModel();
             DataContext = model;
@@ -39,14 +42,29 @@ namespace MaimaiConsulationCenter.View
             model.UserInfo.UserName = GlobalValues.UserInfo.RealName;
             model.UserInfo.Gender = GlobalValues.UserInfo.Gender;
             Console.WriteLine(AppDomain.CurrentDomain.BaseDirectory);
+
             var currentDirectory = System.IO.Path.Combine(AppDomain.CurrentDomain.BaseDirectory,"..","..","Assets","VLC");
-            var libDirectory = new DirectoryInfo(currentDirectory);
+            libDirectory = new DirectoryInfo(currentDirectory);
             bud.SourceProvider.CreatePlayer(libDirectory);
-            var mediaPath = "d:/MatchurryPanMoving/.NET/git/MaimaiConsultationCentre/MaimaiConsulationCenter/MaimaiConsulationCenter/Assets/VIdeos/bud.mp4";
-            bud.SourceProvider.MediaPlayer.Play(new Uri(mediaPath));
+            
+            bud.SourceProvider.MediaPlayer.SetMedia(new FileInfo(bud_src), new String[]{"input-repeat=65535"});
+            bud.SourceProvider.MediaPlayer.Play();
 
+            //bud.SourceProvider.MediaPlayer.EndReached += MediaPlayerEndEvent;
+        }
 
-            this.MaxHeight=SystemParameters.PrimaryScreenHeight;
+        private void MediaPlayerEndEvent(object sender, Vlc.DotNet.Core.VlcMediaPlayerEndReachedEventArgs e)
+        {
+            var obj = bud; //注意更改
+            Task.Factory.StartNew(() =>
+            {
+                obj.Dispose();
+                Application.Current.Dispatcher.BeginInvoke(new Action(()=>{
+                    obj.SourceProvider.CreatePlayer(libDirectory);
+                    obj.SourceProvider.MediaPlayer.Play(bud_src); //注意更改
+                    obj.SourceProvider.MediaPlayer.EndReached += MediaPlayerEndEvent;
+                }));
+            });
         }
 
         private void Border_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)

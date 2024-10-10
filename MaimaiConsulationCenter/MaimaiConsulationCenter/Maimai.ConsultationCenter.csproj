@@ -1582,8 +1582,7 @@
     <Resource Include="Assets\Images\MaiSongImages\11607.png" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Assets\VIdeos\bud.mp4" />
-    <Content Include="Assets\VIdeos\test.mp4" />
+    <Content Include="Assets\Videos\bud.mp4" />
     <Resource Include="Assets\VLC\AUTHORS.txt" />
     <Content Include="Assets\VLC\axvlc.dll" />
     <Resource Include="Assets\VLC\COPYING.txt" />

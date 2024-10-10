@@ -133,6 +133,8 @@
             <DropShadowEffect Color="Gray" ShadowDepth="0" BlurRadius="5" Opacity="0.3" Direction="0"/>
         </Border.Effect>
 
+        
+
         <Border.Triggers>
             <EventTrigger RoutedEvent="Loaded">
                 <BeginStoryboard>
@@ -148,7 +150,20 @@
         </Border.Triggers>
         
         <Grid>
-            <vlc:VlcControl x:Name="bud" Opacity="0.1" Margin="0,80,0,0"/>
+            <vlc:VlcControl x:Name="bud" Opacity="0" Margin="0,90,0,0" Background="Transparent">
+                <vlc:VlcControl.Triggers>
+                    <EventTrigger RoutedEvent="Loaded">
+                        <BeginStoryboard>
+                            <Storyboard>
+                                <DoubleAnimation
+                                    Storyboard.TargetProperty="Opacity"
+                                    From="0" BeginTime="0:0:1"
+                                    To="0.1" Duration="0:0:1"/>
+                            </Storyboard>
+                        </BeginStoryboard>
+                    </EventTrigger>
+                </vlc:VlcControl.Triggers>
+            </vlc:VlcControl>
             <Border Background="#F79645" Height="200" VerticalAlignment="Top" CornerRadius="10,10,0,0"
                     MouseLeftButtonDown="Border_MouseLeftButtonDown"/>
             
@@ -213,6 +228,7 @@
                          Width="300" Height="32" Text="{Binding SearchText}" Foreground="White"/>
 
                 <ContentControl Grid.Row="2" Content="{Binding MainContent}"/>
+
             </Grid>
             
             <!--抽屉式侧滑栏-->
