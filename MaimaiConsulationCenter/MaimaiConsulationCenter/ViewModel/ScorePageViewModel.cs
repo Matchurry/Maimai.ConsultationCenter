@@ -372,7 +372,7 @@ namespace MaimaiConsulationCenter.ViewModel
             if (userMaiData.charts != null && userMaiData.charts.sd.Count != 0)
                 foreach (var item in userMaiData.charts.sd)
                 {
-                    item.song_img_src = String.Format("https://www.diving-fish.com/covers/{0:D5}.png", item.song_id);
+                    item.song_img_src = String.Format("../Assets/Images/MaiSongImages/{0:D5}.png", item.song_id);
                     string imagePath = Path.Combine(imageDirectory, String.Format("{0:D5}.png", item.song_id));
                     if (!System.IO.File.Exists(imagePath))
                         item.song_img_src = "../Assets/Images/null.png";

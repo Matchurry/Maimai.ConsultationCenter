@@ -1582,6 +1582,8 @@
     <Resource Include="Assets\Images\MaiSongImages\11607.png" />
   </ItemGroup>
   <ItemGroup>
+    <Resource Include="Assets\Images\MaiNotes\BreakSlidePointer.jpg" />
+    <Resource Include="Assets\Images\MaiNotes\SlidePointer.jpg" />
     <Content Include="Assets\Videos\bud.mp4" />
     <Resource Include="Assets\VLC\AUTHORS.txt" />
     <Content Include="Assets\VLC\axvlc.dll" />

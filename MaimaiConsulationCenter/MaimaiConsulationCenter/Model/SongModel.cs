@@ -31,7 +31,7 @@ namespace MaimaiConsulationCenter.Model
         {
             public string id { get; set; }
             public string song_img_src { get; set; }
-            public string title { get; set; }
+            public string title { get; set; } = "test";
             public string type { get; set; }
             public List<double> ds { get; set; }
             public List<string> level { get; set; }
