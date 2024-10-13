@@ -17,10 +17,13 @@ using System.Windows.Input;
 using System.Windows.Controls;
 using System.Windows.Media.Imaging;
 using System.Windows.Media;
+using System.Windows.Media.Animation;
+using System.Windows.Media.Media3D;
 
 namespace MaimaiConsulationCenter.ViewModel
 {
-    public class SongClick { };
+    public class SongClick { }; //切换到新的曲子时
+    public class DifClick { }; //谱面难度切换时
     /// <summary>
     /// 左侧虚拟化全曲展示列的行为
     /// </summary>
@@ -48,18 +51,45 @@ namespace MaimaiConsulationCenter.ViewModel
             Messenger.Default.Send(new SongClick());
         }
     }
+    public class NewFidForNewColor : Behavior<Border>
+    {
+        private string[] difcolors = { "#70D43E", "#F9B709", "#FE818D", "#9D51DD", "#DAAADF" };
+        protected override void OnAttached()
+        {
+            base.OnAttached();
+            Messenger.Default.Register<SongClick>(this, ChangeColor);
+            Messenger.Default.Register<DifClick>(this, ChangeColorDif);
+        }
+        private void ChangeColor(SongClick e)
+        {
+            ChangeColorDif(new DifClick());
+        }
+        private void ChangeColorDif(DifClick e)
+        {
+            ColorAnimation animation = new ColorAnimation();
+            animation.To = (Color)ColorConverter.ConvertFromString(difcolors[GlobalValues.now_dif_index]);
+            animation.Duration = new Duration(TimeSpan.FromSeconds(0.2));
+            AssociatedObject.Background.BeginAnimation(SolidColorBrush.ColorProperty, animation);
+        }
+    }
     public class BreakNotesChange : Behavior<TextBlock>
     {
         protected override void OnAttached()
         {
             base.OnAttached();
             Messenger.Default.Register<SongClick>(this, ChangeText);
+            Messenger.Default.Register<DifClick>(this, ChangeTextDif);
         }
-        private void ChangeText(SongClick e)
+        private async void ChangeText(SongClick e)
         {
+            await Task.Delay(100);
             if (GlobalValues.SingleSongShow.charts[GlobalValues.now_dif_index].notes.Count < 5)
                 AssociatedObject.Text = GlobalValues.SingleSongShow.charts[GlobalValues.now_dif_index].notes[3].ToString();
             else AssociatedObject.Text = GlobalValues.SingleSongShow.charts[GlobalValues.now_dif_index].notes[4].ToString();
+        }
+        private void ChangeTextDif(DifClick e)
+        {
+            ChangeText(new SongClick());
         }
     }
     public class TouchNotesChange : Behavior<TextBlock>
@@ -68,12 +98,18 @@ namespace MaimaiConsulationCenter.ViewModel
         {
             base.OnAttached();
             Messenger.Default.Register<SongClick>(this, ChangeText);
+            Messenger.Default.Register<DifClick>(this, ChangeTextDif);
         }
-        private void ChangeText(SongClick e)
+        private async void ChangeText(SongClick e)
         {
+            await Task.Delay(100);
             if (GlobalValues.SingleSongShow.charts[GlobalValues.now_dif_index].notes.Count < 5)
                 AssociatedObject.Text = "0";
             else AssociatedObject.Text = GlobalValues.SingleSongShow.charts[GlobalValues.now_dif_index].notes[3].ToString();
+        }
+        private void ChangeTextDif(DifClick e)
+        {
+            ChangeText(new SongClick());
         }
     }
     public class SlideNotesChange : Behavior<TextBlock>
@@ -82,10 +118,16 @@ namespace MaimaiConsulationCenter.ViewModel
         {
             base.OnAttached();
             Messenger.Default.Register<SongClick>(this, ChangeText);
+            Messenger.Default.Register<DifClick>(this, ChangeTextDif);
         }
-        private void ChangeText(SongClick e)
+        private async void ChangeText(SongClick e)
         {
+            await Task.Delay(100);
             AssociatedObject.Text = GlobalValues.SingleSongShow.charts[GlobalValues.now_dif_index].notes[2].ToString();
+        }
+        private void ChangeTextDif(DifClick e)
+        {
+            ChangeText(new SongClick());
         }
     }
     public class HoldNotesChange : Behavior<TextBlock>
@@ -94,10 +136,16 @@ namespace MaimaiConsulationCenter.ViewModel
         {
             base.OnAttached();
             Messenger.Default.Register<SongClick>(this, ChangeText);
+            Messenger.Default.Register<DifClick>(this, ChangeTextDif);
         }
-        private void ChangeText(SongClick e)
+        private async void ChangeText(SongClick e)
         {
+            await Task.Delay(100);
             AssociatedObject.Text = GlobalValues.SingleSongShow.charts[GlobalValues.now_dif_index].notes[1].ToString();
+        }
+        private void ChangeTextDif(DifClick e)
+        {
+            ChangeText(new SongClick());
         }
     }
     public class TapNotesChange : Behavior<TextBlock>
@@ -106,10 +154,16 @@ namespace MaimaiConsulationCenter.ViewModel
         {
             base.OnAttached();
             Messenger.Default.Register<SongClick>(this, ChangeText);
+            Messenger.Default.Register<DifClick>(this, ChangeTextDif);
         }
-        private void ChangeText(SongClick e)
+        private async void ChangeText(SongClick e)
         {
+            await Task.Delay(100);
             AssociatedObject.Text = GlobalValues.SingleSongShow.charts[GlobalValues.now_dif_index].notes[0].ToString();
+        }
+        private void ChangeTextDif(DifClick e)
+        {
+            ChangeText(new SongClick());
         }
     }
     public class TotalNotesChange : Behavior<TextBlock>
@@ -118,15 +172,21 @@ namespace MaimaiConsulationCenter.ViewModel
         {
             base.OnAttached();
             Messenger.Default.Register<SongClick>(this, ChangeText);
+            Messenger.Default.Register<DifClick>(this, ChangeTextDif);
         }
-        private void ChangeText(SongClick e)
+        private async void ChangeText(SongClick e)
         {
             var total = 0;
             foreach(var item in GlobalValues.SingleSongShow.charts[GlobalValues.now_dif_index].notes)
             {
                 total += item;
             }
+            await Task.Delay(100);
             AssociatedObject.Text = total.ToString();
+        }
+        private void ChangeTextDif(DifClick e)
+        {
+            ChangeText(new SongClick());
         }
     }
     public class NoterDifChange : Behavior<TextBlock>
@@ -135,10 +195,16 @@ namespace MaimaiConsulationCenter.ViewModel
         {
             base.OnAttached();
             Messenger.Default.Register<SongClick>(this, ChangeText);
+            Messenger.Default.Register<DifClick>(this, ChangeTextDif);
         }
-        private void ChangeText(SongClick e)
+        private async void ChangeText(SongClick e)
         {
+            await Task.Delay(100);
             AssociatedObject.Text = GlobalValues.SingleSongShow.charts[GlobalValues.now_dif_index].charter;
+        }
+        private void ChangeTextDif(DifClick e)
+        {
+            ChangeText(new SongClick());
         }
     }
     public class LevelDifChange : Behavior<TextBlock>
@@ -147,10 +213,16 @@ namespace MaimaiConsulationCenter.ViewModel
         {
             base.OnAttached();
             Messenger.Default.Register<SongClick>(this, ChangeText);
+            Messenger.Default.Register<DifClick>(this, ChangeTextDif);
         }
-        private void ChangeText(SongClick e)
+        private async void ChangeText(SongClick e)
         {
+            await Task.Delay(100);
             AssociatedObject.Text = GlobalValues.SingleSongShow.ds[GlobalValues.now_dif_index].ToString();
+        }
+        private void ChangeTextDif(DifClick e)
+        {
+            ChangeText(new SongClick());
         }
     }
     /// <summary>
@@ -158,22 +230,25 @@ namespace MaimaiConsulationCenter.ViewModel
     /// </summary>
     public class DifBoderChange : Behavior<Border>
     {
+        private static TranslateTransform translateTransform;
         protected override void OnAttached()
         {
             base.OnAttached();
             Messenger.Default.Register<SongClick>(this, ChangePos);
+            Messenger.Default.Register<DifClick>(this, ChangePosAni);
         }
-        private void ChangePos(SongClick e)
+        private async void ChangePos(SongClick e)
         {
-            TranslateTransform translateTransform = new TranslateTransform();
-            if (GlobalValues.now_dif_index == 4)
+            translateTransform = new TranslateTransform();
+            if (GlobalValues.SingleSongShow.charts.Count==5)
             {
-                translateTransform.X = 330;
+                translateTransform.X = 310;
             }
             else
             {
-                translateTransform.X = 315;
+                translateTransform.X = 285;
             }
+            await Task.Delay(100);
             AssociatedObject.RenderTransform = new TransformGroup
             {
                 Children =
@@ -181,6 +256,20 @@ namespace MaimaiConsulationCenter.ViewModel
                         translateTransform
                     }
             };
+        }
+        private void ChangePosAni(DifClick e)
+        {
+            var x = 0.0;
+            if (GlobalValues.SingleSongShow.charts.Count == 5)
+            {
+                x = 77.5 * GlobalValues.now_dif_index;
+            }
+            else
+            {
+                x = 95 * GlobalValues.now_dif_index;
+            }
+            var xani = new DoubleAnimation(x,TimeSpan.FromSeconds(0.1));
+            translateTransform.BeginAnimation(TranslateTransform.XProperty,xani);
         }
     }
     /// <summary>
@@ -193,8 +282,9 @@ namespace MaimaiConsulationCenter.ViewModel
             base.OnAttached();
             Messenger.Default.Register<SongClick>(this, ChangeWidth);
         }
-        private void ChangeWidth(SongClick e)
+        private async void ChangeWidth(SongClick e)
         {
+            await Task.Delay(100);
             if(GlobalValues.now_dif_index == 4)
             {
                 AssociatedObject.Width = new GridLength(1, GridUnitType.Star);

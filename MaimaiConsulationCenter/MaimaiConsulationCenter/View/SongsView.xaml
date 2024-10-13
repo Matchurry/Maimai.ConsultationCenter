@@ -18,9 +18,9 @@
 
     <Grid>
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="1*"/>
-            <ColumnDefinition Width="50"/>
-            <ColumnDefinition Width="3*"/>
+            <ColumnDefinition Width="1.1*"/>
+            <ColumnDefinition Width="100"/>
+            <ColumnDefinition Width="2.9*"/>
         </Grid.ColumnDefinitions>
         <!--左侧乐曲展示部分-->
         <ItemsControl ItemsSource="{Binding}" Grid.Column="0"
@@ -324,7 +324,26 @@
             </Grid.ColumnDefinitions>
             <!--点击前的文字提示-->
             <TextBlock Grid.ColumnSpan="2" Grid.RowSpan="4" VerticalAlignment="Center" HorizontalAlignment="Center"
-                       Text="请点击左侧乐曲以查看详细信息" Foreground="Gray"/>
+                       Text="请点击左侧乐曲以查看详细信息" Foreground="Gray" Opacity="0" x:Name="HintTB">
+                <TextBlock.Triggers>
+                    <EventTrigger RoutedEvent="Loaded">
+                        <BeginStoryboard>
+                            <Storyboard>
+                                <DoubleAnimation Storyboard.TargetProperty="Opacity"
+                                                 To="1" Duration="0:0:0.5"/>
+                            </Storyboard>
+                        </BeginStoryboard>
+                    </EventTrigger>
+                    <EventTrigger RoutedEvent="TextBlock.AfterClick">
+                        <BeginStoryboard>
+                            <Storyboard>
+                                <DoubleAnimation Storyboard.TargetProperty="Opacity"
+                                                 To="0" Duration="0:0:0.5"/>
+                            </Storyboard>
+                        </BeginStoryboard>
+                    </EventTrigger>
+                </TextBlock.Triggers>
+            </TextBlock>
             <!--上方曲绘和信息-->
             <Grid Grid.Row="0" Grid.ColumnSpan="2">
                 <Grid.ColumnDefinitions>
@@ -528,12 +547,47 @@
             </Grid>
 
             <!--选谱面难度-->
-            <Grid Grid.Row="1" Grid.Column="0" Margin="20,0,0,0">
+            <Grid Grid.Row="1" Grid.Column="0" Margin="20,0,0,0" x:Name="DifVeryGrid">
+                <Grid.RenderTransform>
+                    <TranslateTransform x:Name="ttGd2" Y="500"/>
+                </Grid.RenderTransform>
+
+                <Grid.Triggers>
+                    <EventTrigger RoutedEvent="Grid.AfterClickForDifShow">
+                        <BeginStoryboard>
+                            <Storyboard>
+                                <DoubleAnimation Storyboard.TargetName="ttGd2"
+                                                 Storyboard.TargetProperty="Y"
+                                                 To="-25" Duration="0:0:0.5" EasingFunction="{StaticResource EaseOut}"/>
+                                <DoubleAnimation Storyboard.TargetName="ttGd2"
+                                                 Storyboard.TargetProperty="Y" BeginTime="0:0:0.5"
+                                                 To="0" Duration="0:0:0.3" EasingFunction="{StaticResource EaseOut}"/>
+                            </Storyboard>
+                        </BeginStoryboard>
+                    </EventTrigger>
+                    <EventTrigger RoutedEvent="Grid.AfterClickForDifShowOld">
+                        <BeginStoryboard>
+                            <Storyboard>
+                                <DoubleAnimation Storyboard.TargetName="ttGd2"
+                                                 Storyboard.TargetProperty="Y" BeginTime="0:0:0.1"
+                                                 To="-25" Duration="0:0:0.1" EasingFunction="{StaticResource EaseOut}"/>
+                                <DoubleAnimation Storyboard.TargetName="ttGd2"
+                                                 Storyboard.TargetProperty="Y" BeginTime="0:0:0.2"
+                                                 To="0" Duration="0:0:0.1" EasingFunction="{StaticResource EaseOut}"/>
+                            </Storyboard>
+                        </BeginStoryboard>
+                    </EventTrigger>
+                </Grid.Triggers>
+                
                 <Border Background="#FF9C24" CornerRadius="10,10,0,0">
                     <Border.Effect>
                         <DropShadowEffect Color="Gray" ShadowDepth="0" BlurRadius="5" Opacity="0.3" Direction="0"/>
                     </Border.Effect>
+                    <i:Interaction.Behaviors>
+                        <local:NewFidForNewColor/>
+                    </i:Interaction.Behaviors>
                 </Border>
+                
                 <Grid Margin="10,0">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition/>
@@ -546,11 +600,11 @@
                             </i:Interaction.Behaviors>
                         </ColumnDefinition>
                     </Grid.ColumnDefinitions>
-                    <TextBlock Grid.Column="0" Text="Basic" Cursor="Hand" FontWeight="Bold" Foreground="White" VerticalAlignment="Center" HorizontalAlignment="Center"/>
-                    <TextBlock Grid.Column="1" Text="Advanced" Cursor="Hand" FontWeight="Bold" Foreground="White" VerticalAlignment="Center" HorizontalAlignment="Center"/>
-                    <TextBlock Grid.Column="2" Text="Hard" Cursor="Hand" FontWeight="Bold" Foreground="White" VerticalAlignment="Center" HorizontalAlignment="Center"/>
-                    <TextBlock Grid.Column="3" Text="Master" Cursor="Hand" FontWeight="Bold" Foreground="White" VerticalAlignment="Center" HorizontalAlignment="Center"/>
-                    <TextBlock Grid.Column="4" Text="Re:Master" Cursor="Hand" FontWeight="Bold" Foreground="White" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+                    <TextBlock Grid.Column="0" Text="Basic" MouseDown="BasicClick" Cursor="Hand" FontWeight="Bold" Foreground="White" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+                    <TextBlock Grid.Column="1" Text="Advanced" MouseDown="AdvClick" Cursor="Hand" FontWeight="Bold" Foreground="White" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+                    <TextBlock Grid.Column="2" Text="Hard" MouseDown="HardClick" Cursor="Hand" FontWeight="Bold" Foreground="White" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+                    <TextBlock Grid.Column="3" Text="Master" MouseDown="MasterClick" Cursor="Hand" FontWeight="Bold" Foreground="White" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+                    <TextBlock Grid.Column="4" Text="Re:Master" MouseDown="RemasClick" Cursor="Hand" FontWeight="Bold" Foreground="White" VerticalAlignment="Center" HorizontalAlignment="Center"/>
                     <Border Background="White" VerticalAlignment="Bottom" Height="2" Width="200" HorizontalAlignment="Center">
                         <Border.RenderTransform>
                             <TranslateTransform X="0"/><!--通过这一项的动画来表现移动分页-->
@@ -563,13 +617,105 @@
             </Grid>
 
             <!--谱面难度下的信息-->
-            <Grid Grid.Row="2" Grid.Column="0" Margin="20,0,0,20" Grid.RowSpan="2">
+            <Grid Grid.Row="2" Grid.Column="0" Margin="20,0,0,20"
+                  Grid.RowSpan="2" VerticalAlignment="Top" Height="0" x:Name="DifSecGrid">
+                <Grid.Triggers>
+                    <EventTrigger RoutedEvent="Grid.AfterClickForDifShow">
+                        <BeginStoryboard>
+                            <Storyboard>
+                                <DoubleAnimation Storyboard.TargetProperty="Height"
+                                                 To="400" Duration="0:0:0.3" BeginTime="0:0:0.8"
+                                                 EasingFunction="{StaticResource EaseOut}"/>
+                            </Storyboard>
+                        </BeginStoryboard>
+                    </EventTrigger>
+                    <EventTrigger RoutedEvent="Grid.AfterClickForDifShowOld">
+                        <BeginStoryboard>
+                            <Storyboard>
+                                <DoubleAnimation Storyboard.TargetProperty="Height"
+                                                 To="0" Duration="0:0:0.1"/>
+                                <DoubleAnimation Storyboard.TargetProperty="Height" BeginTime="0:0:0.3"
+                                                 To="400" Duration="0:0:0.1"/>
+                            </Storyboard>
+                        </BeginStoryboard>
+                    </EventTrigger>
+                </Grid.Triggers>
+                
                 <Border Background="White" CornerRadius="0,0,10,10">
                     <Border.Effect>
                         <DropShadowEffect Color="Gray" ShadowDepth="0" BlurRadius="5" Opacity="0.3" Direction="0"/>
                     </Border.Effect>
                 </Border>
-                <Grid>
+                
+                <Grid x:Name="NotesGrid" Opacity="0">
+
+                    <Grid.RenderTransform>
+                        <TranslateTransform x:Name="ttNotesGrid"/>
+                    </Grid.RenderTransform>
+                    
+                    <Grid.Triggers>
+                        <EventTrigger RoutedEvent="Grid.AfterDifGdRight">
+                            <BeginStoryboard>
+                                <Storyboard>
+                                    <DoubleAnimation Storyboard.TargetName="ttNotesGrid"
+                                                     Storyboard.TargetProperty="X"
+                                                     To="100" Duration="0:0:0.1"
+                                                     EasingFunction="{StaticResource EaseOut}"/>
+                                    <DoubleAnimation Storyboard.TargetProperty="Opacity"
+                                                     To="0" Duration="0:0:0.05" EasingFunction="{StaticResource EaseOut}"/>
+                                    <DoubleAnimation Storyboard.TargetName="ttNotesGrid"
+                                                     Storyboard.TargetProperty="X"
+                                                     To="-300" Duration="0:0:0" BeginTime="0:0:0.1"/>
+                                    <DoubleAnimation Storyboard.TargetName="ttNotesGrid"
+                                                     Storyboard.TargetProperty="X"
+                                                     To="0" Duration="0:0:0.1" BeginTime="0:0:0.1"
+                                                     EasingFunction="{StaticResource EaseOut}"/>
+                                    <DoubleAnimation Storyboard.TargetProperty="Opacity" BeginTime="0:0:0.15"
+                                                     To="1" Duration="0:0:0.05" EasingFunction="{StaticResource EaseOut}"/>
+                                </Storyboard>
+                            </BeginStoryboard>
+                        </EventTrigger>
+                        <EventTrigger RoutedEvent="Grid.AfterDifGdLeft">
+                            <BeginStoryboard>
+                                <Storyboard>
+                                    <DoubleAnimation Storyboard.TargetName="ttNotesGrid"
+                                                     Storyboard.TargetProperty="X"
+                                                     To="-100" Duration="0:0:0.1"
+                                                     EasingFunction="{StaticResource EaseOut}"/>
+                                    <DoubleAnimation Storyboard.TargetProperty="Opacity"
+                                                     To="0" Duration="0:0:0.025" EasingFunction="{StaticResource EaseOut}"/>
+                                    <DoubleAnimation Storyboard.TargetName="ttNotesGrid"
+                                                     Storyboard.TargetProperty="X"
+                                                     To="300" Duration="0:0:0" BeginTime="0:0:0.1"/>
+                                    <DoubleAnimation Storyboard.TargetName="ttNotesGrid"
+                                                     Storyboard.TargetProperty="X"
+                                                     To="0" Duration="0:0:0.1" BeginTime="0:0:0.1"
+                                                     EasingFunction="{StaticResource EaseOut}"/>
+                                    <DoubleAnimation Storyboard.TargetProperty="Opacity" BeginTime="0:0:0.15"
+                                                     To="1" Duration="0:0:0.05" EasingFunction="{StaticResource EaseOut}"/>
+                                </Storyboard>
+                            </BeginStoryboard>
+                        </EventTrigger>
+                        <EventTrigger RoutedEvent="Grid.AfterClickForDifShow">
+                            <BeginStoryboard>
+                                <Storyboard>
+                                    <DoubleAnimation Storyboard.TargetProperty="Opacity"
+                                                To="1" Duration="0:0:0.5" BeginTime="0:0:1"/>
+                                </Storyboard>
+                            </BeginStoryboard>
+                        </EventTrigger>
+                        <EventTrigger RoutedEvent="Grid.AfterClickForDifShowOld">
+                            <BeginStoryboard>
+                                <Storyboard>
+                                    <DoubleAnimation Storyboard.TargetProperty="Opacity"
+                                                To="0" Duration="0:0:0.05"/>
+                                    <DoubleAnimation Storyboard.TargetProperty="Opacity"
+                                                To="1" Duration="0:0:0.05" BeginTime="0:0:0.35"/>
+                                </Storyboard>
+                            </BeginStoryboard>
+                        </EventTrigger>
+                    </Grid.Triggers>
+                        
                     <Grid.RowDefinitions>
                         <RowDefinition Height="0.5*"/>
                         <!--文字信息-->
@@ -605,11 +751,11 @@
                                Text="达成状态" FontSize="10" Foreground="#FF9C24"/>
                         <TextBlock Grid.Row="2" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="70,0"
                                Text="100.6825%" FontSize="20" FontWeight="Bold" Foreground="#FF9C24"/>
-                        <Image Grid.Row="2" VerticalAlignment="Center" HorizontalAlignment="Right" Margin="0,0,170,0"
+                        <Image Grid.Row="2" VerticalAlignment="Center" HorizontalAlignment="Right" Margin="0,0,145,0" Height="30"
                                Source="../Assets/Images/MaiRanks/sssp.png"/>
-                        <Image Grid.Row="2" VerticalAlignment="Center" HorizontalAlignment="Right" Margin="0,0,95,0"
+                        <Image Grid.Row="2" VerticalAlignment="Center" HorizontalAlignment="Right" Margin="0,0,75,0" Height="30"
                                Source="../Assets/Images/MaiFcAp/fcp.png"/>
-                        <Image Grid.Row="2" VerticalAlignment="Center" HorizontalAlignment="Right" Margin="0,0,25,0"
+                        <Image Grid.Row="2" VerticalAlignment="Center" HorizontalAlignment="Right" Margin="0,0,15,0" Height="30"
                                Source="../Assets/Images/MaiFsFDX/fsd.png"/>
                     </Grid>
                     <Grid Grid.Row="1">
@@ -799,21 +945,50 @@
             <!--右侧圆弧刻度轴-->
             <Grid Grid.Row="0" Grid.Column="1" Grid.RowSpan="4">
                 <Ellipse Name="backEllipse" Stroke="#FFFFB16F" StrokeThickness="1.5" Margin="175,0,0,0"
-                         Height="800" Width="800" VerticalAlignment="Center">
+                         Height="800" Width="800" VerticalAlignment="Center" RenderTransformOrigin="0.5 0.5">
                     <Ellipse.Clip>
                         <RectangleGeometry Rect="0,0,200,800"/>
                     </Ellipse.Clip>
                     <Ellipse.RenderTransform>
-                        <RotateTransform Angle="0"/>
+                        <RotateTransform Angle="-180" x:Name="EliAngle"/>
                     </Ellipse.RenderTransform>
+                    <Ellipse.Triggers>
+                        <EventTrigger RoutedEvent="Ellipse.AfterClickEli">
+                            <BeginStoryboard>
+                                <Storyboard>
+                                    <DoubleAnimation Storyboard.TargetName="EliAngle"
+                                                     Storyboard.TargetProperty="Angle"
+                                                     From="-180" To="360" Duration="0:0:1"
+                                                     EasingFunction="{StaticResource EaseOut}"/>
+                                </Storyboard>
+                            </BeginStoryboard>
+                        </EventTrigger>
+                    </Ellipse.Triggers>
                 </Ellipse>
+
                 <Canvas Name="mainCanvas" Width="800" Height="800" Loaded="CircleDraw"
-                        VerticalAlignment="Center" Margin="175,0,0,0"/>
+                        VerticalAlignment="Center" Margin="175,0,0,0" RenderTransformOrigin="0.5 0.5">
+                    <Canvas.RenderTransform>
+                        <RotateTransform Angle="-180" x:Name="CanAngle"/>
+                    </Canvas.RenderTransform>
+                    <Canvas.Triggers>
+                        <EventTrigger RoutedEvent="Canvas.AfterClickCan">
+                            <BeginStoryboard>
+                                <Storyboard>
+                                    <DoubleAnimation Storyboard.TargetName="CanAngle"
+                                                     Storyboard.TargetProperty="Angle"
+                                                     From="-180" To="0" Duration="0:0:1.5"
+                                                     EasingFunction="{StaticResource EaseOut}"/>
+                                </Storyboard>
+                            </BeginStoryboard>
+                        </EventTrigger>
+                    </Canvas.Triggers>
+                </Canvas>
                 
                 <Canvas Name="breakpointer" Width="800" Height="800"
                         VerticalAlignment="Center" Margin="175,0,0,0" RenderTransformOrigin="0.5 0.5">
                     <Canvas.RenderTransform>
-                        <RotateTransform Angle="0"/>
+                        <RotateTransform Angle="-180" x:Name="BPAngle"/>
                     </Canvas.RenderTransform>
                     <Image Source="../Assets/Images/MaiNotes/BreakSlidePointer.jpg" Width="50"
                            Canvas.Top="380" RenderTransformOrigin="0.5,0.5" HorizontalAlignment="Left" Canvas.Left="-53" VerticalAlignment="Center">
@@ -826,12 +1001,24 @@
                             </TransformGroup>
                         </Image.RenderTransform>
                     </Image>
+                    <Canvas.Triggers>
+                        <EventTrigger RoutedEvent="Canvas.AfterClickCan">
+                            <BeginStoryboard>
+                                <Storyboard>
+                                    <DoubleAnimation Storyboard.TargetName="BPAngle"
+                                                     Storyboard.TargetProperty="Angle"
+                                                     From="-100" To="-10" Duration="0:0:1.5"
+                                                     EasingFunction="{StaticResource EaseOut}"/>
+                                </Storyboard>
+                            </BeginStoryboard>
+                        </EventTrigger>
+                    </Canvas.Triggers>
                 </Canvas>
 
                 <Canvas Name="pointer" Width="800" Height="800"
                         VerticalAlignment="Center" Margin="175,0,0,0" RenderTransformOrigin="0.5 0.5">
                     <Canvas.RenderTransform>
-                        <RotateTransform Angle="20"/>
+                        <RotateTransform Angle="-180" x:Name="PAngle"/>
                     </Canvas.RenderTransform>
                     <Image Source="../Assets/Images/MaiNotes/SlidePointer.jpg" Width="55"
                            Canvas.Top="377" RenderTransformOrigin="0.5,0.5" HorizontalAlignment="Left" Canvas.Left="-56" VerticalAlignment="Center">
@@ -844,6 +1031,18 @@
                             </TransformGroup>
                         </Image.RenderTransform>
                     </Image>
+                    <Canvas.Triggers>
+                        <EventTrigger RoutedEvent="Canvas.AfterClickCan">
+                            <BeginStoryboard>
+                                <Storyboard>
+                                    <DoubleAnimation Storyboard.TargetName="PAngle"
+                                                     Storyboard.TargetProperty="Angle"
+                                                     From="-100" To="20" Duration="0:0:2"
+                                                     EasingFunction="{StaticResource EaseOut}"/>
+                                </Storyboard>
+                            </BeginStoryboard>
+                        </EventTrigger>
+                    </Canvas.Triggers>
                 </Canvas>
 
 

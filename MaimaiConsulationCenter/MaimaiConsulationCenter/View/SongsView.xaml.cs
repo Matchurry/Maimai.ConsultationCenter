@@ -37,12 +37,25 @@ namespace MaimaiConsulationCenter.View
             "AfterClickImg", RoutingStrategy.Bubble, typeof(RoutedEventHandler), typeof(Image));
         public static readonly RoutedEvent AfterClickNewSongBd = EventManager.RegisterRoutedEvent(
             "AfterClickBd", RoutingStrategy.Bubble, typeof(RoutedEventHandler), typeof(Border));
+        public static readonly RoutedEvent AfterClickNewDifRight = EventManager.RegisterRoutedEvent(
+            "AfterDifGdRight", RoutingStrategy.Bubble, typeof(RoutedEventHandler), typeof(Grid));
+        public static readonly RoutedEvent AfterClickNewDifLeft = EventManager.RegisterRoutedEvent(
+            "AfterDifGdLeft", RoutingStrategy.Bubble, typeof(RoutedEventHandler), typeof(Grid));
+        public static readonly RoutedEvent AfterClickNewSongForDifShow = EventManager.RegisterRoutedEvent(
+            "AfterClickForDifShow", RoutingStrategy.Bubble, typeof(RoutedEventHandler), typeof(Grid));
+        public static readonly RoutedEvent AfterClickNewSongForDifShowOld = EventManager.RegisterRoutedEvent(
+            "AfterClickForDifShowOld", RoutingStrategy.Bubble, typeof(RoutedEventHandler), typeof(Grid));
 
+        public static readonly RoutedEvent AfterClickNewEli = EventManager.RegisterRoutedEvent(
+            "AfterClickEli", RoutingStrategy.Bubble, typeof(RoutedEventHandler), typeof(Ellipse));
+        public static readonly RoutedEvent AfterClickNewCan = EventManager.RegisterRoutedEvent(
+            "AfterClickCan", RoutingStrategy.Bubble, typeof(RoutedEventHandler), typeof(Canvas));
         public SongsView()
         {
             InitializeComponent();
             InitializeDataAsync();
             Messenger.Default.Register<SongClick>(this, OnSongClick);
+            Messenger.Default.Register<DifClick>(this, OnDifClick);
         }
         public async Task InitializeDataAsync()
         {
@@ -60,9 +73,52 @@ namespace MaimaiConsulationCenter.View
                 BpmTB.RaiseEvent(new RoutedEventArgs(AfterClickNewSong));
                 FROM.RaiseEvent(new RoutedEventArgs(AfterClickNewSong));
                 FromTB.RaiseEvent(new RoutedEventArgs(AfterClickNewSong));
+                HintTB.RaiseEvent(new RoutedEventArgs (AfterClickNewSong));
                 ImgBD.RaiseEvent(new RoutedEventArgs(AfterClickNewSongBd));
                 Img.RaiseEvent(new RoutedEventArgs(AfterClickNewSongImg));
+
+                breakpointer.RaiseEvent(new RoutedEventArgs(AfterClickNewCan));
+                pointer.RaiseEvent(new RoutedEventArgs(AfterClickNewCan));
             }));
+            if (GlobalValues.is_first_lauch)
+            {
+                Application.Current.Dispatcher.Invoke(new Action(() =>
+                {
+                    DifVeryGrid.RaiseEvent(new RoutedEventArgs(AfterClickNewSongForDifShow));
+                    DifSecGrid.RaiseEvent(new RoutedEventArgs(AfterClickNewSongForDifShow));
+                    NotesGrid.RaiseEvent(new RoutedEventArgs(AfterClickNewSongForDifShow));
+                    backEllipse.RaiseEvent(new RoutedEventArgs(AfterClickNewEli));
+                    mainCanvas.RaiseEvent(new RoutedEventArgs(AfterClickNewCan));
+                }));
+                GlobalValues.is_first_lauch = false;
+            }
+            else
+            {
+                Application.Current.Dispatcher.Invoke(new Action(() =>
+                {
+                    DifVeryGrid.RaiseEvent(new RoutedEventArgs(AfterClickNewSongForDifShowOld));
+                    DifSecGrid.RaiseEvent(new RoutedEventArgs(AfterClickNewSongForDifShowOld));
+                    NotesGrid.RaiseEvent(new RoutedEventArgs(AfterClickNewSongForDifShowOld));
+                }));
+            }
+        }
+
+        private void OnDifClick(DifClick e)
+        {
+            if (GlobalValues.next_dif_dic == 0)
+            {
+                Application.Current.Dispatcher.Invoke(new Action(() => {
+                    NotesGrid.RaiseEvent(new RoutedEventArgs(AfterClickNewDifLeft));
+                }));
+            }
+            else
+            {
+                Application.Current.Dispatcher.Invoke(new Action(() => {
+                    NotesGrid.RaiseEvent(new RoutedEventArgs(AfterClickNewDifRight));
+                }));
+            }
+            breakpointer.RaiseEvent(new RoutedEventArgs(AfterClickNewCan));
+            pointer.RaiseEvent(new RoutedEventArgs(AfterClickNewCan));
         }
 
         private double Maximum = 101;
@@ -117,6 +173,60 @@ namespace MaimaiConsulationCenter.View
                 this.mainCanvas.Children.Add(textScale);
             }
 
+        }
+
+        private void BasicClick(object sender, MouseEventArgs e)
+        {
+            if (GlobalValues.now_dif_index != 0)
+            {
+                GlobalValues.next_dif_dic = 0;
+                GlobalValues.now_dif_index = 0;
+                Messenger.Default.Send(new DifClick());
+            }
+        }
+        private void AdvClick(object sender, MouseEventArgs e)
+        {
+            if (GlobalValues.now_dif_index != 1)
+            {
+                if(1 < GlobalValues.now_dif_index)
+                    GlobalValues.next_dif_dic = 0;
+                else GlobalValues.next_dif_dic = 1;
+                GlobalValues.now_dif_index = 1;
+                Messenger.Default.Send(new DifClick());
+            }
+        }
+        private void HardClick(object sender, MouseEventArgs e)
+        {
+            if (GlobalValues.now_dif_index != 2)
+            {
+                if (2 < GlobalValues.now_dif_index)
+                    GlobalValues.next_dif_dic = 0;
+                else GlobalValues.next_dif_dic = 1;
+                GlobalValues.now_dif_index = 2;
+                Messenger.Default.Send(new DifClick());
+            }
+        }
+        private void MasterClick(object sender, MouseEventArgs e)
+        {
+            if (GlobalValues.now_dif_index != 3)
+            {
+                if (3 < GlobalValues.now_dif_index)
+                    GlobalValues.next_dif_dic = 0;
+                else GlobalValues.next_dif_dic = 1;
+                GlobalValues.now_dif_index = 3;
+                Messenger.Default.Send(new DifClick());
+            }
+        }
+        private void RemasClick(object sender, MouseEventArgs e)
+        {
+            if (GlobalValues.now_dif_index != 4)
+            {
+                if (4 < GlobalValues.now_dif_index)
+                    GlobalValues.next_dif_dic = 0;
+                else GlobalValues.next_dif_dic = 1;
+                GlobalValues.now_dif_index = 4;
+                Messenger.Default.Send(new DifClick());
+            }
         }
     }
 }

@@ -18,5 +18,6 @@ namespace MaimaiConsulationCenter.Common
         public static SongModel.Root SingleSongShow { get; set; } = new SongModel.Root();
         public static bool is_first_lauch { get; set; } = true;
         public static int now_dif_index { get; set; } = 0;
+        public static int next_dif_dic { get; set; } = 0;
     }
 }
