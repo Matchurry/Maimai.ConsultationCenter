@@ -292,33 +292,9 @@ namespace MaimaiConsulationCenter.ViewModel
 
     public class ScorePageViewModel:NotifyBase
     {
-        public async Task<Root> GetScorePageDataAsync()
+        public Root GetScorePageDataAsync()
         {
-            var client = new RestClient("https://www.diving-fish.com/api/maimaidxprober/query/player");
-            //client.Timeout = -1;
-            var request = new RestRequest("", RestSharp.Method.Post);
-            request.AddHeader("Content-Type", "application/json");
-            var body = @"{
-                " + "\n" +
-                @"    ""b50"": true,
-                " + "\n" +
-                $@"    ""username"": ""{LoginViewModel.LoginModel.UserName}""
-                " + "\n" +
-                            @"}";
-            request.AddParameter("application/json", body, ParameterType.RequestBody);
-            RestResponse response = await client.ExecuteAsync(request);
-            Console.WriteLine("内部界面-玩家数据获取成功");
-            Root userMaiData = null;
-
-            userMaiData = JsonConvert.DeserializeObject<Root>(response.Content); //从这开始已经转换为内部Model
-            string jsonFilePath = Path.Combine(
-                Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "..", ".."), // 向上返回两级目录
-                @"Assets\MaiMusicData\MusicData.json"
-            );
-            //读入歌曲json并反序列化
-            string jsonFile = System.IO.File.ReadAllText(jsonFilePath);
-            ObservableCollection<SongModel.Root> songDatas = JsonConvert.DeserializeObject<ObservableCollection<SongModel.Root>>(jsonFile);
-            GlobalValues.SongsModel = songDatas;
+            Root userMaiData = GlobalValues.B50;
             var cnt = 1; string imageDirectory = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "..", "..", "Assets", "Images", "MaiSongImages");
             if (userMaiData.charts != null && userMaiData.charts.dx.Count != 0)
                 foreach (var item in userMaiData.charts.dx)
@@ -342,7 +318,7 @@ namespace MaimaiConsulationCenter.ViewModel
                     item.animationlengh = string.Format("0:0:{0}.{1}", item.id / 10 + 1, item.id % 10);
 
                     //获取歌曲的dxScore上限
-                    var foundSong = songDatas.FirstOrDefault(song => song.id == item.song_id.ToString());
+                    var foundSong = GlobalValues.SongsModel.FirstOrDefault(song => song.id == item.song_id.ToString());
                     var cal = 0;
                     //随后获取总note数 *3 即为dxScore
 
@@ -389,7 +365,7 @@ namespace MaimaiConsulationCenter.ViewModel
                     if (item.fs == "")
                         item.fs_src = "../Assets/Images/MaiFsFDX/null.png";
                     //获取歌曲的dxScore上限
-                    var foundSong = songDatas.FirstOrDefault(song => song.id == item.song_id.ToString());
+                    var foundSong = GlobalValues.SongsModel.FirstOrDefault(song => song.id == item.song_id.ToString());
                     var cal = 0;
                     //随后获取总note数 *3 即为dxScore
                     foreach (var notescnt in foundSong.charts[item.level_index].notes)

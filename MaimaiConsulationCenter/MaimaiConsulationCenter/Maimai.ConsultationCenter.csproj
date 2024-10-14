@@ -219,6 +219,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Model\UserRecordsModel.cs" />
     <Compile Include="ViewModel\SongsViewModel.cs" />
     <Compile Include="View\SongsView.xaml.cs">
       <DependentUpon>SongsView.xaml</DependentUpon>

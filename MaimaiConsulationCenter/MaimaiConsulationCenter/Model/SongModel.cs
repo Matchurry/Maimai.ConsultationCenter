@@ -25,6 +25,10 @@ namespace MaimaiConsulationCenter.Model
         {
             public List<int> notes { get; set; }
             public string charter { get; set; }
+            public double achivements { get; set; } = 0.0;
+            public string fc { get; set; }
+            public string fs { get; set; }
+            public string rate { get; set; }
         }
 
         public class Root
@@ -39,7 +43,7 @@ namespace MaimaiConsulationCenter.Model
             public string advanced { get; set; } = "";
             public string hard { get; set; } = "";
             public string master { get; set; } = "";
-            public string remaster { get; set; } = "x";
+            public string remaster { get; set; } = "";
             public List<int> cids { get; set; }
             public List<Chart> charts { get; set; }
             public BasicInfo basic_info { get; set; }

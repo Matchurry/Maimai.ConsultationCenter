@@ -31,7 +31,7 @@ namespace MaimaiConsulationCenter.View
     /// <summary>
     /// PointsSearchView.xaml 的交互逻辑
     /// </summary>
-    public partial class PointsSearchView : UserControl, IDataLoadable
+    public partial class PointsSearchView : UserControl
     {
         public PointsSearchView()
         {
@@ -39,9 +39,9 @@ namespace MaimaiConsulationCenter.View
             InitializeDataAsync();
             //Console.WriteLine("loaded");
         }
-        public async Task InitializeDataAsync()
+        public void InitializeDataAsync()
         {
-            var DataContext = await new ScorePageViewModel().GetScorePageDataAsync();
+            var DataContext = new ScorePageViewModel().GetScorePageDataAsync();
             this.DataContext = DataContext;
         }
 

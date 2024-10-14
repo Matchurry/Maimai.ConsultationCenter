@@ -85,7 +85,7 @@
                                             <DataTrigger Binding="{Binding basic_info.genre}" Value="其他游戏">
                                                 <Setter Property="Background" Value="#BDF9A7"/>
                                             </DataTrigger>
-                                            <DataTrigger Binding="{Binding basic_info.genre}" Value="宴会场">
+                                            <DataTrigger Binding="{Binding basic_info.genre}" Value="宴会場">
                                                 <Setter Property="Background" Value="#AC2B76"/>
                                             </DataTrigger>
                                         </Style.Triggers>
@@ -112,7 +112,7 @@
                                         <DataTrigger Binding="{Binding basic_info.genre}" Value="其他游戏">
                                             <Setter Property="Background" Value="#69E03E"/>
                                         </DataTrigger>
-                                        <DataTrigger Binding="{Binding basic_info.genre}" Value="宴会场">
+                                        <DataTrigger Binding="{Binding basic_info.genre}" Value="宴会場">
                                             <Setter Property="Background" Value="#DD38B7"/>
                                         </DataTrigger>
                                     </Style.Triggers>
@@ -158,7 +158,7 @@
                                                     <DataTrigger Binding="{Binding basic_info.genre}" Value="其他游戏">
                                                         <Setter Property="Background" Value="#BDF9A7"/>
                                                     </DataTrigger>
-                                                    <DataTrigger Binding="{Binding basic_info.genre}" Value="宴会场">
+                                                    <DataTrigger Binding="{Binding basic_info.genre}" Value="宴会場">
                                                         <Setter Property="Background" Value="#AC2B76"/>
                                                     </DataTrigger>
                                                 </Style.Triggers>
@@ -259,7 +259,10 @@
                                                 <DataTrigger Binding="{Binding basic_info.genre}" Value="其他游戏">
                                                     <Setter Property="Background" Value="#69E03E"/>
                                                 </DataTrigger>
-                                            </Style.Triggers>
+                                                <DataTrigger Binding="{Binding basic_info.genre}" Value="宴会場">
+                                                    <Setter Property="Background" Value="#AC2B76"/>
+                                                </DataTrigger>
+                                        </Style.Triggers>
                                         </Style>
                                     </Border.Style>
                                     <TextBlock Text="{Binding basic_info.genre}" HorizontalAlignment="Center" VerticalAlignment="Center" 
@@ -523,6 +526,9 @@
                             </BeginStoryboard>
                         </EventTrigger>
                     </Border.Triggers>
+                    <i:Interaction.Behaviors>
+                        <local:NewFidForNewColor/>
+                    </i:Interaction.Behaviors>
                 </Border>
                 <Image Source="../Assets/Images/MaiSongImages/00008.png" Width="145" x:Name="Img" Opacity="0">
                     <Image.RenderTransform>
@@ -547,7 +553,7 @@
             </Grid>
 
             <!--选谱面难度-->
-            <Grid Grid.Row="1" Grid.Column="0" Margin="20,0,0,0" x:Name="DifVeryGrid">
+            <Grid Grid.Row="1" Grid.Column="0" x:Name="DifVeryGrid">
                 <Grid.RenderTransform>
                     <TranslateTransform x:Name="ttGd2" Y="500"/>
                 </Grid.RenderTransform>
@@ -617,7 +623,7 @@
             </Grid>
 
             <!--谱面难度下的信息-->
-            <Grid Grid.Row="2" Grid.Column="0" Margin="20,0,0,20"
+            <Grid Grid.Row="2" Grid.Column="0" Margin="0,0,0,0"
                   Grid.RowSpan="2" VerticalAlignment="Top" Height="0" x:Name="DifSecGrid">
                 <Grid.Triggers>
                     <EventTrigger RoutedEvent="Grid.AfterClickForDifShow">
@@ -750,13 +756,26 @@
                         <TextBlock Grid.Row="2" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="15,0"
                                Text="达成状态" FontSize="10" Foreground="#FF9C24"/>
                         <TextBlock Grid.Row="2" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="70,0"
-                               Text="100.6825%" FontSize="20" FontWeight="Bold" Foreground="#FF9C24"/>
-                        <Image Grid.Row="2" VerticalAlignment="Center" HorizontalAlignment="Right" Margin="0,0,145,0" Height="30"
-                               Source="../Assets/Images/MaiRanks/sssp.png"/>
-                        <Image Grid.Row="2" VerticalAlignment="Center" HorizontalAlignment="Right" Margin="0,0,75,0" Height="30"
-                               Source="../Assets/Images/MaiFcAp/fcp.png"/>
-                        <Image Grid.Row="2" VerticalAlignment="Center" HorizontalAlignment="Right" Margin="0,0,15,0" Height="30"
-                               Source="../Assets/Images/MaiFsFDX/fsd.png"/>
+                               FontSize="20" FontWeight="Bold" Foreground="#FF9C24">
+                            <i:Interaction.Behaviors>
+                                <local:RateChange/>
+                            </i:Interaction.Behaviors>
+                        </TextBlock>
+                        <Image Grid.Row="2" VerticalAlignment="Center" HorizontalAlignment="Right" Margin="0,0,145,0" Height="30">
+                            <i:Interaction.Behaviors>
+                                <local:RateImgChange/>
+                            </i:Interaction.Behaviors>
+                        </Image>
+                        <Image Grid.Row="2" VerticalAlignment="Center" HorizontalAlignment="Right" Margin="0,0,75,0" Height="30">
+                            <i:Interaction.Behaviors>
+                                <local:RateFcImgChange/>
+                            </i:Interaction.Behaviors>
+                        </Image>
+                        <Image Grid.Row="2" VerticalAlignment="Center" HorizontalAlignment="Right" Margin="0,0,15,0" Height="30">
+                            <i:Interaction.Behaviors>
+                                <local:RateFsImgChange/>
+                            </i:Interaction.Behaviors>
+                        </Image>
                     </Grid>
                     <Grid Grid.Row="1">
                         <!--物量信息-->
@@ -773,7 +792,11 @@
                                 <ColumnDefinition/>
                                 <ColumnDefinition/>
                             </Grid.ColumnDefinitions>
-                            <Border Background="#FF9C24" Grid.RowSpan="2" Grid.ColumnSpan="6" CornerRadius="10"/>
+                            <Border Background="#FF9C24" Grid.RowSpan="2" Grid.ColumnSpan="6" CornerRadius="10">
+                                <i:Interaction.Behaviors>
+                                    <local:NewFidForNewColor/>
+                                </i:Interaction.Behaviors>
+                            </Border>
                             <Border Background="White" Grid.Row="1" Grid.ColumnSpan="6" CornerRadius="0,0,9,9" Margin="1"/>
                             <Separator Grid.RowSpan="2" HorizontalAlignment="Right" Background="Gray" Opacity="0.2">
                                 <Separator.LayoutTransform>
@@ -870,7 +893,11 @@
                                 <ColumnDefinition/>
                                 <ColumnDefinition/>
                             </Grid.ColumnDefinitions>
-                            <Border Background="#FF9C24" Grid.RowSpan="4" Grid.ColumnSpan="8" CornerRadius="10"/>
+                            <Border Background="#FF9C24" Grid.RowSpan="4" Grid.ColumnSpan="8" CornerRadius="10">
+                                <i:Interaction.Behaviors>
+                                    <local:NewFidForNewColor/>
+                                </i:Interaction.Behaviors>
+                            </Border>
                             <Border Background="White" Grid.RowSpan="4" Grid.ColumnSpan="8" CornerRadius="9" Margin="1"/>
                             <TextBlock Text="GREAT" Grid.Row="1" Grid.Column="0" VerticalAlignment="Center" HorizontalAlignment="Center" Foreground="#F85EA4" FontWeight="Bold"/>
                             <TextBlock Text="GOOD" Grid.Row="2" Grid.Column="0" VerticalAlignment="Center" HorizontalAlignment="Center" Foreground="#3ECD58" FontWeight="Bold"/>
@@ -944,7 +971,7 @@
 
             <!--右侧圆弧刻度轴-->
             <Grid Grid.Row="0" Grid.Column="1" Grid.RowSpan="4">
-                <Ellipse Name="backEllipse" Stroke="#FFFFB16F" StrokeThickness="1.5" Margin="175,0,0,0"
+                <Ellipse Name="backEllipse" Stroke="#FFFFB16F" StrokeThickness="1.5" Margin="150,0,0,0"
                          Height="800" Width="800" VerticalAlignment="Center" RenderTransformOrigin="0.5 0.5">
                     <Ellipse.Clip>
                         <RectangleGeometry Rect="0,0,200,800"/>
@@ -967,7 +994,7 @@
                 </Ellipse>
 
                 <Canvas Name="mainCanvas" Width="800" Height="800" Loaded="CircleDraw"
-                        VerticalAlignment="Center" Margin="175,0,0,0" RenderTransformOrigin="0.5 0.5">
+                        VerticalAlignment="Center" Margin="150,0,0,0" RenderTransformOrigin="0.5 0.5">
                     <Canvas.RenderTransform>
                         <RotateTransform Angle="-180" x:Name="CanAngle"/>
                     </Canvas.RenderTransform>
@@ -983,10 +1010,13 @@
                             </BeginStoryboard>
                         </EventTrigger>
                     </Canvas.Triggers>
+                    <!--<i:Interaction.Behaviors>
+                        <local:NewFidForNewColorCanvas/>
+                    </i:Interaction.Behaviors>-->
                 </Canvas>
                 
                 <Canvas Name="breakpointer" Width="800" Height="800"
-                        VerticalAlignment="Center" Margin="175,0,0,0" RenderTransformOrigin="0.5 0.5">
+                        VerticalAlignment="Center" Margin="150,0,0,0" RenderTransformOrigin="0.5 0.5">
                     <Canvas.RenderTransform>
                         <RotateTransform Angle="-180" x:Name="BPAngle"/>
                     </Canvas.RenderTransform>
@@ -1001,22 +1031,13 @@
                             </TransformGroup>
                         </Image.RenderTransform>
                     </Image>
-                    <Canvas.Triggers>
-                        <EventTrigger RoutedEvent="Canvas.AfterClickCan">
-                            <BeginStoryboard>
-                                <Storyboard>
-                                    <DoubleAnimation Storyboard.TargetName="BPAngle"
-                                                     Storyboard.TargetProperty="Angle"
-                                                     From="-100" To="-10" Duration="0:0:1.5"
-                                                     EasingFunction="{StaticResource EaseOut}"/>
-                                </Storyboard>
-                            </BeginStoryboard>
-                        </EventTrigger>
-                    </Canvas.Triggers>
+                    <i:Interaction.Behaviors>
+                        <local:BreakPointerRota/>
+                    </i:Interaction.Behaviors>
                 </Canvas>
 
                 <Canvas Name="pointer" Width="800" Height="800"
-                        VerticalAlignment="Center" Margin="175,0,0,0" RenderTransformOrigin="0.5 0.5">
+                        VerticalAlignment="Center" Margin="150,0,0,0" RenderTransformOrigin="0.5 0.5">
                     <Canvas.RenderTransform>
                         <RotateTransform Angle="-180" x:Name="PAngle"/>
                     </Canvas.RenderTransform>
@@ -1031,23 +1052,23 @@
                             </TransformGroup>
                         </Image.RenderTransform>
                     </Image>
-                    <Canvas.Triggers>
-                        <EventTrigger RoutedEvent="Canvas.AfterClickCan">
-                            <BeginStoryboard>
-                                <Storyboard>
-                                    <DoubleAnimation Storyboard.TargetName="PAngle"
-                                                     Storyboard.TargetProperty="Angle"
-                                                     From="-100" To="20" Duration="0:0:2"
-                                                     EasingFunction="{StaticResource EaseOut}"/>
-                                </Storyboard>
-                            </BeginStoryboard>
-                        </EventTrigger>
-                    </Canvas.Triggers>
+                    <i:Interaction.Behaviors>
+                        <local:PointerRota/>
+                    </i:Interaction.Behaviors>
                 </Canvas>
 
 
             </Grid>
 
+            <TextBlock Grid.Row="3" Grid.Column="1" Text="该谱面对应的难度您已经无法吃分了哦！" 
+                       Foreground="Red" VerticalAlignment="Bottom" HorizontalAlignment="Left" Margin="10,0,0,30">
+                <TextBlock.RenderTransform>
+                    <TranslateTransform Y="50"/>
+                </TextBlock.RenderTransform>
+                <i:Interaction.Behaviors>
+                    <local:RateHintText/>
+                </i:Interaction.Behaviors>
+            </TextBlock>
         </Grid>
 
         

@@ -19,14 +19,189 @@ using System.Windows.Media.Imaging;
 using System.Windows.Media;
 using System.Windows.Media.Animation;
 using System.Windows.Media.Media3D;
+using System.Web.WebSockets;
 
 namespace MaimaiConsulationCenter.ViewModel
 {
     public class SongClick { }; //切换到新的曲子时
     public class DifClick { }; //谱面难度切换时
     /// <summary>
-    /// 左侧虚拟化全曲展示列的行为
+    /// 用于提示玩家能否吃分的文字行为
     /// </summary>
+    public class RateHintText : Behavior<TextBlock>
+    {
+        private TranslateTransform trans = new TranslateTransform();
+        protected override void OnAttached()
+        {
+            base.OnAttached();
+            Messenger.Default.Register<SongClick>(this, Rota);
+            Messenger.Default.Register<DifClick>(this, RotaDif);
+            trans.Y = 50;
+            AssociatedObject.RenderTransform = new TransformGroup
+            {
+                Children =
+                    {
+                        trans
+                    }
+            };
+        }
+        private async void Rota(SongClick e)
+        {
+            double tarRate = 0;
+            /// RANK 系数表
+            /// 单曲Rating = 定数 * 系数 * 达成率 | 取整
+            ///     达成率     系数      倍率
+            ///     100.5     22.4      22.512
+            ///     100.4999  22.2      22.310
+            ///     100.0000  21.6      21.707-21.600
+            ///     99.9999   21.4      21.399
+            ///     99.5000   21.1      21.099-20.994
+            ///     99.0000   20.8      20.695-20.592
+            ///     98.0000   20.3      20.096-19.894
+            ///     97.0000   20.0      19.599-19.400
+            double floor = 0;
+            if (GlobalValues.SingleSongShow.type == "SD") floor = GlobalValues.B35Floor + 1;
+            else floor = GlobalValues.B15Floor + 1;
+            floor /= GlobalValues.SingleSongShow.ds[GlobalValues.now_dif_index];
+
+            var rani = new DoubleAnimation(50, TimeSpan.FromSeconds(0.2));
+            rani.EasingFunction = new PowerEase { EasingMode = EasingMode.EaseOut };
+            trans.BeginAnimation(TranslateTransform.YProperty, rani);
+            await Task.Delay(200);
+            if (floor > 22.512 )
+                AssociatedObject.Text = $"该谱面对应的难度您已经无法吃分了哦！";
+            else if(floor < 19.400)
+                AssociatedObject.Text = $"该谱面对应的难度对您来说有点大了...";
+            else
+            {
+                if (floor > 21.707) tarRate = 1.005;
+                else if (floor > 21.600) tarRate = floor / 21.6;
+                else if (floor > 20.994) tarRate = floor / 21.4;
+                else if (floor > 20.592) tarRate = floor / 21.1;
+                else if (floor > 19.894) tarRate = floor / 20.8;
+                else tarRate = floor / 20.0;
+                tarRate *= 100;
+                if(floor > 21.707)
+                    AssociatedObject.Text = $"向着SSS+迸发吧！";
+                else
+                    AssociatedObject.Text = $"达到{tarRate:F4}%达成率以吃分！";
+            }
+            rani = new DoubleAnimation(0, TimeSpan.FromSeconds(0.2));
+            rani.BeginTime = TimeSpan.FromSeconds(0.2);
+            rani.EasingFunction = new PowerEase { EasingMode = EasingMode.EaseOut };
+            trans.BeginAnimation(TranslateTransform.YProperty, rani);
+
+        }
+        private void RotaDif(DifClick e)
+        {
+            Rota(new SongClick());
+        }
+    }
+    /// <summary>
+    /// 用于显示玩家目标成绩刻度的动画行为
+    /// </summary>
+    public class BreakPointerRota : Behavior<Canvas>
+    {
+        protected override void OnAttached()
+        {
+            base.OnAttached();
+            Messenger.Default.Register<SongClick>(this, Rota);
+            Messenger.Default.Register<DifClick>(this, RotaDif);
+        }
+        private void Rota(SongClick e)
+        {
+            var rota = new RotateTransform();
+            rota.Angle = -100.0;
+            AssociatedObject.RenderTransform = new TransformGroup
+            {
+                Children =
+                    {
+                        rota
+                    }
+            };
+
+            double tarRate = 0;
+            /// RANK 系数表
+            /// 单曲Rating = 定数 * 系数 * 达成率 | 取整
+            ///     达成率     系数      倍率
+            ///     100.5     22.4      22.512
+            ///     100.4999  22.2      22.310
+            ///     100.0000  21.6      21.707-21.600
+            ///     99.9999   21.4      21.399
+            ///     99.5000   21.1      21.099-20.994
+            ///     99.0000   20.8      20.695-20.592
+            ///     98.0000   20.3      20.096-19.894
+            ///     97.0000   20.0      19.599-19.400
+            double floor = 0;
+            if (GlobalValues.SingleSongShow.type == "SD") floor = GlobalValues.B35Floor + 1;
+            else floor = GlobalValues.B15Floor + 1;
+            floor /= GlobalValues.SingleSongShow.ds[GlobalValues.now_dif_index];
+
+            if (floor > 22.512 || floor < 19.400) return;
+            else
+            {
+                if (floor > 21.707) tarRate = 1.005;
+                else if (floor > 21.600) tarRate = floor / 21.6;
+                else if (floor > 20.994) tarRate = floor / 21.4;
+                else if (floor > 20.592) tarRate = floor / 21.1;
+                else if (floor > 19.894) tarRate = floor / 20.8;
+                else tarRate = floor / 20.0;
+            }
+
+            tarRate *= 100;
+            Console.WriteLine(tarRate);
+
+            double ro = -100.0;
+            if (tarRate >= 100.0)
+                ro = 9 + (tarRate - 100) * 36;
+            else
+                ro = -45 - 18 + (tarRate - 96) * 18;
+            var rani = new DoubleAnimation(ro, TimeSpan.FromSeconds(2));
+            rani.EasingFunction = new PowerEase { EasingMode = EasingMode.EaseOut };
+            rota.BeginAnimation(RotateTransform.AngleProperty, rani);
+        }
+        private void RotaDif(DifClick e)
+        {
+            Rota(new SongClick());
+        }
+    }
+    /// <summary>
+    /// 用于显示玩家成绩刻度的动画行为
+    /// </summary>
+    public class PointerRota : Behavior<Canvas>
+    {
+        protected override void OnAttached()
+        {
+            base.OnAttached();
+            Messenger.Default.Register<SongClick>(this, Rota);
+            Messenger.Default.Register<DifClick>(this, RotaDif);
+        }
+        private void Rota(SongClick e)
+        {
+            var rota = new RotateTransform();
+            rota.Angle = -100.0;
+            AssociatedObject.RenderTransform = new TransformGroup
+            {
+                Children =
+                    {
+                        rota
+                    }
+            };
+            if (GlobalValues.SingleSongShow.charts[GlobalValues.now_dif_index].achivements < 96.0) return;
+            double ro = -100.0;
+            if (GlobalValues.SingleSongShow.charts[GlobalValues.now_dif_index].achivements >= 100.0)
+                ro = 9 + (GlobalValues.SingleSongShow.charts[GlobalValues.now_dif_index].achivements - 100) * 36;
+            else
+                ro = -45-18 + (GlobalValues.SingleSongShow.charts[GlobalValues.now_dif_index].achivements - 96) * 18;
+            var rani = new DoubleAnimation(ro, TimeSpan.FromSeconds(2));
+            rani.EasingFunction = new PowerEase { EasingMode = EasingMode.EaseOut};
+            rota.BeginAnimation(RotateTransform.AngleProperty, rani);
+        }
+        private void RotaDif(DifClick e)
+        {
+            Rota(new SongClick());
+        }
+    }
     public class MultiSongsShow : Behavior<Grid>
     {
         protected override void OnAttached()
@@ -70,6 +245,90 @@ namespace MaimaiConsulationCenter.ViewModel
             animation.To = (Color)ColorConverter.ConvertFromString(difcolors[GlobalValues.now_dif_index]);
             animation.Duration = new Duration(TimeSpan.FromSeconds(0.2));
             AssociatedObject.Background.BeginAnimation(SolidColorBrush.ColorProperty, animation);
+        }
+    }
+    public class RateImgChange : Behavior<Image>
+    {
+        protected override void OnAttached()
+        {
+            base.OnAttached();
+            Messenger.Default.Register<SongClick>(this, ChangeText);
+            Messenger.Default.Register<DifClick>(this, ChangeTextDif);
+        }
+        private async void ChangeText(SongClick e)
+        {
+            await Task.Delay(100);
+            if (GlobalValues.SingleSongShow.charts[GlobalValues.now_dif_index].achivements >= 98.0)
+                AssociatedObject.Source = new BitmapImage(new Uri($"../Assets/Images/MaiRanks/{GlobalValues.SingleSongShow.charts[GlobalValues.now_dif_index].rate}.png", UriKind.Relative));
+            else
+                AssociatedObject.Source = new BitmapImage(new Uri("../Assets/Images/null.png", UriKind.Relative));
+        }
+        private void ChangeTextDif(DifClick e)
+        {
+            ChangeText(new SongClick());
+        }
+    }
+    public class RateFsImgChange : Behavior<Image>
+    {
+        protected override void OnAttached()
+        {
+            base.OnAttached();
+            Messenger.Default.Register<SongClick>(this, ChangeText);
+            Messenger.Default.Register<DifClick>(this, ChangeTextDif);
+        }
+        private async void ChangeText(SongClick e)
+        {
+            await Task.Delay(100);
+            if (GlobalValues.SingleSongShow.charts[GlobalValues.now_dif_index].fs != null)
+                AssociatedObject.Source = new BitmapImage(new Uri($"../Assets/Images/MaiFsFDX/{GlobalValues.SingleSongShow.charts[GlobalValues.now_dif_index].fs}.png", UriKind.Relative));
+            else
+                AssociatedObject.Source = new BitmapImage(new Uri("../Assets/Images/null.png", UriKind.Relative));
+        }
+        private void ChangeTextDif(DifClick e)
+        {
+            ChangeText(new SongClick());
+        }
+    }
+    public class RateFcImgChange : Behavior<Image>
+    {
+        protected override void OnAttached()
+        {
+            base.OnAttached();
+            Messenger.Default.Register<SongClick>(this, ChangeText);
+            Messenger.Default.Register<DifClick>(this, ChangeTextDif);
+        }
+        private async void ChangeText(SongClick e)
+        {
+            await Task.Delay(100);
+            if (GlobalValues.SingleSongShow.charts[GlobalValues.now_dif_index].fc != null)
+                AssociatedObject.Source = new BitmapImage(new Uri($"../Assets/Images/MaiFcAp/{GlobalValues.SingleSongShow.charts[GlobalValues.now_dif_index].fc}.png", UriKind.Relative));
+            else
+                AssociatedObject.Source = new BitmapImage(new Uri("../Assets/Images/null.png", UriKind.Relative));
+        }
+        private void ChangeTextDif(DifClick e)
+        {
+            ChangeText(new SongClick());
+        }
+    }
+    public class RateChange : Behavior<TextBlock>
+    {
+        protected override void OnAttached()
+        {
+            base.OnAttached();
+            Messenger.Default.Register<SongClick>(this, ChangeText);
+            Messenger.Default.Register<DifClick>(this, ChangeTextDif);
+        }
+        private async void ChangeText(SongClick e)
+        {
+            await Task.Delay(100);
+            if (GlobalValues.SingleSongShow.charts[GlobalValues.now_dif_index].achivements != 0.0)
+                AssociatedObject.Text = $"{GlobalValues.SingleSongShow.charts[GlobalValues.now_dif_index].achivements}%";
+            else
+                AssociatedObject.Text = "尚未游玩";
+        }
+        private void ChangeTextDif(DifClick e)
+        {
+            ChangeText(new SongClick());
         }
     }
     public class BreakNotesChange : Behavior<TextBlock>
@@ -189,6 +448,9 @@ namespace MaimaiConsulationCenter.ViewModel
             ChangeText(new SongClick());
         }
     }
+    /// <summary>
+    /// 左侧虚拟化全曲展示列的行为
+    /// </summary>
     public class NoterDifChange : Behavior<TextBlock>
     {
         protected override void OnAttached()
@@ -231,6 +493,8 @@ namespace MaimaiConsulationCenter.ViewModel
     public class DifBoderChange : Behavior<Border>
     {
         private static TranslateTransform translateTransform;
+        private double XReMas = 325;
+        private double XMas = 300;
         protected override void OnAttached()
         {
             base.OnAttached();
@@ -242,11 +506,11 @@ namespace MaimaiConsulationCenter.ViewModel
             translateTransform = new TranslateTransform();
             if (GlobalValues.SingleSongShow.charts.Count==5)
             {
-                translateTransform.X = 310;
+                translateTransform.X = XReMas;
             }
             else
             {
-                translateTransform.X = 285;
+                translateTransform.X = XMas;
             }
             await Task.Delay(100);
             AssociatedObject.RenderTransform = new TransformGroup
@@ -262,11 +526,11 @@ namespace MaimaiConsulationCenter.ViewModel
             var x = 0.0;
             if (GlobalValues.SingleSongShow.charts.Count == 5)
             {
-                x = 77.5 * GlobalValues.now_dif_index;
+                x = XReMas / 4 * GlobalValues.now_dif_index;
             }
             else
             {
-                x = 95 * GlobalValues.now_dif_index;
+                x = XMas / 3 * GlobalValues.now_dif_index;
             }
             var xani = new DoubleAnimation(x,TimeSpan.FromSeconds(0.1));
             translateTransform.BeginAnimation(TranslateTransform.XProperty,xani);
@@ -364,7 +628,7 @@ namespace MaimaiConsulationCenter.ViewModel
             await Task.Run(() =>
             {
                 string jsonFilePath = Path.Combine(
-                Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "..", ".."), // 向上返回两级目录
+                Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "..", ".."),
                     @"Assets\MaiMusicData\MusicData.json");
                 string jsonFile = System.IO.File.ReadAllText(jsonFilePath);
                 ObservableCollection<SongModel.Root> songDatas = JsonConvert.DeserializeObject<ObservableCollection<SongModel.Root>>(jsonFile);
@@ -380,23 +644,23 @@ namespace MaimaiConsulationCenter.ViewModel
             if (!System.IO.File.Exists(imagePath))
                 item.song_img_src = "../Assets/Images/null.png";
 
-            /*                 string url = String.Format("https://www.diving-fish.com/covers/{0}.png", item.id.PadLeft(5,'0'));
-                            string imagePath = Path.Combine(imageDirectory, $"{item.id.PadLeft(5, '0')}.png");
-                            // 下载图片到指定的目录
-                            try
-                            {
-                                if (!File.Exists(imagePath))
-                                {
-                                    using (WebClient client = new WebClient())
-                                    {
-                                        client.DownloadFile(url, imagePath);
-                                        Console.WriteLine(item.id.PadLeft(5, '0'));
-                                    }
-                                }
-                            }
-                            catch{ }*/
+/*                string url = String.Format("https://www.diving-fish.com/covers/{0}.png", item.id.PadLeft(5, '0'));
+                // 下载图片到指定的目录
+                try
+                {
+                    if (!File.Exists(imagePath))
+                    {
+                        using (WebClient client = new WebClient())
+                        {
+                            client.DownloadFile(url, imagePath);
+                            Console.WriteLine(item.id.PadLeft(5, '0'));
+                        }
+                    }
+                }
+                catch { }*/
 
-            int cnt = 0;
+
+                int cnt = 0;
             foreach(var dif in item.ds)
             {
                 switch (cnt)

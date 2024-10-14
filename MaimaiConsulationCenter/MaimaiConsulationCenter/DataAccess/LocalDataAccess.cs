@@ -18,6 +18,11 @@ using MaimaiConsulationCenter.DataAccess.DataEntity;
 using Newtonsoft.Json;
 using System.Security.Policy;
 using System.Net;
+using MaimaiConsulationCenter.Model;
+using System.Collections.ObjectModel;
+using System.IO;
+using static MaimaiConsulationCenter.Model.MaiUserScoresModel;
+using System.CodeDom;
 
 namespace MaimaiConsulationCenter.DataAccess
 {
@@ -68,7 +73,7 @@ namespace MaimaiConsulationCenter.DataAccess
             }
         }*/
 
-        public UserEntity CheckUserInfo(string userName, string pwd)
+        public void CheckUserInfo(string userName, string pwd)
         {
             try {
                 /* //Console.WriteLine("登陆成功");
@@ -92,18 +97,29 @@ namespace MaimaiConsulationCenter.DataAccess
                  userInfo.Avatar = rd[7].ToString();
                  userInfo.Gender = rd[8].ToString()[0] - '0';*/
 
-                if (pwd != "")
+                string jsonFilePath = Path.Combine(
+                    Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "..", ".."), // 向上返回两级目录
+                    @"Assets\MaiMusicData\MusicData.json"
+                );
+
+                //读入歌曲json并反序列化
+                string jsonFile = System.IO.File.ReadAllText(jsonFilePath);
+                ObservableCollection<SongModel.Root> songDatas = JsonConvert.DeserializeObject<ObservableCollection<SongModel.Root>>(jsonFile);
+                var _songDatas = songDatas.ToList();
+                _songDatas.Reverse();
+                GlobalValues.SongsModel = new ObservableCollection<SongModel.Root>();
+                foreach (var item in _songDatas)
+                    GlobalValues.SongsModel.Add(item);
+
+                if (pwd != "") //如果包含密码
                 {
                     //进行水鱼登录
                     var client = new RestClient("https://www.diving-fish.com/api/maimaidxprober/login");
-                    //client.Timeout = -1;
                     var request = new RestRequest("", RestSharp.Method.Post);
                     request.AddHeader("Content-Type", "application/json");
-                    //var body = @"{""username"": ""AkiraX"", ""password"": ""147258aa.""}";
                     var body = $@"{{""username"": ""{userName}"", ""password"": ""{pwd}""}}";
                     request.AddParameter("application/json", body, ParameterType.RequestBody);
                     RestResponse response = client.Execute(request);
-                    //Console.WriteLine(response.Content);
                     //非200状态码时报错并显示错误信息
                     if (((int)response.StatusCode) != 200)
                     {
@@ -111,10 +127,8 @@ namespace MaimaiConsulationCenter.DataAccess
                         Console.WriteLine(jsonObj);
                         int errCode = Convert.ToInt32(jsonObj["errcode"]);
                         string msg = Convert.ToString(jsonObj["message"]);
-                        //throw new Exception(response.Content);
                         throw new Exception($"{msg}");
                     }
-
 
                     //这里已经登陆成功
                     UserEntity userInfo = new UserEntity();
@@ -128,47 +142,52 @@ namespace MaimaiConsulationCenter.DataAccess
                         }
                     }
 
+                    GetB50(userName);
+                    Console.WriteLine("登录界面-b50玩家数据获取成功");
+
                     userInfo.UserName = userName;
                     userInfo.RealName = userName;
                     userInfo.Password = pwd;
                     userInfo.Avatar = "./Assets/Images/avatarakira.jpg";
                     userInfo.Gender = 1;
-                    return userInfo;
+                    GlobalValues.UserInfo = userInfo;
+
+                    //继续获取玩家所有成绩
+                    client = new RestClient("https://www.diving-fish.com/api/maimaidxprober/player/records");
+                    request = new RestRequest("", RestSharp.Method.Get);
+                    request.AddHeader("Cookie", $"jwt_token={userInfo.Cookie}");
+                    response = client.Execute(request);
+
+                    //非200状态码时报错并显示错误信息
+                    if (((int)response.StatusCode) != 200)
+                    {
+                        Dictionary<string, object> jsonObj = JsonConvert.DeserializeObject<Dictionary<string, object>>(response.Content);
+                        Console.WriteLine(response.Content);
+                        string msg = Convert.ToString(jsonObj["message"]);
+                        throw new Exception($"{msg}");
+                    }
+
+                    GlobalValues.UserRecords = JsonConvert.DeserializeObject<UserRecordsModel.Root>(response.Content);
+                    Console.WriteLine("登录界面：玩家所有成绩获取成功");
+                    //在此将成绩归入所有乐曲成绩
+                    foreach(var item in GlobalValues.UserRecords.records)
+                    {
+                        var targetSong = GlobalValues.SongsModel.FirstOrDefault(song => song.id == item.song_id.ToString());
+                        if (targetSong != null)
+                        {
+                            targetSong.charts[item.level_index].achivements = item.achievements;
+                            targetSong.charts[item.level_index].fc = item.fc;
+                            targetSong.charts[item.level_index].fs = item.fs;
+                            targetSong.charts[item.level_index].rate = item.rate;
+                        }
+                    }
+
+                    return;
                 }
                 else
                 {
-                    var client = new RestClient("https://www.diving-fish.com/api/maimaidxprober/query/player");
-                    //client.Timeout = -1;
-                    var request = new RestRequest("", RestSharp.Method.Post);
-                    request.AddHeader("Content-Type", "application/json");
-                    var body = @"{
-                    " + "\n" +
-                            @"    ""b50"": true,
-                    " + "\n" +
-                            $@"    ""username"": ""{userName}""
-                    " + "\n" +
-                                        @"}";
-                    request.AddParameter("application/json", body, ParameterType.RequestBody);
-                    RestResponse response = client.Execute(request);
+                    GetB50(userName);
                     Console.WriteLine("登录界面-b50玩家数据获取成功");
-                    switch ((int)response.StatusCode)
-                    {
-                        case 200:
-                            UserEntity userInfo = new UserEntity();
-                            userInfo.UserName = userName;
-                            userInfo.RealName = userName;
-                            userInfo.Password = userName;
-                            userInfo.Avatar = "./Assets/Images/avatarakira.jpg";
-                            userInfo.Gender = 1;
-                            return userInfo;
-                        case 400:
-                            throw new Exception("不存在该用户");
-                        case 403:
-                            throw new Exception("用户设置隐私保护或未同意隐私协议");
-                        default:
-                            throw new Exception("未知错误");
-                    }
-
                 }
                 
             }
@@ -177,6 +196,48 @@ namespace MaimaiConsulationCenter.DataAccess
                 //Console.WriteLine(ex.Message);
                 throw ex;
             }
+        }
+
+        private void GetB50(string userName)
+        {
+            var client = new RestClient("https://www.diving-fish.com/api/maimaidxprober/query/player");
+            //client.Timeout = -1;
+            var request = new RestRequest("", RestSharp.Method.Post);
+            request.AddHeader("Content-Type", "application/json");
+            var body = @"{
+                    " + "\n" +
+                    @"    ""b50"": true,
+                    " + "\n" +
+                    $@"    ""username"": ""{userName}""
+                    " + "\n" +
+                                @"}";
+            request.AddParameter("application/json", body, ParameterType.RequestBody);
+            RestResponse response = client.Execute(request);
+            GlobalValues.B50 = JsonConvert.DeserializeObject<Root>(response.Content);
+
+            switch ((int)response.StatusCode)
+            {
+                case 200:
+                    UserEntity userInfo = new UserEntity();
+                    userInfo.UserName = userName;
+                    userInfo.RealName = userName;
+                    userInfo.Password = userName;
+                    userInfo.Avatar = "./Assets/Images/avatarakira.jpg";
+                    userInfo.Gender = 1;
+                    GlobalValues.UserInfo = userInfo;
+                    break;
+                case 400:
+                    throw new Exception("不存在该用户");
+                case 403:
+                    throw new Exception("用户设置隐私保护或未同意隐私协议");
+                default:
+                    throw new Exception("未知错误");
+            }
+
+            //在此计算底板
+            GlobalValues.B15Floor = GlobalValues.B50.charts.dx.Last().ra;
+            GlobalValues.B35Floor = GlobalValues.B50.charts.sd.Last().ra;
+            return;
         }
     }
 }
