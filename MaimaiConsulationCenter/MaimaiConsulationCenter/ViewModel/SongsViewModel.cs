@@ -321,6 +321,11 @@ namespace MaimaiConsulationCenter.ViewModel
         private async void ChangeText(SongClick e)
         {
             await Task.Delay(100);
+            if (!GlobalValues.is_pwd)
+            {
+                AssociatedObject.Text = "尚未登录";
+                return;
+            }
             if (GlobalValues.SingleSongShow.charts[GlobalValues.now_dif_index].achivements != 0.0)
                 AssociatedObject.Text = $"{GlobalValues.SingleSongShow.charts[GlobalValues.now_dif_index].achivements}%";
             else

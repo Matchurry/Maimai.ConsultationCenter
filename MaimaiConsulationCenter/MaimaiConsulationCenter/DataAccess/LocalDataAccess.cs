@@ -181,7 +181,7 @@ namespace MaimaiConsulationCenter.DataAccess
                             targetSong.charts[item.level_index].rate = item.rate;
                         }
                     }
-
+                    GlobalValues.is_pwd = true;
                     return;
                 }
                 else

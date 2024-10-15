@@ -46,7 +46,7 @@
                                         <DoubleAnimation Storyboard.TargetProperty="Opacity"
                                                          Duration="0:0:1" From="0" To="1" EasingFunction="{StaticResource EaseOut}"/>
                                         <DoubleAnimation Storyboard.TargetName="tt1" Storyboard.TargetProperty="X"
-                                                         From="-250" To="0" Duration="0:0:1" EasingFunction="{StaticResource EaseOut}"/>
+                                                         From="-250" To="0" Duration="0:0:0.5" EasingFunction="{StaticResource EaseOut}"/>
                                     </Storyboard>
                                 </BeginStoryboard>
                             </EventTrigger>
@@ -57,7 +57,7 @@
                 <ItemsControl.ItemTemplate>
                     <DataTemplate>
                         <Grid Background="Transparent" RenderTransformOrigin="0.5, 0.5" Name="SongShow" Margin="0,10" 
-                              Height="160" Width="275" HorizontalAlignment="Center">
+                              Height="160" Width="275" HorizontalAlignment="Center" Cursor="Hand">
 
                             <i:Interaction.Behaviors>
                                 <local:MultiSongsShow/>
@@ -306,7 +306,7 @@
                     <BeginStoryboard>
                         <Storyboard>
                             <DoubleAnimation Storyboard.TargetName="tt2" Storyboard.TargetProperty="Y"
-                                             From="1000" To="0" EasingFunction="{StaticResource EaseOut}" Duration="0:0:1"/>
+                                             From="1000" To="0" EasingFunction="{StaticResource EaseOut}" Duration="0:0:0.5"/>
                         </Storyboard>
                     </BeginStoryboard>
                 </EventTrigger>

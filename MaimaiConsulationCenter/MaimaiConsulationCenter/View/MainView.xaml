@@ -3,9 +3,10 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:MaimaiConsulationCenter"
+        xmlns:local="clr-namespace:MaimaiConsulationCenter.ViewModel"
         xmlns:coverter="clr-namespace:MaimaiConsulationCenter.Assets.Convertor"
         xmlns:vlc="clr-namespace:Vlc.DotNet.Wpf;assembly=Vlc.DotNet.Wpf"
+        xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
         mc:Ignorable="d"
         Title="迪拉熊咨询平台" Height="800" Width="1250"
         FontFamily="Microsoft YaHei" FontWeight="ExtraLight" FontSize="12"
@@ -162,9 +163,28 @@
                     </EventTrigger>
                 </vlc:VlcControl.Triggers>
             </vlc:VlcControl>
-            
+
             <Border Background="#F79645" Height="125" VerticalAlignment="Top" CornerRadius="10,10,0,0"
-                    MouseLeftButtonDown="Border_MouseLeftButtonDown"/>
+                    MouseLeftButtonDown="Border_MouseLeftButtonDown">
+                <i:Interaction.Behaviors>
+                    <local:DifForBorAni/>
+                </i:Interaction.Behaviors>
+                <Canvas>
+                    <Canvas.Clip>
+                        <RectangleGeometry Rect="0,0,1240,125"/>
+                    </Canvas.Clip>
+                    <Ellipse RenderTransformOrigin="0.5 0.5" Width="0" Height="0" Canvas.Left="0" Canvas.Top="0" StrokeThickness="0">
+                        <Ellipse.RenderTransform>
+                            <TransformGroup>
+                                <TranslateTransform X="0" Y="0"/>
+                            </TransformGroup>
+                        </Ellipse.RenderTransform>
+                        <i:Interaction.Behaviors>
+                            <local:DifForEliAni/>
+                        </i:Interaction.Behaviors>
+                    </Ellipse>
+                </Canvas>
+            </Border>
             
             <!--窗口控制按钮-->
             <StackPanel Orientation="Horizontal" VerticalAlignment="Top" HorizontalAlignment="Right">

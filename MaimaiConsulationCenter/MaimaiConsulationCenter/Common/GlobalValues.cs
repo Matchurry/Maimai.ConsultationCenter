@@ -11,6 +11,7 @@ namespace MaimaiConsulationCenter.Common
 {
     public class GlobalValues
     {
+        public static bool is_pwd { get; set; } = false;
         public static UserEntity UserInfo { get; set; }
         public static MaiUserScoresModel.Root B50 { get; set; }
         public static ObservableCollection<SongModel.Root> SongsModel { get; set; }
