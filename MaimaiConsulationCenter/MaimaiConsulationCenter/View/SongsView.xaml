@@ -6,6 +6,7 @@
              xmlns:local="clr-namespace:MaimaiConsulationCenter.ViewModel"
              xmlns:c="clr-namespace:MaimaiConsulationCenter.Common"
              xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
+             xmlns:hc="https://handyorg.github.io/handycontrol"
              VerticalAlignment="Top" Margin="0"
              FontFamily="Microsoft YaHei" FontWeight="ExtraLight" FontSize="12" Foreground="Black"
              mc:Ignorable="d" 
@@ -19,7 +20,7 @@
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="1.1*"/>
-            <ColumnDefinition Width="100"/>
+            <ColumnDefinition Width="50"/>
             <ColumnDefinition Width="2.9*"/>
         </Grid.ColumnDefinitions>
         <!--左侧乐曲展示部分-->
@@ -34,7 +35,8 @@
             </ItemsControl.ItemsPanel>
             <ItemsControl.Template>
                 <ControlTemplate>
-                    <ScrollViewer  CanContentScroll="True" VerticalScrollBarVisibility="Hidden" HorizontalScrollBarVisibility="Hidden">
+                    <hc:ScrollViewer  CanContentScroll="True" VirtualizingPanel.ScrollUnit="Pixel" IsInertiaEnabled="True"
+                                   VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Hidden">
                         <ItemsPresenter/>
                         <ScrollViewer.RenderTransform>
                             <TranslateTransform x:Name="tt1"/>
@@ -51,7 +53,7 @@
                                 </BeginStoryboard>
                             </EventTrigger>
                         </ScrollViewer.Triggers>
-                    </ScrollViewer>
+                    </hc:ScrollViewer>
                 </ControlTemplate>
             </ItemsControl.Template>
                 <ItemsControl.ItemTemplate>
@@ -314,7 +316,7 @@
         </Separator>
 
         <!--右侧详细信息部分-->
-        <Grid Grid.Column="2">
+        <Grid Grid.Column="2" Margin="20,0,0,0">
             <Grid.RowDefinitions>
                 <RowDefinition Height="1.2*"/>
                 <RowDefinition Height="0.2*"/>

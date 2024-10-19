@@ -4,6 +4,7 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:MaimaiConsulationCenter.ViewModel"
+             xmlns:hc="https://handyorg.github.io/handycontrol"
              xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity" xmlns:local1="clr-namespace:WpfToolkit.Controls;assembly=VirtualizingWrapPanel"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
@@ -12,7 +13,7 @@
         <PowerEase x:Key="EaseOut" EasingMode="EaseOut"/>
     </UserControl.Resources>
 
-    <ScrollViewer VerticalScrollBarVisibility="Hidden">
+    <hc:ScrollViewer VerticalScrollBarVisibility="Hidden" IsInertiaEnabled="True">
         <Border CornerRadius="5">
             <Grid>
                 <Grid.RowDefinitions>
@@ -508,5 +509,5 @@
                 </Border>
             </Grid>
         </Border>
-    </ScrollViewer>
+    </hc:ScrollViewer>
 </UserControl>

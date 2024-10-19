@@ -11,9 +11,6 @@ using System.Windows.Threading;
 
 namespace MaimaiConsulationCenter.Common
 {
-    public class Animations
-    {
-        
 
-    }
+
 }
