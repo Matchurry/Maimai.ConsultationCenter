@@ -328,24 +328,9 @@
             <!--点击前的文字提示-->
             <TextBlock Grid.ColumnSpan="2" Grid.RowSpan="4" VerticalAlignment="Center" HorizontalAlignment="Center"
                        Text="请点击左侧乐曲以查看详细信息" Foreground="Gray" Opacity="0" x:Name="HintTB">
-                <TextBlock.Triggers>
-                    <EventTrigger RoutedEvent="Loaded">
-                        <BeginStoryboard>
-                            <Storyboard>
-                                <DoubleAnimation Storyboard.TargetProperty="Opacity"
-                                                 To="1" Duration="0:0:0.5"/>
-                            </Storyboard>
-                        </BeginStoryboard>
-                    </EventTrigger>
-                    <EventTrigger RoutedEvent="TextBlock.AfterClick">
-                        <BeginStoryboard>
-                            <Storyboard>
-                                <DoubleAnimation Storyboard.TargetProperty="Opacity"
-                                                 To="0" Duration="0:0:0.5"/>
-                            </Storyboard>
-                        </BeginStoryboard>
-                    </EventTrigger>
-                </TextBlock.Triggers>
+                <i:Interaction.Behaviors>
+                    <local:HintTextForHintTB/>
+                </i:Interaction.Behaviors>
             </TextBlock>
             <!--上方曲绘和信息-->
             <Grid Grid.Row="0" Grid.ColumnSpan="2">
@@ -909,22 +894,86 @@
                             <TextBlock Text="50落" Grid.Row="0" Grid.Column="7" VerticalAlignment="Center" HorizontalAlignment="Center" Foreground="#FF9C24" FontWeight="Bold"/>
                             <TextBlock Text="100落" Grid.Row="2" Grid.Column="7" VerticalAlignment="Center" HorizontalAlignment="Center" Foreground="#FF9C24" FontWeight="Bold"/>
 
-                            <TextBlock Text="0.042%" Grid.Row="1" Grid.Column="1" VerticalAlignment="Center" HorizontalAlignment="Center" Foreground="#F85EA4"/>
-                            <TextBlock Text="0.084%" Grid.Row="1" Grid.Column="2" VerticalAlignment="Center" HorizontalAlignment="Center" Foreground="#F85EA4"/>
-                            <TextBlock Text="0.126%" Grid.Row="1" Grid.Column="3" VerticalAlignment="Center" HorizontalAlignment="Center" Foreground="#F85EA4"/>
-                            <TextBlock Text="0.310%" Grid.Row="1" Grid.Column="4" VerticalAlignment="Center" HorizontalAlignment="Center" Foreground="#F85EA4"/>
-                            <TextBlock Text="0.520%" Grid.Row="1" Grid.Column="5" VerticalAlignment="Center" HorizontalAlignment="Center" Foreground="#F85EA4"/>
-                            <TextBlock Text="0.625%" Grid.Row="1" Grid.Column="6" VerticalAlignment="Center" HorizontalAlignment="Center" Foreground="#F85EA4"/>
-                            <TextBlock Text="0.041%" Grid.Row="1" Grid.Column="7" VerticalAlignment="Center" HorizontalAlignment="Center" Foreground="Gray"/>
-                            <TextBlock Text="0.105%" Grid.Row="2" Grid.Column="1" VerticalAlignment="Center" HorizontalAlignment="Center" Foreground="#3ECD58"/>
-                            <TextBlock Text="0.210%" Grid.Row="2" Grid.Column="2" VerticalAlignment="Center" HorizontalAlignment="Center" Foreground="#3ECD58"/>
-                            <TextBlock Text="0.315%" Grid.Row="2" Grid.Column="3" VerticalAlignment="Center" HorizontalAlignment="Center" Foreground="#3ECD58"/>
-                            <TextBlock Text="0.747%" Grid.Row="2" Grid.Column="4" VerticalAlignment="Center" HorizontalAlignment="Center" Foreground="#3ECD58" Grid.ColumnSpan="3"/>
-                            <TextBlock Text="0.210%" Grid.Row="3" Grid.Column="1" VerticalAlignment="Center" HorizontalAlignment="Center" Foreground="Gray"/>
-                            <TextBlock Text="0.420%" Grid.Row="3" Grid.Column="2" VerticalAlignment="Center" HorizontalAlignment="Center" Foreground="Gray"/>
-                            <TextBlock Text="0.630%" Grid.Row="3" Grid.Column="3" VerticalAlignment="Center" HorizontalAlignment="Center" Foreground="Gray"/>
-                            <TextBlock Text="1.211%" Grid.Row="3" Grid.Column="4" VerticalAlignment="Center" HorizontalAlignment="Center" Foreground="Gray" Grid.ColumnSpan="3"/>
-                            <TextBlock Text="0.083%" Grid.Row="3" Grid.Column="7" VerticalAlignment="Center" HorizontalAlignment="Center" Foreground="Gray"/>
+                            <TextBlock Text="0.042%" Grid.Row="1" Grid.Column="1" VerticalAlignment="Center" HorizontalAlignment="Center" Foreground="#F85EA4">
+                                <i:Interaction.Behaviors>
+                                    <local:TapGreatText/>
+                                </i:Interaction.Behaviors>
+                            </TextBlock>
+                            <TextBlock Text="0.084%" Grid.Row="1" Grid.Column="2" VerticalAlignment="Center" HorizontalAlignment="Center" Foreground="#F85EA4">
+                                <i:Interaction.Behaviors>
+                                    <local:HoldGreatText/>
+                                </i:Interaction.Behaviors>
+                            </TextBlock>
+                            <TextBlock Text="0.126%" Grid.Row="1" Grid.Column="3" VerticalAlignment="Center" HorizontalAlignment="Center" Foreground="#F85EA4">
+                                <i:Interaction.Behaviors>
+                                    <local:SlideGreatText/>
+                                </i:Interaction.Behaviors>
+                            </TextBlock>
+                            <TextBlock Text="0.310%" Grid.Row="1" Grid.Column="4" VerticalAlignment="Center" HorizontalAlignment="Center" Foreground="#F85EA4">
+                                <i:Interaction.Behaviors>
+                                    <local:BreakGreatText_1/>
+                                </i:Interaction.Behaviors>
+                            </TextBlock>
+                            <TextBlock Text="0.520%" Grid.Row="1" Grid.Column="5" VerticalAlignment="Center" HorizontalAlignment="Center" Foreground="#F85EA4">
+                                <i:Interaction.Behaviors>
+                                    <local:BreakGreatText_2/>
+                                </i:Interaction.Behaviors>
+                            </TextBlock>
+                            <TextBlock Text="0.625%" Grid.Row="1" Grid.Column="6" VerticalAlignment="Center" HorizontalAlignment="Center" Foreground="#F85EA4">
+                                <i:Interaction.Behaviors>
+                                    <local:BreakGreatText_3/>
+                                </i:Interaction.Behaviors>
+                            </TextBlock>
+                            <TextBlock Text="0.041%" Grid.Row="1" Grid.Column="7" VerticalAlignment="Center" HorizontalAlignment="Center" Foreground="Gray">
+                                <i:Interaction.Behaviors>
+                                    <local:BreakPerfect50Text/>
+                                </i:Interaction.Behaviors>
+                            </TextBlock>
+                            <TextBlock Text="0.105%" Grid.Row="2" Grid.Column="1" VerticalAlignment="Center" HorizontalAlignment="Center" Foreground="#3ECD58">
+                                <i:Interaction.Behaviors>
+                                    <local:TapGoodText/>
+                                </i:Interaction.Behaviors>
+                            </TextBlock>
+                            <TextBlock Text="0.210%" Grid.Row="2" Grid.Column="2" VerticalAlignment="Center" HorizontalAlignment="Center" Foreground="#3ECD58">
+                                <i:Interaction.Behaviors>
+                                    <local:HoldGoodText/>
+                                </i:Interaction.Behaviors>
+                            </TextBlock>
+                            <TextBlock Text="0.315%" Grid.Row="2" Grid.Column="3" VerticalAlignment="Center" HorizontalAlignment="Center" Foreground="#3ECD58">
+                                <i:Interaction.Behaviors>
+                                    <local:SlideGoodText/>
+                                </i:Interaction.Behaviors>
+                            </TextBlock>
+                            <TextBlock Text="0.747%" Grid.Row="2" Grid.Column="4" VerticalAlignment="Center" HorizontalAlignment="Center" Foreground="#3ECD58" Grid.ColumnSpan="3">
+                                <i:Interaction.Behaviors>
+                                    <local:BreakGoodText/>
+                                </i:Interaction.Behaviors>
+                            </TextBlock>
+                            <TextBlock Text="0.210%" Grid.Row="3" Grid.Column="1" VerticalAlignment="Center" HorizontalAlignment="Center" Foreground="Gray">
+                                <i:Interaction.Behaviors>
+                                    <local:TapMissText/>
+                                </i:Interaction.Behaviors>
+                            </TextBlock>
+                            <TextBlock Text="0.420%" Grid.Row="3" Grid.Column="2" VerticalAlignment="Center" HorizontalAlignment="Center" Foreground="Gray">
+                                <i:Interaction.Behaviors>
+                                    <local:HoldMissText/>
+                                </i:Interaction.Behaviors>
+                            </TextBlock>
+                            <TextBlock Text="0.630%" Grid.Row="3" Grid.Column="3" VerticalAlignment="Center" HorizontalAlignment="Center" Foreground="Gray">
+                                <i:Interaction.Behaviors>
+                                    <local:SlideMissText/>
+                                </i:Interaction.Behaviors>
+                            </TextBlock>
+                            <TextBlock Text="1.211%" Grid.Row="3" Grid.Column="4" VerticalAlignment="Center" HorizontalAlignment="Center" Foreground="Gray" Grid.ColumnSpan="3">
+                                <i:Interaction.Behaviors>
+                                    <local:BreakMissText/>
+                                </i:Interaction.Behaviors>
+                            </TextBlock>
+                            <TextBlock Text="0.083%" Grid.Row="3" Grid.Column="7" VerticalAlignment="Center" HorizontalAlignment="Center" Foreground="Gray">
+                                <i:Interaction.Behaviors>
+                                    <local:BreakPerfect100Text/>
+                                </i:Interaction.Behaviors>
+                            </TextBlock>
 
                             <Separator Grid.Column="0" Grid.Row="0" Grid.RowSpan="4" HorizontalAlignment="Right" Background="Gray" Opacity="0.2">
                                 <Separator.LayoutTransform>

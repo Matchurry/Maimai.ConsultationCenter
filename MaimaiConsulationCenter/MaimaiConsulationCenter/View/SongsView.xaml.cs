@@ -73,7 +73,6 @@ namespace MaimaiConsulationCenter.View
                 BpmTB.RaiseEvent(new RoutedEventArgs(AfterClickNewSong));
                 FROM.RaiseEvent(new RoutedEventArgs(AfterClickNewSong));
                 FromTB.RaiseEvent(new RoutedEventArgs(AfterClickNewSong));
-                HintTB.RaiseEvent(new RoutedEventArgs (AfterClickNewSong));
                 ImgBD.RaiseEvent(new RoutedEventArgs(AfterClickNewSongBd));
                 Img.RaiseEvent(new RoutedEventArgs(AfterClickNewSongImg));
 

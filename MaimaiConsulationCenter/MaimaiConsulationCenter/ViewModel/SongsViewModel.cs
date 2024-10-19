@@ -20,11 +20,373 @@ using System.Windows.Media;
 using System.Windows.Media.Animation;
 using System.Windows.Media.Media3D;
 using System.Web.WebSockets;
+using System.ComponentModel;
+using System.Web.Hosting;
 
 namespace MaimaiConsulationCenter.ViewModel
 {
     public class SongClick { }; //切换到新的曲子时
     public class DifClick { }; //谱面难度切换时
+    public class NotesAcuCal //计算单个音符的准确率的事件基类
+    {
+        private int taps = 0;
+        private int holds = 0;
+        private int slides = 0;
+        private int touchs = 0;
+        private int breaks = 0;
+        public int sdSum = 0;
+        public int xdSum = 0;
+
+        public NotesAcuCal(Root ss)
+        {
+            var index = GlobalValues.now_dif_index;
+            this.taps = ss.charts[index].notes[0];
+            this.holds = ss.charts[index].notes[1];
+            this.slides = ss.charts[index].notes[2];
+            if (ss.type == "SD")
+            {
+                this.breaks = ss.charts[index].notes[3];
+            }
+            else
+            {
+                this.touchs = ss.charts[index].notes[3];
+                this.breaks = ss.charts[index].notes[4];
+            }
+            sdSum = taps * 500 + holds * 1000 + slides * 1500 + touchs * 500 + breaks * 2500;
+            xdSum = 100 * breaks;
+        }
+    };
+    public class HintTextForHintTB : Behavior<TextBlock>
+    {
+        protected override void OnAttached()
+        {
+            base.OnAttached();
+            Messenger.Default.Register<SongClick>(this, Faded);
+            var opAni = new DoubleAnimation
+            {
+                From = 0,
+                To = 1,
+                Duration = TimeSpan.FromSeconds(0.5f),
+                EasingFunction = new PowerEase() { EasingMode = EasingMode.EaseOut },
+            };
+            AssociatedObject.BeginAnimation(FrameworkElement.OpacityProperty, opAni);
+        }
+        private void Faded(SongClick e)
+        {
+            if (!GlobalValues.is_first_lauch) return;
+            var opAni = new DoubleAnimation
+            {
+                To = 0,
+                Duration = TimeSpan.FromSeconds(0.5f),
+                EasingFunction = new PowerEase() { EasingMode = EasingMode.EaseOut },
+            };
+            AssociatedObject.BeginAnimation(FrameworkElement.OpacityProperty, opAni);
+        }
+    }
+    public class BreakPerfect100Text : Behavior<TextBlock>
+    {
+        protected override void OnAttached()
+        {
+            base.OnAttached();
+            Messenger.Default.Register<SongClick>(this, Text);
+            Messenger.Default.Register<DifClick>(this, TextDif);
+        }
+        private async void Text(SongClick e)
+        {
+            await Task.Delay(200);
+            var cal = new NotesAcuCal(GlobalValues.SingleSongShow);
+            AssociatedObject.Text = $"{50f / cal.xdSum / 100:P3}";
+        }
+        private void TextDif(DifClick e)
+        {
+            Text(new SongClick());
+        }
+    }
+    public class BreakPerfect50Text : Behavior<TextBlock>
+    {
+        protected override void OnAttached()
+        {
+            base.OnAttached();
+            Messenger.Default.Register<SongClick>(this, Text);
+            Messenger.Default.Register<DifClick>(this, TextDif);
+        }
+        private async void Text(SongClick e)
+        {
+            await Task.Delay(200);
+            var cal = new NotesAcuCal(GlobalValues.SingleSongShow);
+            AssociatedObject.Text = $"{25f / cal.xdSum / 100:P3}";
+        }
+        private void TextDif(DifClick e)
+        {
+            Text(new SongClick());
+        }
+    }
+    public class BreakMissText : Behavior<TextBlock>
+    {
+        protected override void OnAttached()
+        {
+            base.OnAttached();
+            Messenger.Default.Register<SongClick>(this, Text);
+            Messenger.Default.Register<DifClick>(this, TextDif);
+        }
+        private async void Text(SongClick e)
+        {
+            await Task.Delay(200);
+            var cal = new NotesAcuCal(GlobalValues.SingleSongShow);
+            AssociatedObject.Text = $"{2500f / cal.sdSum + 100f / cal.xdSum / 100:P3}";
+        }
+        private void TextDif(DifClick e)
+        {
+            Text(new SongClick());
+        }
+    }
+    public class BreakGoodText : Behavior<TextBlock>
+    {
+        protected override void OnAttached()
+        {
+            base.OnAttached();
+            Messenger.Default.Register<SongClick>(this, Text);
+            Messenger.Default.Register<DifClick>(this, TextDif);
+        }
+        private async void Text(SongClick e)
+        {
+            await Task.Delay(200);
+            var cal = new NotesAcuCal(GlobalValues.SingleSongShow);
+            AssociatedObject.Text = $"{1500f / cal.sdSum + 70f / cal.xdSum/100:P3}";
+        }
+        private void TextDif(DifClick e)
+        {
+            Text(new SongClick());
+        }
+    }
+    public class BreakGreatText_3 : Behavior<TextBlock>
+    {
+        protected override void OnAttached()
+        {
+            base.OnAttached();
+            Messenger.Default.Register<SongClick>(this, Text);
+            Messenger.Default.Register<DifClick>(this, TextDif);
+        }
+        private async void Text(SongClick e)
+        {
+            await Task.Delay(200);
+            var cal = new NotesAcuCal(GlobalValues.SingleSongShow);
+            AssociatedObject.Text = $"{1250f / cal.sdSum + 60f / cal.xdSum / 100:P3}";
+        }
+        private void TextDif(DifClick e)
+        {
+            Text(new SongClick());
+        }
+    }
+    public class BreakGreatText_2 : Behavior<TextBlock>
+    {
+        protected override void OnAttached()
+        {
+            base.OnAttached();
+            Messenger.Default.Register<SongClick>(this, Text);
+            Messenger.Default.Register<DifClick>(this, TextDif);
+        }
+        private async void Text(SongClick e)
+        {
+            await Task.Delay(200);
+            var cal = new NotesAcuCal(GlobalValues.SingleSongShow);
+            AssociatedObject.Text = $"{1000f / cal.sdSum + 60f / cal.xdSum/100:P3}";
+        }
+        private void TextDif(DifClick e)
+        {
+            Text(new SongClick());
+        }
+    }
+    public class BreakGreatText_1 : Behavior<TextBlock>
+    {
+        protected override void OnAttached()
+        {
+            base.OnAttached();
+            Messenger.Default.Register<SongClick>(this, Text);
+            Messenger.Default.Register<DifClick>(this, TextDif);
+        }
+        private async void Text(SongClick e)
+        {
+            await Task.Delay(200);
+            var cal = new NotesAcuCal(GlobalValues.SingleSongShow);
+            AssociatedObject.Text = $"{500f/cal.sdSum + 60f/cal.xdSum/100:P3}";
+        }
+        private void TextDif(DifClick e)
+        {
+            Text(new SongClick());
+        }
+    }
+    public class SlideMissText : Behavior<TextBlock>
+    {
+        protected override void OnAttached()
+        {
+            base.OnAttached();
+            Messenger.Default.Register<SongClick>(this, Text);
+            Messenger.Default.Register<DifClick>(this, TextDif);
+        }
+        private async void Text(SongClick e)
+        {
+            await Task.Delay(200);
+            var cal = new NotesAcuCal(GlobalValues.SingleSongShow);
+            AssociatedObject.Text = $"{1500f / cal.sdSum:P3}";
+        }
+        private void TextDif(DifClick e)
+        {
+            Text(new SongClick());
+        }
+    }
+    public class SlideGoodText : Behavior<TextBlock>
+    {
+        protected override void OnAttached()
+        {
+            base.OnAttached();
+            Messenger.Default.Register<SongClick>(this, Text);
+            Messenger.Default.Register<DifClick>(this, TextDif);
+        }
+        private async void Text(SongClick e)
+        {
+            await Task.Delay(200);
+            var cal = new NotesAcuCal(GlobalValues.SingleSongShow);
+            AssociatedObject.Text = $"{750f / cal.sdSum:P3}";
+        }
+        private void TextDif(DifClick e)
+        {
+            Text(new SongClick());
+        }
+    }
+    public class SlideGreatText : Behavior<TextBlock>
+    {
+        protected override void OnAttached()
+        {
+            base.OnAttached();
+            Messenger.Default.Register<SongClick>(this, Text);
+            Messenger.Default.Register<DifClick>(this, TextDif);
+        }
+        private async void Text(SongClick e)
+        {
+            await Task.Delay(200);
+            var cal = new NotesAcuCal(GlobalValues.SingleSongShow);
+            AssociatedObject.Text = $"{300f / cal.sdSum:P3}";
+        }
+        private void TextDif(DifClick e)
+        {
+            Text(new SongClick());
+        }
+    }
+    public class HoldMissText : Behavior<TextBlock>
+    {
+        protected override void OnAttached()
+        {
+            base.OnAttached();
+            Messenger.Default.Register<SongClick>(this, Text);
+            Messenger.Default.Register<DifClick>(this, TextDif);
+        }
+        private async void Text(SongClick e)
+        {
+            await Task.Delay(200);
+            var cal = new NotesAcuCal(GlobalValues.SingleSongShow);
+            AssociatedObject.Text = $"{1000f / cal.sdSum:P3}";
+        }
+        private void TextDif(DifClick e)
+        {
+            Text(new SongClick());
+        }
+    }
+    public class HoldGoodText : Behavior<TextBlock>
+    {
+        protected override void OnAttached()
+        {
+            base.OnAttached();
+            Messenger.Default.Register<SongClick>(this, Text);
+            Messenger.Default.Register<DifClick>(this, TextDif);
+        }
+        private async void Text(SongClick e)
+        {
+            await Task.Delay(200);
+            var cal = new NotesAcuCal(GlobalValues.SingleSongShow);
+            AssociatedObject.Text = $"{500f / cal.sdSum:P3}";
+        }
+        private void TextDif(DifClick e)
+        {
+            Text(new SongClick());
+        }
+    }
+    public class HoldGreatText : Behavior<TextBlock>
+    {
+        protected override void OnAttached()
+        {
+            base.OnAttached();
+            Messenger.Default.Register<SongClick>(this, Text);
+            Messenger.Default.Register<DifClick>(this, TextDif);
+        }
+        private async void Text(SongClick e)
+        {
+            await Task.Delay(200);
+            var cal = new NotesAcuCal(GlobalValues.SingleSongShow);
+            AssociatedObject.Text = $"{200f / cal.sdSum:P3}";
+        }
+        private void TextDif(DifClick e)
+        {
+            Text(new SongClick());
+        }
+    }
+    public class TapMissText : Behavior<TextBlock>
+    {
+        protected override void OnAttached()
+        {
+            base.OnAttached();
+            Messenger.Default.Register<SongClick>(this, Text);
+            Messenger.Default.Register<DifClick>(this, TextDif);
+        }
+        private async void Text(SongClick e)
+        {
+            await Task.Delay(200);
+            var cal = new NotesAcuCal(GlobalValues.SingleSongShow);
+            AssociatedObject.Text = $"{500f / cal.sdSum:P3}";
+        }
+        private void TextDif(DifClick e)
+        {
+            Text(new SongClick());
+        }
+    }
+    public class TapGoodText : Behavior<TextBlock>
+    {
+        protected override void OnAttached()
+        {
+            base.OnAttached();
+            Messenger.Default.Register<SongClick>(this, Text);
+            Messenger.Default.Register<DifClick>(this, TextDif);
+        }
+        private async void Text(SongClick e)
+        {
+            await Task.Delay(200);
+            var cal = new NotesAcuCal(GlobalValues.SingleSongShow);
+            AssociatedObject.Text = $"{250f / cal.sdSum:P3}";
+        }
+        private void TextDif(DifClick e)
+        {
+            Text(new SongClick());
+        }
+    }
+    public class TapGreatText : Behavior<TextBlock>
+    {
+        protected override void OnAttached()
+        {
+            base.OnAttached();
+            Messenger.Default.Register<SongClick>(this, Text);
+            Messenger.Default.Register<DifClick>(this, TextDif);
+        }
+        private async void Text(SongClick e)
+        {
+            await Task.Delay(200);
+            var cal = new NotesAcuCal(GlobalValues.SingleSongShow);
+            AssociatedObject.Text = $"{100f / cal.sdSum:P3}";
+        }
+        private void TextDif(DifClick e)
+        {
+            Text(new SongClick());
+        }
+    }
     /// <summary>
     /// 用于提示玩家能否吃分的文字行为
     /// </summary>
