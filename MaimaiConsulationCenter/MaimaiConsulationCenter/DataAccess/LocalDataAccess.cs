@@ -1,28 +1,15 @@
-﻿using MySql.Data.MySqlClient;
+﻿using MaimaiConsulationCenter.Common;
+using MaimaiConsulationCenter.DataAccess.DataEntity;
+using MaimaiConsulationCenter.Model;
+using Newtonsoft.Json;
 using RestSharp;
 using System;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.Configuration;
-using System.Data;
-using System.Data.SqlClient;
-using System.Data.SqlTypes;
-using System.Diagnostics;
-using System.Linq;
-using System.Text;
-using System.Text.Json.Serialization;
-using System.Threading.Tasks;
-using System.Windows.Annotations;
-using MaimaiConsulationCenter.Common;
-using MaimaiConsulationCenter.DataAccess.DataEntity;
-using Newtonsoft.Json;
-using System.Security.Policy;
-using System.Net;
-using MaimaiConsulationCenter.Model;
 using System.Collections.ObjectModel;
 using System.IO;
+using System.Linq;
+using System.Net;
 using static MaimaiConsulationCenter.Model.MaiUserScoresModel;
-using System.CodeDom;
 
 namespace MaimaiConsulationCenter.DataAccess
 {
@@ -32,50 +19,51 @@ namespace MaimaiConsulationCenter.DataAccess
         private LocalDataAccess() { }
         public static LocalDataAccess GetInstance()
         {
-            return instance??(instance=new LocalDataAccess());
+            return instance ?? (instance = new LocalDataAccess());
         }
-/*        MySqlConnection conn;
-        MySqlCommand comm;
-        MySqlDataAdapter adapter;
-        private void Dispose()
-        {
-            if (adapter != null)
-            {
-                adapter.Dispose();
-                adapter = null;
-            }
-            if (comm != null)
-            {
-                comm.Dispose();
-                comm = null;
-            }
-            if (conn != null)
-            {
-                conn.Close();
-                conn.Dispose();
-                conn = null;
-            }
-        }*/
-/*        private bool DBConnection()
-        {
-            string connStr = ConfigurationManager.ConnectionStrings["db"].ConnectionString;
-            if (conn == null) 
-                conn = new MySqlConnection("Server=localhost;Database=zx_data;User Id=root;Password=123456;");
-            try
-            {
-                conn.Open();
-                return true;
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine(ex.Message);
-                return false;
-            }
-        }*/
+        /*        MySqlConnection conn;
+                MySqlCommand comm;
+                MySqlDataAdapter adapter;
+                private void Dispose()
+                {
+                    if (adapter != null)
+                    {
+                        adapter.Dispose();
+                        adapter = null;
+                    }
+                    if (comm != null)
+                    {
+                        comm.Dispose();
+                        comm = null;
+                    }
+                    if (conn != null)
+                    {
+                        conn.Close();
+                        conn.Dispose();
+                        conn = null;
+                    }
+                }*/
+        /*        private bool DBConnection()
+                {
+                    string connStr = ConfigurationManager.ConnectionStrings["db"].ConnectionString;
+                    if (conn == null) 
+                        conn = new MySqlConnection("Server=localhost;Database=zx_data;User Id=root;Password=123456;");
+                    try
+                    {
+                        conn.Open();
+                        return true;
+                    }
+                    catch (Exception ex)
+                    {
+                        Console.WriteLine(ex.Message);
+                        return false;
+                    }
+                }*/
 
         public void CheckUserInfo(string userName, string pwd)
         {
-            try {
+            try
+            {
                 /* //Console.WriteLine("登陆成功");
                  string userSql = "select * from users where user_name=@user_name and password=@pwd and is_validation=1";
                  //string userSql = "select * from users";
@@ -123,7 +111,7 @@ namespace MaimaiConsulationCenter.DataAccess
                     //非200状态码时报错并显示错误信息
                     if (((int)response.StatusCode) != 200)
                     {
-                        Dictionary<string,object> jsonObj = JsonConvert.DeserializeObject<Dictionary<string,object>>(response.Content);
+                        Dictionary<string, object> jsonObj = JsonConvert.DeserializeObject<Dictionary<string, object>>(response.Content);
                         Console.WriteLine(jsonObj);
                         int errCode = Convert.ToInt32(jsonObj["errcode"]);
                         string msg = Convert.ToString(jsonObj["message"]);
@@ -170,7 +158,7 @@ namespace MaimaiConsulationCenter.DataAccess
                     GlobalValues.UserRecords = JsonConvert.DeserializeObject<UserRecordsModel.Root>(response.Content);
                     Console.WriteLine("登录界面：玩家所有成绩获取成功");
                     //在此将成绩归入所有乐曲成绩
-                    foreach(var item in GlobalValues.UserRecords.records)
+                    foreach (var item in GlobalValues.UserRecords.records)
                     {
                         var targetSong = GlobalValues.SongsModel.FirstOrDefault(song => song.id == item.song_id.ToString());
                         if (targetSong != null)
@@ -189,7 +177,7 @@ namespace MaimaiConsulationCenter.DataAccess
                     GetB50(userName);
                     Console.WriteLine("登录界面-b50玩家数据获取成功");
                 }
-                
+
             }
             catch (Exception ex)
             {

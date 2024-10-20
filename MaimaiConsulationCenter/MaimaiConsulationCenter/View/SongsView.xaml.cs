@@ -1,29 +1,14 @@
-﻿using MaimaiConsulationCenter.ViewModel;
+﻿using GalaSoft.MvvmLight.Messaging;
+using MaimaiConsulationCenter.Common;
+using MaimaiConsulationCenter.ViewModel;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
 using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
-using MaimaiConsulationCenter.Common;
-using static MaimaiConsulationCenter.Common.Interfaces;
-using LibVLCSharp.Shared;
-using System.ComponentModel;
-using System.Reflection;
-using System.Windows.Media.Animation;
-using System.Net.NetworkInformation;
-using MaimaiConsulationCenter.Model;
-using GalaSoft.MvvmLight.Messaging;
 using System.Windows.Markup;
-using System.Globalization;
+using System.Windows.Media;
+using System.Windows.Shapes;
 
 namespace MaimaiConsulationCenter.View
 {
@@ -36,9 +21,9 @@ namespace MaimaiConsulationCenter.View
         public override object ProvideValue(IServiceProvider serviceProvider)
         {
             var routedEvents = EventManager.GetRoutedEventsForOwner(OwnerType);
-            foreach(RoutedEvent item in routedEvents)
+            foreach (RoutedEvent item in routedEvents)
             {
-                if(item.Name == EventName) return item;
+                if (item.Name == EventName) return item;
             }
             throw new ArgumentException($"未找到名为 '{EventName}' 的路由事件，类型为 '{OwnerType.FullName}'。");
         }
@@ -81,7 +66,8 @@ namespace MaimaiConsulationCenter.View
 
         private void OnSongClick(SongClick e)
         {
-            Application.Current.Dispatcher.Invoke(new Action(() => {
+            Application.Current.Dispatcher.Invoke(new Action(() =>
+            {
                 TitleTB.RaiseEvent(new RoutedEventArgs(AfterClickNewSong));
                 ARTIST.RaiseEvent(new RoutedEventArgs(AfterClickNewSong));
                 AristTB.RaiseEvent(new RoutedEventArgs(AfterClickNewSong));
@@ -122,13 +108,15 @@ namespace MaimaiConsulationCenter.View
         {
             if (GlobalValues.next_dif_dic == 0)
             {
-                Application.Current.Dispatcher.Invoke(new Action(() => {
+                Application.Current.Dispatcher.Invoke(new Action(() =>
+                {
                     NotesGrid.RaiseEvent(new RoutedEventArgs(AfterClickNewDifLeft));
                 }));
             }
             else
             {
-                Application.Current.Dispatcher.Invoke(new Action(() => {
+                Application.Current.Dispatcher.Invoke(new Action(() =>
+                {
                     NotesGrid.RaiseEvent(new RoutedEventArgs(AfterClickNewDifRight));
                 }));
             }
@@ -139,7 +127,7 @@ namespace MaimaiConsulationCenter.View
         private double Maximum = 101;
         private double Minimum = 97;
         private double Interval = 5;
-        private string[] texts = { "97%", "98%" , "99%", "100%", "100.5%", "101%"};
+        private string[] texts = { "97%", "98%", "99%", "100%", "100.5%", "101%" };
         private void CircleDraw(object sender, RoutedEventArgs e)
         {
             if (double.IsNaN(mainCanvas.Width)) return;
@@ -203,7 +191,7 @@ namespace MaimaiConsulationCenter.View
         {
             if (GlobalValues.now_dif_index != 1)
             {
-                if(1 < GlobalValues.now_dif_index)
+                if (1 < GlobalValues.now_dif_index)
                     GlobalValues.next_dif_dic = 0;
                 else GlobalValues.next_dif_dic = 1;
                 GlobalValues.now_dif_index = 1;

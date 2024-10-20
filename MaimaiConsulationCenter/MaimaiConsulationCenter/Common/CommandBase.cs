@@ -1,9 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Security.Permissions;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Input;
 
 namespace MaimaiConsulationCenter.Common
@@ -24,6 +19,6 @@ namespace MaimaiConsulationCenter.Common
 
         public Action<Object> DoExecute { get; set; }
 
-        public Func<object,bool> DoCanExecute { get; set; }
+        public Func<object, bool> DoCanExecute { get; set; }
     }
 }

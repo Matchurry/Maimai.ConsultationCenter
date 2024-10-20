@@ -1,18 +1,9 @@
 ﻿using GalaSoft.MvvmLight.Messaging;
+using MaimaiConsulationCenter.ViewModel;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
 using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Shapes;
-using MaimaiConsulationCenter.ViewModel;
 
 namespace MaimaiConsulationCenter.View
 {
@@ -24,14 +15,14 @@ namespace MaimaiConsulationCenter.View
         public class LoginSuccessMessage { };
 
         public static readonly RoutedEvent AfterLogin = EventManager.RegisterRoutedEvent(
-            "AfterLogin",RoutingStrategy.Bubble, typeof(RoutedEventHandler),typeof(Border));
+            "AfterLogin", RoutingStrategy.Bubble, typeof(RoutedEventHandler), typeof(Border));
 
         public LoginView()
         {
             InitializeComponent();
             this.DataContext = new LoginViewModel();
             MainBoder.AddHandler(AfterLogin, new RoutedEventHandler(AfterLoginEvent));
-            Messenger.Default.Register<LoginSuccessMessage>(this,OnLoginSuccess);
+            Messenger.Default.Register<LoginSuccessMessage>(this, OnLoginSuccess);
 
         }
         private void OnLoginSuccess(LoginSuccessMessage message)

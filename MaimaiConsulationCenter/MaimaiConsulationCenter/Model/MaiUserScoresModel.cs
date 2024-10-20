@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
 
 namespace MaimaiConsulationCenter.Model
 {
@@ -23,7 +19,7 @@ namespace MaimaiConsulationCenter.Model
             public int dxScore { get; set; }
             public int maxDxScore { get; set; }
             public string dx_max_str { get; set; }
-            public string dx_src {  get; set; }
+            public string dx_src { get; set; }
             public string fc { get; set; }
             public string fc_src { get; set; }
             public string fs { get; set; }

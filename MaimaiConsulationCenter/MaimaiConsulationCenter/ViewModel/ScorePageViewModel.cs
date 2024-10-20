@@ -1,29 +1,15 @@
-﻿using Newtonsoft.Json;
-using RestSharp;
-using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Web.Security;
-using System.Windows.Input;
-using System.Windows.Interactivity;
-using System.Windows;
+﻿using GalaSoft.MvvmLight.Messaging;
 using MaimaiConsulationCenter.Common;
 using MaimaiConsulationCenter.Model;
-using static System.Net.WebRequestMethods;
-using static MaimaiConsulationCenter.Model.MaiUserScoresModel;
-using static MaimaiConsulationCenter.ViewModel.LoginViewModel;
-using System.Windows.Media;
-using System.Windows.Media.Media3D;
-using Mysqlx.Datatypes;
-using System.Windows.Media.Animation;
-using System.Windows.Threading;
-using GalaSoft.MvvmLight.Messaging;
-using static MaimaiConsulationCenter.View.LoginView;
+using System;
+using System.IO;
+using System.Linq;
+using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Interactivity;
+using System.Windows.Media;
+using System.Windows.Media.Animation;
+using static MaimaiConsulationCenter.Model.MaiUserScoresModel;
 
 namespace MaimaiConsulationCenter.ViewModel
 {
@@ -31,7 +17,7 @@ namespace MaimaiConsulationCenter.ViewModel
     public class B15MouseEnterMessage { };
     public class B50MouseLeaveMessage { };
 
-    public class B35MouseEnterBehavior: Behavior<FrameworkElement>
+    public class B35MouseEnterBehavior : Behavior<FrameworkElement>
     {
         private int thisid;
         private object obj;
@@ -80,7 +66,7 @@ namespace MaimaiConsulationCenter.ViewModel
                     }
                     break;
                 case 1:
-                    if ((GlobalValues.B35_UI_Id - 1) % 5 != 0 )
+                    if ((GlobalValues.B35_UI_Id - 1) % 5 != 0)
                     {
                         tarX = -25;
                     }
@@ -164,7 +150,7 @@ namespace MaimaiConsulationCenter.ViewModel
                     }
                     break;
                 case 1:
-                    if ((GlobalValues.B15_UI_Id - 1)%5 != 0)
+                    if ((GlobalValues.B15_UI_Id - 1) % 5 != 0)
                     {
                         tarX = -25;
                     }
@@ -198,99 +184,99 @@ namespace MaimaiConsulationCenter.ViewModel
         }
     }
 
-/*    public class ResizeByMouseBehavior : Behavior<FrameworkElement>
-    {
-        private DispatcherTimer timer;
-        private static Point mousePosition;
-        private Point _lastMousePosition;
-        private static double _maxDis = Math.Sqrt(216 * 216 + 100 * 100) / 2;
-
-        protected override void OnAttached()
+    /*    public class ResizeByMouseBehavior : Behavior<FrameworkElement>
         {
-            base.OnAttached();
-            timer = new DispatcherTimer { Interval = TimeSpan.FromMilliseconds(1) };
-            timer.Tick += Timer_Tick;
-            timer.Start();
-        }
+            private DispatcherTimer timer;
+            private static Point mousePosition;
+            private Point _lastMousePosition;
+            private static double _maxDis = Math.Sqrt(216 * 216 + 100 * 100) / 2;
 
-        protected override void OnDetaching()
-        {
-            timer.Stop();
-            timer.Tick -= Timer_Tick;
-            base.OnDetaching();
-        }
-
-        private void Timer_Tick(object sender, EventArgs e)
-        {
-            try
+            protected override void OnAttached()
             {
-                // 获取鼠标位置
-                Point currentMousePosition = Mouse.GetPosition(Application.Current.MainWindow);
-                // 将鼠标位置转换为屏幕坐标系下的坐标
-                mousePosition = Application.Current.MainWindow.PointToScreen(currentMousePosition);
-                //mousePosition = AssociatedObject.PointToScreen(e.GetPosition(AssociatedObject)); //屏幕坐标系下鼠标的位置
-               if (!(Math.Abs(mousePosition.X - _lastMousePosition.X) > Threshold ||
-                    Math.Abs(mousePosition.Y - _lastMousePosition.Y) > Threshold))
-                {
-                    _lastMousePosition = mousePosition;
-                    return;
-                }
-                _lastMousePosition = mousePosition;
-                Point objectScreenPosition = AssociatedObject.PointToScreen(new Point(0, 0));
-                double y = mousePosition.Y - (objectScreenPosition.Y + 100 / 2); // y距离 有正负
-                double x = mousePosition.X - (objectScreenPosition.X + 216 / 2); // x距离 有正负
-                double distance = Math.Sqrt(x * x + y * y);
-                double tarsX = 1, tarsY = 1, tarX = 0, tarY = 0;
-                //动画1 鼠标在控件内部时 控件放大
-                if (Math.Abs(x) <= 216 / 2 && Math.Abs(y) <= 100 / 2) //鼠标在控件内 应用缩放
-                {
-                    //变为原来的1.3倍
-                    tarsX = 1.3;
-                    tarsY = 1.3;
-                }
-
-                //动画2 对于同一行布局X大小的变换
-                if (Math.Abs(y) <= 100 / 2) //如果鼠标在我这一行
-                {
-                    if(Math.Abs(x) >= 226/2  && Math.Abs(x) <= 206 + 226/2) //鼠标在我之外一个范围内
-                    {
-                        var cal = Math.Abs(x);
-                        tarX = 25;
-                        if (x>0) tarX = -tarX;
-                    }
-                }
-                
-                //动画3 对于同一列布局Y大小的变换
-                if (Math.Abs(x) <= 216 / 2) //如果鼠标在我这一行
-                {
-                    if (Math.Abs(y) >= 110 / 2 && Math.Abs(y) <= 90 + 110 / 2) //鼠标在我之外一个范围内
-                    {
-                        var cal = Math.Abs(y);
-                        tarY = 10;
-                        if (y > 0) tarY = -tarY;
-                    }
-                }
-
-                AssociatedObject.RenderTransform = new TransformGroup
-                {
-                    Children =
-                        {
-                            new TranslateTransform {X = tarX, Y = tarY},
-                            new ScaleTransform { ScaleX = tarsX, ScaleY=tarsY },
-                        }
-                };
-
+                base.OnAttached();
+                timer = new DispatcherTimer { Interval = TimeSpan.FromMilliseconds(1) };
+                timer.Tick += Timer_Tick;
+                timer.Start();
             }
-            catch(System.InvalidOperationException){
+
+            protected override void OnDetaching()
+            {
                 timer.Stop();
                 timer.Tick -= Timer_Tick;
+                base.OnDetaching();
             }
 
-        }
+            private void Timer_Tick(object sender, EventArgs e)
+            {
+                try
+                {
+                    // 获取鼠标位置
+                    Point currentMousePosition = Mouse.GetPosition(Application.Current.MainWindow);
+                    // 将鼠标位置转换为屏幕坐标系下的坐标
+                    mousePosition = Application.Current.MainWindow.PointToScreen(currentMousePosition);
+                    //mousePosition = AssociatedObject.PointToScreen(e.GetPosition(AssociatedObject)); //屏幕坐标系下鼠标的位置
+                   if (!(Math.Abs(mousePosition.X - _lastMousePosition.X) > Threshold ||
+                        Math.Abs(mousePosition.Y - _lastMousePosition.Y) > Threshold))
+                    {
+                        _lastMousePosition = mousePosition;
+                        return;
+                    }
+                    _lastMousePosition = mousePosition;
+                    Point objectScreenPosition = AssociatedObject.PointToScreen(new Point(0, 0));
+                    double y = mousePosition.Y - (objectScreenPosition.Y + 100 / 2); // y距离 有正负
+                    double x = mousePosition.X - (objectScreenPosition.X + 216 / 2); // x距离 有正负
+                    double distance = Math.Sqrt(x * x + y * y);
+                    double tarsX = 1, tarsY = 1, tarX = 0, tarY = 0;
+                    //动画1 鼠标在控件内部时 控件放大
+                    if (Math.Abs(x) <= 216 / 2 && Math.Abs(y) <= 100 / 2) //鼠标在控件内 应用缩放
+                    {
+                        //变为原来的1.3倍
+                        tarsX = 1.3;
+                        tarsY = 1.3;
+                    }
 
-    }*/
+                    //动画2 对于同一行布局X大小的变换
+                    if (Math.Abs(y) <= 100 / 2) //如果鼠标在我这一行
+                    {
+                        if(Math.Abs(x) >= 226/2  && Math.Abs(x) <= 206 + 226/2) //鼠标在我之外一个范围内
+                        {
+                            var cal = Math.Abs(x);
+                            tarX = 25;
+                            if (x>0) tarX = -tarX;
+                        }
+                    }
 
-    public class ScorePageViewModel:NotifyBase
+                    //动画3 对于同一列布局Y大小的变换
+                    if (Math.Abs(x) <= 216 / 2) //如果鼠标在我这一行
+                    {
+                        if (Math.Abs(y) >= 110 / 2 && Math.Abs(y) <= 90 + 110 / 2) //鼠标在我之外一个范围内
+                        {
+                            var cal = Math.Abs(y);
+                            tarY = 10;
+                            if (y > 0) tarY = -tarY;
+                        }
+                    }
+
+                    AssociatedObject.RenderTransform = new TransformGroup
+                    {
+                        Children =
+                            {
+                                new TranslateTransform {X = tarX, Y = tarY},
+                                new ScaleTransform { ScaleX = tarsX, ScaleY=tarsY },
+                            }
+                    };
+
+                }
+                catch(System.InvalidOperationException){
+                    timer.Stop();
+                    timer.Tick -= Timer_Tick;
+                }
+
+            }
+
+        }*/
+
+    public class ScorePageViewModel : NotifyBase
     {
         public Root GetScorePageDataAsync()
         {
@@ -322,7 +308,8 @@ namespace MaimaiConsulationCenter.ViewModel
                     var cal = 0;
                     //随后获取总note数 *3 即为dxScore
 
-                    foreach (var notescnt in foundSong.charts[item.level_index].notes) {
+                    foreach (var notescnt in foundSong.charts[item.level_index].notes)
+                    {
                         cal += notescnt;
                     }
 

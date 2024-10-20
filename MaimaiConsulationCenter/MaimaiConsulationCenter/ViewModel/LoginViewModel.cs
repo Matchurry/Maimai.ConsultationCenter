@@ -1,31 +1,22 @@
 ﻿using GalaSoft.MvvmLight.Messaging;
+using MaimaiConsulationCenter.Common;
+using MaimaiConsulationCenter.DataAccess;
+using MaimaiConsulationCenter.Model;
+using MaimaiConsulationCenter.View;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+using System.Runtime.Caching;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Input;
-using System.Windows.Interactivity;
 using System.Windows.Media;
-using MaimaiConsulationCenter.Common;
-using MaimaiConsulationCenter.DataAccess;
-using MaimaiConsulationCenter.DataAccess.DataEntity;
-using MaimaiConsulationCenter.Model;
 using static MaimaiConsulationCenter.View.LoginView;
-using System.Runtime.Caching;
-using MaimaiConsulationCenter.View;
-using System.Windows.Threading;
-using System.Net;
-using System.IO;
 
 namespace MaimaiConsulationCenter.ViewModel
 {
 
     public class LoginViewModel : NotifyBase
     {
-        public static LoginModel LoginModel { get; set; } = new LoginModel("","","");
+        public static LoginModel LoginModel { get; set; } = new LoginModel("", "", "");
         public CommandBase CloseWindowCommand { get; set; }
         public CommandBase LoginCommand { get; set; }
 
@@ -41,20 +32,22 @@ namespace MaimaiConsulationCenter.ViewModel
         public Visibility ShowProgress
         {
             get { return _showProgress; }
-            set {
+            set
+            {
                 _showProgress = value;
                 this.DoNotify();
             }
         }
 
-        public LoginViewModel() {
+        public LoginViewModel()
+        {
             this.CloseWindowCommand = new CommandBase();
             this.CloseWindowCommand.DoExecute = new Action<object>((o) =>
             {
                 (o as Window).Close();
             });
-            this.CloseWindowCommand.DoCanExecute = new Func<object,bool>((o) => { return true; });
-            this.LoginCommand=new CommandBase();
+            this.CloseWindowCommand.DoCanExecute = new Func<object, bool>((o) => { return true; });
+            this.LoginCommand = new CommandBase();
             this.LoginCommand.DoExecute = new Action<object>(DoLogin);
             this.LoginCommand.DoCanExecute = new Func<object, bool>((o) => { return true; });
 
@@ -62,10 +55,10 @@ namespace MaimaiConsulationCenter.ViewModel
 
         private void DoLoginButtonHidden(Button bt)
         {
-            bt.IsEnabled = false ;
+            bt.IsEnabled = false;
             ControlTemplate template = bt.Template;
             Border bd = (Border)template.FindName("LoginButtonTemplateBorder", bt);
-            bd.Background=(SolidColorBrush)(new BrushConverter().ConvertFrom("#DDD"));
+            bd.Background = (SolidColorBrush)(new BrushConverter().ConvertFrom("#DDD"));
         }
 
         private void DoLoginButtonRecover(Button bt)
@@ -125,7 +118,7 @@ namespace MaimaiConsulationCenter.ViewModel
                     //登录成功
                     Messenger.Default.Send(new LoginSuccessMessage());
                     await Task.Delay(800);
-                    Application.Current.Dispatcher.Invoke(new Action(() => {(o as Window).DialogResult = true; })); //这行代码会关闭登录窗口
+                    Application.Current.Dispatcher.Invoke(new Action(() => { (o as Window).DialogResult = true; })); //这行代码会关闭登录窗口
                 }
                 catch (Exception ex)
                 {
@@ -138,12 +131,13 @@ namespace MaimaiConsulationCenter.ViewModel
             {
                 await loginDataSource.Task;
                 await dataLoadedSource.Task;
-                Application.Current.Dispatcher.Invoke(() => {
+                Application.Current.Dispatcher.Invoke(() =>
+                {
                     DoLoginButtonRecover(bt);
                 });
             }, TaskScheduler.FromCurrentSynchronizationContext());
         }
     }
 
-    
+
 }

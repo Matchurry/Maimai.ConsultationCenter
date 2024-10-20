@@ -1,22 +1,16 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Reflection;
+﻿using GalaSoft.MvvmLight.Messaging;
+using MaimaiConsulationCenter.Common;
+using MaimaiConsulationCenter.Model;
+using System;
 using System.Runtime.Caching;
-using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using GalaSoft.MvvmLight.Messaging;
-using System.Windows.Media.Imaging;
-using MaimaiConsulationCenter.Common;
-using MaimaiConsulationCenter.Model;
-using static MaimaiConsulationCenter.Common.Interfaces;
-using System.Windows.Interactivity;
-using System.Windows.Shapes;
 using System.Windows.Input;
+using System.Windows.Interactivity;
 using System.Windows.Media;
 using System.Windows.Media.Animation;
+using System.Windows.Shapes;
 
 namespace MaimaiConsulationCenter.ViewModel
 {
@@ -92,7 +86,7 @@ namespace MaimaiConsulationCenter.ViewModel
                 From = 0,
                 To = 2500,
                 Duration = TimeSpan.FromSeconds(0.5f),
-                EasingFunction = new PowerEase{ EasingMode = EasingMode.EaseOut }
+                EasingFunction = new PowerEase { EasingMode = EasingMode.EaseOut }
             };
 
             var lefttopAni = new DoubleAnimation
@@ -120,37 +114,38 @@ namespace MaimaiConsulationCenter.ViewModel
             ClorAni(new SongClick());
         }
     }
-    public class MainViewModel:NotifyBase
+    public class MainViewModel : NotifyBase
     {
         public UserModel UserInfo { get; set; } = new UserModel();
-		private string _searchText;
+        private string _searchText;
 
-		public string SearchText
-		{
-			get { return _searchText; }
-			set { _searchText = value; DoNotify(); }
-		}
+        public string SearchText
+        {
+            get { return _searchText; }
+            set { _searchText = value; DoNotify(); }
+        }
 
-		private FrameworkElement _mainContent;
+        private FrameworkElement _mainContent;
 
-		public FrameworkElement MainContent
-		{
-			get { return _mainContent; }
-			set { _mainContent = value; DoNotify(); }
-		}
+        public FrameworkElement MainContent
+        {
+            get { return _mainContent; }
+            set { _mainContent = value; DoNotify(); }
+        }
 
-		public CommandBase NavChangedCommand { get; set; }
+        public CommandBase NavChangedCommand { get; set; }
 
-		public MainViewModel() {
-			NavChangedCommand = new CommandBase();
-			NavChangedCommand.DoExecute = new Action<object>(DoNavChanged);
-			NavChangedCommand.DoCanExecute = new Func<object, bool>((o) => true);
-			DoNavChanged("FirstPageView");
-		}
+        public MainViewModel()
+        {
+            NavChangedCommand = new CommandBase();
+            NavChangedCommand.DoExecute = new Action<object>(DoNavChanged);
+            NavChangedCommand.DoCanExecute = new Func<object, bool>((o) => true);
+            DoNavChanged("FirstPageView");
+        }
 
-		private async void DoNavChanged(object o)
-		{
-            if(MainContent!=null && MainContent.ToString() == "MaimaiConsulationCenter.View." + o.ToString())
+        private async void DoNavChanged(object o)
+        {
+            if (MainContent != null && MainContent.ToString() == "MaimaiConsulationCenter.View." + o.ToString())
                 return;
 
             await Application.Current.Dispatcher.BeginInvoke(new Action(() =>

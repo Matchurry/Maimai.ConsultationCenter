@@ -1,12 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Configuration;
-using System.Data;
-using System.Diagnostics;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using MaimaiConsulationCenter.View;
 using System.Windows;
-using MaimaiConsulationCenter.View;
 
 namespace MaimaiConsulationCenter
 {
@@ -19,7 +12,7 @@ namespace MaimaiConsulationCenter
         {
             base.OnStartup(e);
 
-            if(new LoginView().ShowDialog() == true)
+            if (new LoginView().ShowDialog() == true)
             {
                 new MainView().ShowDialog();
             }

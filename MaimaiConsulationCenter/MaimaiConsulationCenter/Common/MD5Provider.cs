@@ -1,10 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Security.Cryptography;
+﻿using System.Security.Cryptography;
 using System.Text;
-using System.Threading;
-using System.Threading.Tasks;
 
 namespace MaimaiConsulationCenter.Common
 {
@@ -13,9 +8,9 @@ namespace MaimaiConsulationCenter.Common
         public static string GetMD5STring(string str)
         {
             MD5 md5 = MD5.Create();
-            byte[] pws=md5.ComputeHash(Encoding.UTF8.GetBytes(str));
+            byte[] pws = md5.ComputeHash(Encoding.UTF8.GetBytes(str));
             string pwd = "";
-            foreach(var item in pws)
+            foreach (var item in pws)
             {
                 pwd += item.ToString("X2");
             }

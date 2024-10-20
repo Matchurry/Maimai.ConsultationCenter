@@ -1,27 +1,19 @@
-﻿using Newtonsoft.Json;
-using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using GalaSoft.MvvmLight.Messaging;
 using MaimaiConsulationCenter.Common;
 using MaimaiConsulationCenter.Model;
-using static MaimaiConsulationCenter.Model.SongModel;
-using System.Net;
+using Newtonsoft.Json;
+using System;
+using System.Collections.ObjectModel;
+using System.IO;
+using System.Threading.Tasks;
 using System.Windows;
-using System.Windows.Interactivity;
-using GalaSoft.MvvmLight.Messaging;
-using System.Windows.Input;
 using System.Windows.Controls;
-using System.Windows.Media.Imaging;
+using System.Windows.Input;
+using System.Windows.Interactivity;
 using System.Windows.Media;
 using System.Windows.Media.Animation;
-using System.Windows.Media.Media3D;
-using System.Web.WebSockets;
-using System.ComponentModel;
-using System.Web.Hosting;
+using System.Windows.Media.Imaging;
+using static MaimaiConsulationCenter.Model.SongModel;
 
 namespace MaimaiConsulationCenter.ViewModel
 {
@@ -152,7 +144,7 @@ namespace MaimaiConsulationCenter.ViewModel
         {
             await Task.Delay(200);
             var cal = new NotesAcuCal(GlobalValues.SingleSongShow);
-            AssociatedObject.Text = $"{1500f / cal.sdSum + 70f / cal.xdSum/100:P3}";
+            AssociatedObject.Text = $"{1500f / cal.sdSum + 70f / cal.xdSum / 100:P3}";
         }
         private void TextDif(DifClick e)
         {
@@ -190,7 +182,7 @@ namespace MaimaiConsulationCenter.ViewModel
         {
             await Task.Delay(200);
             var cal = new NotesAcuCal(GlobalValues.SingleSongShow);
-            AssociatedObject.Text = $"{1000f / cal.sdSum + 60f / cal.xdSum/100:P3}";
+            AssociatedObject.Text = $"{1000f / cal.sdSum + 60f / cal.xdSum / 100:P3}";
         }
         private void TextDif(DifClick e)
         {
@@ -209,7 +201,7 @@ namespace MaimaiConsulationCenter.ViewModel
         {
             await Task.Delay(200);
             var cal = new NotesAcuCal(GlobalValues.SingleSongShow);
-            AssociatedObject.Text = $"{500f/cal.sdSum + 60f/cal.xdSum/100:P3}";
+            AssociatedObject.Text = $"{500f / cal.sdSum + 60f / cal.xdSum / 100:P3}";
         }
         private void TextDif(DifClick e)
         {
@@ -430,9 +422,9 @@ namespace MaimaiConsulationCenter.ViewModel
             rani.EasingFunction = new PowerEase { EasingMode = EasingMode.EaseOut };
             trans.BeginAnimation(TranslateTransform.YProperty, rani);
             await Task.Delay(200);
-            if (floor > 22.512 )
+            if (floor > 22.512)
                 AssociatedObject.Text = $"该谱面对应的难度您已经无法吃分了哦！";
-            else if(floor < 19.400)
+            else if (floor < 19.400)
                 AssociatedObject.Text = $"该谱面对应的难度对您来说有点大了...";
             else
             {
@@ -443,7 +435,7 @@ namespace MaimaiConsulationCenter.ViewModel
                 else if (floor > 19.894) tarRate = floor / 20.8;
                 else tarRate = floor / 20.0;
                 tarRate *= 100;
-                if(floor > 21.707)
+                if (floor > 21.707)
                     AssociatedObject.Text = $"向着SSS+迸发吧！";
                 else
                     AssociatedObject.Text = $"达到{tarRate:F4}%达成率以吃分！";
@@ -554,9 +546,9 @@ namespace MaimaiConsulationCenter.ViewModel
             if (GlobalValues.SingleSongShow.charts[GlobalValues.now_dif_index].achivements >= 100.0)
                 ro = 9 + (GlobalValues.SingleSongShow.charts[GlobalValues.now_dif_index].achivements - 100) * 36;
             else
-                ro = -45-18 + (GlobalValues.SingleSongShow.charts[GlobalValues.now_dif_index].achivements - 96) * 18;
+                ro = -45 - 18 + (GlobalValues.SingleSongShow.charts[GlobalValues.now_dif_index].achivements - 96) * 18;
             var rani = new DoubleAnimation(ro, TimeSpan.FromSeconds(2));
-            rani.EasingFunction = new PowerEase { EasingMode = EasingMode.EaseOut};
+            rani.EasingFunction = new PowerEase { EasingMode = EasingMode.EaseOut };
             rota.BeginAnimation(RotateTransform.AngleProperty, rani);
         }
         private void RotaDif(DifClick e)
@@ -579,11 +571,11 @@ namespace MaimaiConsulationCenter.ViewModel
         private void NewSong(object sender, MouseButtonEventArgs e)
         {
             var obj = (AssociatedObject as Grid).DataContext;
-            if(obj is SongModel.Root songItem)
+            if (obj is SongModel.Root songItem)
             {
                 if (GlobalValues.SingleSongShow.id != null && songItem.id == GlobalValues.SingleSongShow.id) return;
                 GlobalValues.SingleSongShow = songItem;
-                GlobalValues.now_dif_index = songItem.ds.Count-1;
+                GlobalValues.now_dif_index = songItem.ds.Count - 1;
             }
             Messenger.Default.Send(new SongClick());
         }
@@ -803,7 +795,7 @@ namespace MaimaiConsulationCenter.ViewModel
         private async void ChangeText(SongClick e)
         {
             var total = 0;
-            foreach(var item in GlobalValues.SingleSongShow.charts[GlobalValues.now_dif_index].notes)
+            foreach (var item in GlobalValues.SingleSongShow.charts[GlobalValues.now_dif_index].notes)
             {
                 total += item;
             }
@@ -871,7 +863,7 @@ namespace MaimaiConsulationCenter.ViewModel
         private async void ChangePos(SongClick e)
         {
             translateTransform = new TranslateTransform();
-            if (GlobalValues.SingleSongShow.charts.Count==5)
+            if (GlobalValues.SingleSongShow.charts.Count == 5)
             {
                 translateTransform.X = XReMas;
             }
@@ -899,8 +891,8 @@ namespace MaimaiConsulationCenter.ViewModel
             {
                 x = XMas / 3 * GlobalValues.now_dif_index;
             }
-            var xani = new DoubleAnimation(x,TimeSpan.FromSeconds(0.1));
-            translateTransform.BeginAnimation(TranslateTransform.XProperty,xani);
+            var xani = new DoubleAnimation(x, TimeSpan.FromSeconds(0.1));
+            translateTransform.BeginAnimation(TranslateTransform.XProperty, xani);
         }
     }
     /// <summary>
@@ -916,7 +908,7 @@ namespace MaimaiConsulationCenter.ViewModel
         private async void ChangeWidth(SongClick e)
         {
             await Task.Delay(100);
-            if(GlobalValues.now_dif_index == 4)
+            if (GlobalValues.now_dif_index == 4)
             {
                 AssociatedObject.Width = new GridLength(1, GridUnitType.Star);
             }
@@ -989,70 +981,70 @@ namespace MaimaiConsulationCenter.ViewModel
     public class SongsViewModel
     {
         public async Task GetSongsDataAsync()
-    {
-        if (GlobalValues.SongsModel == null)
         {
-            await Task.Run(() =>
+            if (GlobalValues.SongsModel == null)
             {
-                string jsonFilePath = Path.Combine(
-                Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "..", ".."),
-                    @"Assets\MaiMusicData\MusicData.json");
-                string jsonFile = System.IO.File.ReadAllText(jsonFilePath);
-                ObservableCollection<SongModel.Root> songDatas = JsonConvert.DeserializeObject<ObservableCollection<SongModel.Root>>(jsonFile);
-                GlobalValues.SongsModel = songDatas;
-            });
-        }
-
-        string imageDirectory = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "..", "..","Assets", "Images", "MaiSongImages");
-        foreach (var item in GlobalValues.SongsModel)
-        {
-            item.song_img_src = String.Format("../Assets/Images/MaiSongImages/{0}.png", item.id.PadLeft(5, '0'));
-            string imagePath = Path.Combine(imageDirectory, $"{item.id.PadLeft(5, '0')}.png");
-            if (!System.IO.File.Exists(imagePath))
-                item.song_img_src = "../Assets/Images/null.png";
-
-/*                string url = String.Format("https://www.diving-fish.com/covers/{0}.png", item.id.PadLeft(5, '0'));
-                // 下载图片到指定的目录
-                try
+                await Task.Run(() =>
                 {
-                    if (!File.Exists(imagePath))
-                    {
-                        using (WebClient client = new WebClient())
-                        {
-                            client.DownloadFile(url, imagePath);
-                            Console.WriteLine(item.id.PadLeft(5, '0'));
-                        }
-                    }
-                }
-                catch { }*/
+                    string jsonFilePath = Path.Combine(
+                    Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "..", ".."),
+                        @"Assets\MaiMusicData\MusicData.json");
+                    string jsonFile = System.IO.File.ReadAllText(jsonFilePath);
+                    ObservableCollection<SongModel.Root> songDatas = JsonConvert.DeserializeObject<ObservableCollection<SongModel.Root>>(jsonFile);
+                    GlobalValues.SongsModel = songDatas;
+                });
+            }
+
+            string imageDirectory = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "..", "..", "Assets", "Images", "MaiSongImages");
+            foreach (var item in GlobalValues.SongsModel)
+            {
+                item.song_img_src = String.Format("../Assets/Images/MaiSongImages/{0}.png", item.id.PadLeft(5, '0'));
+                string imagePath = Path.Combine(imageDirectory, $"{item.id.PadLeft(5, '0')}.png");
+                if (!System.IO.File.Exists(imagePath))
+                    item.song_img_src = "../Assets/Images/null.png";
+
+                /*                string url = String.Format("https://www.diving-fish.com/covers/{0}.png", item.id.PadLeft(5, '0'));
+                                // 下载图片到指定的目录
+                                try
+                                {
+                                    if (!File.Exists(imagePath))
+                                    {
+                                        using (WebClient client = new WebClient())
+                                        {
+                                            client.DownloadFile(url, imagePath);
+                                            Console.WriteLine(item.id.PadLeft(5, '0'));
+                                        }
+                                    }
+                                }
+                                catch { }*/
 
 
                 int cnt = 0;
-            foreach(var dif in item.ds)
-            {
-                switch (cnt)
+                foreach (var dif in item.ds)
                 {
-                    case 0:
-                        item.easy = dif.ToString();
-                        break;
-                    case 1:
-                        item.advanced = dif.ToString();
-                        break;
-                    case 2:
-                        item.hard = dif.ToString();
-                        break;
-                    case 3:
-                        item.master = dif.ToString();
-                        break;
-                    case 4:
-                        item.remaster = dif.ToString();
-                        break;
+                    switch (cnt)
+                    {
+                        case 0:
+                            item.easy = dif.ToString();
+                            break;
+                        case 1:
+                            item.advanced = dif.ToString();
+                            break;
+                        case 2:
+                            item.hard = dif.ToString();
+                            break;
+                        case 3:
+                            item.master = dif.ToString();
+                            break;
+                        case 4:
+                            item.remaster = dif.ToString();
+                            break;
+                    }
+                    cnt++;
                 }
-                cnt++;
             }
-        }
 
-        return;
-    }
+            return;
+        }
     }
 }

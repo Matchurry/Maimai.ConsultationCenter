@@ -1,22 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Web.UI.WebControls;
-using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
-using LibVLCSharp.Shared;
-using MaimaiConsulationCenter.Common;
+﻿using MaimaiConsulationCenter.Common;
 using MaimaiConsulationCenter.ViewModel;
+using System;
+using System.IO;
+using System.Threading.Tasks;
+using System.Windows;
+using System.Windows.Input;
 
 namespace MaimaiConsulationCenter.View
 {
@@ -43,11 +31,11 @@ namespace MaimaiConsulationCenter.View
             model.UserInfo.Gender = GlobalValues.UserInfo.Gender;
             Console.WriteLine(AppDomain.CurrentDomain.BaseDirectory);
 
-            var currentDirectory = System.IO.Path.Combine(AppDomain.CurrentDomain.BaseDirectory,"libvlc","win-x86");
+            var currentDirectory = System.IO.Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "libvlc", "win-x86");
             libDirectory = new DirectoryInfo(currentDirectory);
             bud.SourceProvider.CreatePlayer(libDirectory);
-            
-            bud.SourceProvider.MediaPlayer.SetMedia(new FileInfo(bud_src), new String[]{"input-repeat=65535"});
+
+            bud.SourceProvider.MediaPlayer.SetMedia(new FileInfo(bud_src), new String[] { "input-repeat=65535" });
             bud.SourceProvider.MediaPlayer.Play();
 
             //bud.SourceProvider.MediaPlayer.EndReached += MediaPlayerEndEvent;
@@ -59,7 +47,8 @@ namespace MaimaiConsulationCenter.View
             Task.Factory.StartNew(() =>
             {
                 obj.Dispose();
-                Application.Current.Dispatcher.BeginInvoke(new Action(()=>{
+                Application.Current.Dispatcher.BeginInvoke(new Action(() =>
+                {
                     obj.SourceProvider.CreatePlayer(libDirectory);
                     obj.SourceProvider.MediaPlayer.Play(bud_src); //注意更改
                     obj.SourceProvider.MediaPlayer.EndReached += MediaPlayerEndEvent;
@@ -82,7 +71,7 @@ namespace MaimaiConsulationCenter.View
 
         private void btnMax_Click(object sender, RoutedEventArgs e)
         {
-            WindowState = WindowState==WindowState.Maximized?WindowState.Normal:WindowState.Maximized;
+            WindowState = WindowState == WindowState.Maximized ? WindowState.Normal : WindowState.Maximized;
         }
 
         private void btnClose_Click(object sender, RoutedEventArgs e)
