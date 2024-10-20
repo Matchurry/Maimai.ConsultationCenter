@@ -3,6 +3,7 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:l="clr-namespace:MaimaiConsulationCenter.View"
         xmlns:local="clr-namespace:MaimaiConsulationCenter.ViewModel"
         xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
         xmlns:common="clr-namespace:MaimaiConsulationCenter.Common" xmlns:model="clr-namespace:MaimaiConsulationCenter.Model" xmlns:viewmodel="clr-namespace:MaimaiConsulationCenter.ViewModel" d:DataContext="{d:DesignInstance Type=viewmodel:LoginViewModel}"
@@ -18,6 +19,11 @@
                 <ResourceDictionary>
                     <PowerEase x:Key="EaseOut" EasingMode="EaseOut"/>
                     <PowerEase x:Key="EaseIn" EasingMode="EaseIn"/>
+                    <l:RegisterRoutedEventExtension
+                        x:Key="AfterLogin"
+                        EventName="AfterLogin"
+                        EventType="RoutedEvent"
+                        OwnerType="Border"/>
                 </ResourceDictionary>
                 <ResourceDictionary Source="../Assets/Styles/DefaultStyle.xaml">
                     <ResourceDictionary.MergedDictionaries>
@@ -276,7 +282,7 @@
                     </Storyboard>
                 </BeginStoryboard>
             </EventTrigger>
-            <EventTrigger RoutedEvent="Border.AfterLogin">
+            <EventTrigger RoutedEvent="{StaticResource AfterLogin}">
                 <BeginStoryboard>
                     <Storyboard>
                         <DoubleAnimation

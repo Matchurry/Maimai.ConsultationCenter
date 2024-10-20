@@ -3,6 +3,7 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:l="clr-namespace:MaimaiConsulationCenter.View"
              xmlns:local="clr-namespace:MaimaiConsulationCenter.ViewModel"
              xmlns:c="clr-namespace:MaimaiConsulationCenter.Common"
              xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
@@ -15,6 +16,51 @@
 
     <UserControl.Resources>
         <PowerEase x:Key="EaseOut" EasingMode="EaseOut"/>
+        <l:RegisterRoutedEventExtension
+            x:Key="AfterClick"
+            EventName="AfterClick"
+            EventType="RoutedEvent"
+            OwnerType="TextBlock" />
+        <l:RegisterRoutedEventExtension
+            x:Key="AfterClickImg"
+            EventName="AfterClickImg"
+            EventType="RoutedEvent"
+            OwnerType="Image"/>
+        <l:RegisterRoutedEventExtension
+            x:Key="AfterClickBd"
+            EventName="AfterClickBd"
+            EventType="RoutedEvent"
+            OwnerType="Border"/>
+        <l:RegisterRoutedEventExtension
+            x:Key="AfterDifGdRight"
+            EventName="AfterDifGdRight"
+            EventType="RoutedEvent"
+            OwnerType="Grid" />
+        <l:RegisterRoutedEventExtension
+            x:Key="AfterDifGdLeft"
+            EventName="AfterDifGdLeft"
+            EventType="RoutedEvent"
+            OwnerType="Grid"/>
+        <l:RegisterRoutedEventExtension
+            x:Key="AfterClickForDifShow"
+            EventName="AfterClickForDifShow"
+            EventType="RoutedEvent"
+            OwnerType="Grid" />
+        <l:RegisterRoutedEventExtension
+            x:Key="AfterClickForDifShowOld"
+            EventName="AfterClickForDifShowOld"
+            EventType="RoutedEvent"
+            OwnerType="Grid" />
+        <l:RegisterRoutedEventExtension
+            x:Key="AfterClickEli"
+            EventName="AfterClickEli"
+            EventType="RoutedEvent"
+            OwnerType="Ellipse" />
+        <l:RegisterRoutedEventExtension
+            x:Key="AfterClickCan"
+            EventName="AfterClickCan"
+            EventType="RoutedEvent"
+            OwnerType="Canvas" />
     </UserControl.Resources>
 
     <Grid>
@@ -360,7 +406,7 @@
                             <TranslateTransform x:Name="tb1"/>
                         </TextBlock.RenderTransform>
                         <TextBlock.Triggers>
-                            <EventTrigger RoutedEvent="TextBlock.AfterClick">
+                            <EventTrigger RoutedEvent="{StaticResource AfterClick}">
                                 <BeginStoryboard>
                                     <Storyboard>
                                         <DoubleAnimation Storyboard.TargetProperty="Opacity" To="0" Duration="0:0:0:0"/>
@@ -381,7 +427,7 @@
                             <TranslateTransform x:Name="tb2"/>
                         </TextBlock.RenderTransform>
                         <TextBlock.Triggers>
-                            <EventTrigger RoutedEvent="TextBlock.AfterClick">
+                            <EventTrigger RoutedEvent="{StaticResource AfterClick}">
                                 <BeginStoryboard>
                                     <Storyboard>
                                         <DoubleAnimation Storyboard.TargetProperty="Opacity" To="0" Duration="0:0:0:0"/>
@@ -399,7 +445,7 @@
                             <TranslateTransform x:Name="tb3"/>
                         </TextBlock.RenderTransform>
                         <TextBlock.Triggers>
-                            <EventTrigger RoutedEvent="TextBlock.AfterClick">
+                            <EventTrigger RoutedEvent="{StaticResource AfterClick}">
                                 <BeginStoryboard>
                                     <Storyboard>
                                         <DoubleAnimation Storyboard.TargetProperty="Opacity" To="0" Duration="0:0:0:0"/>
@@ -420,7 +466,7 @@
                             <TranslateTransform x:Name="tb4"/>
                         </TextBlock.RenderTransform>
                         <TextBlock.Triggers>
-                            <EventTrigger RoutedEvent="TextBlock.AfterClick">
+                            <EventTrigger RoutedEvent="{StaticResource AfterClick}">
                                 <BeginStoryboard>
                                     <Storyboard>
                                         <DoubleAnimation Storyboard.TargetProperty="Opacity" To="0" Duration="0:0:0:0"/>
@@ -441,7 +487,7 @@
                             <TranslateTransform x:Name="tb5"/>
                         </TextBlock.RenderTransform>
                         <TextBlock.Triggers>
-                            <EventTrigger RoutedEvent="TextBlock.AfterClick">
+                            <EventTrigger RoutedEvent="{StaticResource AfterClick}">
                                 <BeginStoryboard>
                                     <Storyboard>
                                         <DoubleAnimation Storyboard.TargetProperty="Opacity" To="0" Duration="0:0:0:0"/>
@@ -459,7 +505,7 @@
                             <TranslateTransform x:Name="tb6"/>
                         </TextBlock.RenderTransform>
                         <TextBlock.Triggers>
-                            <EventTrigger RoutedEvent="TextBlock.AfterClick">
+                            <EventTrigger RoutedEvent="{StaticResource AfterClick}">
                                 <BeginStoryboard>
                                     <Storyboard>
                                         <DoubleAnimation Storyboard.TargetProperty="Opacity" To="0" Duration="0:0:0:0"/>
@@ -480,7 +526,7 @@
                             <TranslateTransform x:Name="tb7"/>
                         </TextBlock.RenderTransform>
                         <TextBlock.Triggers>
-                            <EventTrigger RoutedEvent="TextBlock.AfterClick">
+                            <EventTrigger RoutedEvent="{StaticResource AfterClick}">
                                 <BeginStoryboard>
                                     <Storyboard>
                                         <DoubleAnimation Storyboard.TargetProperty="Opacity" To="0" Duration="0:0:0:0"/>
@@ -502,7 +548,7 @@
                         <DropShadowEffect Color="Gray" ShadowDepth="0" BlurRadius="5" Opacity="0.3" Direction="0"/>
                     </Border.Effect>
                     <Border.Triggers>
-                        <EventTrigger RoutedEvent="Border.AfterClickBd">
+                        <EventTrigger RoutedEvent="{StaticResource AfterClickBd}">
                             <BeginStoryboard>
                                 <Storyboard>
                                     <DoubleAnimation Storyboard.TargetProperty="Opacity" To="0" Duration="0:0:0"/>
@@ -525,7 +571,7 @@
                         <local:ImageChange/>
                     </i:Interaction.Behaviors>
                     <Image.Triggers>
-                        <EventTrigger RoutedEvent="Image.AfterClickImg">
+                        <EventTrigger RoutedEvent="{StaticResource AfterClickImg}">
                             <BeginStoryboard>
                                 <Storyboard>
                                     <DoubleAnimation Storyboard.TargetProperty="Opacity" To="0" Duration="0:0:0"/>
@@ -546,7 +592,7 @@
                 </Grid.RenderTransform>
 
                 <Grid.Triggers>
-                    <EventTrigger RoutedEvent="Grid.AfterClickForDifShow">
+                    <EventTrigger RoutedEvent="{StaticResource AfterClickForDifShow}">
                         <BeginStoryboard>
                             <Storyboard>
                                 <DoubleAnimation Storyboard.TargetName="ttGd2"
@@ -558,7 +604,7 @@
                             </Storyboard>
                         </BeginStoryboard>
                     </EventTrigger>
-                    <EventTrigger RoutedEvent="Grid.AfterClickForDifShowOld">
+                    <EventTrigger RoutedEvent="{StaticResource AfterClickForDifShowOld}">
                         <BeginStoryboard>
                             <Storyboard>
                                 <DoubleAnimation Storyboard.TargetName="ttGd2"
@@ -613,7 +659,7 @@
             <Grid Grid.Row="2" Grid.Column="0" Margin="0,0,0,0"
                   Grid.RowSpan="2" VerticalAlignment="Top" Height="0" x:Name="DifSecGrid">
                 <Grid.Triggers>
-                    <EventTrigger RoutedEvent="Grid.AfterClickForDifShow">
+                    <EventTrigger RoutedEvent="{StaticResource AfterClickForDifShow}">
                         <BeginStoryboard>
                             <Storyboard>
                                 <DoubleAnimation Storyboard.TargetProperty="Height"
@@ -622,7 +668,7 @@
                             </Storyboard>
                         </BeginStoryboard>
                     </EventTrigger>
-                    <EventTrigger RoutedEvent="Grid.AfterClickForDifShowOld">
+                    <EventTrigger RoutedEvent="{StaticResource AfterClickForDifShowOld}">
                         <BeginStoryboard>
                             <Storyboard>
                                 <DoubleAnimation Storyboard.TargetProperty="Height"
@@ -647,7 +693,7 @@
                     </Grid.RenderTransform>
                     
                     <Grid.Triggers>
-                        <EventTrigger RoutedEvent="Grid.AfterDifGdRight">
+                        <EventTrigger RoutedEvent="{StaticResource AfterDifGdRight}">
                             <BeginStoryboard>
                                 <Storyboard>
                                     <DoubleAnimation Storyboard.TargetName="ttNotesGrid"
@@ -668,7 +714,7 @@
                                 </Storyboard>
                             </BeginStoryboard>
                         </EventTrigger>
-                        <EventTrigger RoutedEvent="Grid.AfterDifGdLeft">
+                        <EventTrigger RoutedEvent="{StaticResource AfterDifGdLeft}">
                             <BeginStoryboard>
                                 <Storyboard>
                                     <DoubleAnimation Storyboard.TargetName="ttNotesGrid"
@@ -689,7 +735,7 @@
                                 </Storyboard>
                             </BeginStoryboard>
                         </EventTrigger>
-                        <EventTrigger RoutedEvent="Grid.AfterClickForDifShow">
+                        <EventTrigger RoutedEvent="{StaticResource AfterClickForDifShow}">
                             <BeginStoryboard>
                                 <Storyboard>
                                     <DoubleAnimation Storyboard.TargetProperty="Opacity"
@@ -697,7 +743,7 @@
                                 </Storyboard>
                             </BeginStoryboard>
                         </EventTrigger>
-                        <EventTrigger RoutedEvent="Grid.AfterClickForDifShowOld">
+                        <EventTrigger RoutedEvent="{StaticResource AfterClickForDifShowOld}">
                             <BeginStoryboard>
                                 <Storyboard>
                                     <DoubleAnimation Storyboard.TargetProperty="Opacity"
@@ -1031,7 +1077,7 @@
                         <RotateTransform Angle="-180" x:Name="EliAngle"/>
                     </Ellipse.RenderTransform>
                     <Ellipse.Triggers>
-                        <EventTrigger RoutedEvent="Ellipse.AfterClickEli">
+                        <EventTrigger RoutedEvent="{StaticResource AfterClickEli}">
                             <BeginStoryboard>
                                 <Storyboard>
                                     <DoubleAnimation Storyboard.TargetName="EliAngle"
@@ -1050,7 +1096,7 @@
                         <RotateTransform Angle="-180" x:Name="CanAngle"/>
                     </Canvas.RenderTransform>
                     <Canvas.Triggers>
-                        <EventTrigger RoutedEvent="Canvas.AfterClickCan">
+                        <EventTrigger RoutedEvent="{StaticResource AfterClickCan}">
                             <BeginStoryboard>
                                 <Storyboard>
                                     <DoubleAnimation Storyboard.TargetName="CanAngle"

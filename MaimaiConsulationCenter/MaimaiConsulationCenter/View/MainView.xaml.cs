@@ -43,7 +43,7 @@ namespace MaimaiConsulationCenter.View
             model.UserInfo.Gender = GlobalValues.UserInfo.Gender;
             Console.WriteLine(AppDomain.CurrentDomain.BaseDirectory);
 
-            var currentDirectory = System.IO.Path.Combine(AppDomain.CurrentDomain.BaseDirectory,"..","..","Assets","VLC");
+            var currentDirectory = System.IO.Path.Combine(AppDomain.CurrentDomain.BaseDirectory,"libvlc","win-x86");
             libDirectory = new DirectoryInfo(currentDirectory);
             bud.SourceProvider.CreatePlayer(libDirectory);
             

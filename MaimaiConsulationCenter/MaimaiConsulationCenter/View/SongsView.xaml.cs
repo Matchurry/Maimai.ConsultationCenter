@@ -15,7 +15,6 @@ using System.Windows.Navigation;
 using System.Windows.Shapes;
 using MaimaiConsulationCenter.Common;
 using static MaimaiConsulationCenter.Common.Interfaces;
-using Google.Protobuf.WellKnownTypes;
 using LibVLCSharp.Shared;
 using System.ComponentModel;
 using System.Reflection;
@@ -23,14 +22,31 @@ using System.Windows.Media.Animation;
 using System.Net.NetworkInformation;
 using MaimaiConsulationCenter.Model;
 using GalaSoft.MvvmLight.Messaging;
+using System.Windows.Markup;
+using System.Globalization;
 
 namespace MaimaiConsulationCenter.View
 {
-    /// <summary>
-    /// SongsView.xaml 的交互逻辑
-    /// </summary>
-    public partial class SongsView : UserControl, IDataLoadable
+    public class RegisterRoutedEventExtension : MarkupExtension
     {
+        public string EventName { get; set; }
+        public Type EventType { get; set; }
+        public Type OwnerType { get; set; }
+
+        public override object ProvideValue(IServiceProvider serviceProvider)
+        {
+            var routedEvents = EventManager.GetRoutedEventsForOwner(OwnerType);
+            foreach(RoutedEvent item in routedEvents)
+            {
+                if(item.Name == EventName) return item;
+            }
+            throw new ArgumentException($"未找到名为 '{EventName}' 的路由事件，类型为 '{OwnerType.FullName}'。");
+        }
+    }
+
+    public partial class SongsView : UserControl
+    {
+
         public static readonly RoutedEvent AfterClickNewSong = EventManager.RegisterRoutedEvent(
             "AfterClick", RoutingStrategy.Bubble, typeof(RoutedEventHandler), typeof(TextBlock));
         public static readonly RoutedEvent AfterClickNewSongImg = EventManager.RegisterRoutedEvent(
