@@ -6,6 +6,7 @@ using System;
 using System.Collections.ObjectModel;
 using System.IO;
 using System.Threading.Tasks;
+using System.Web.Configuration;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
@@ -582,7 +583,7 @@ namespace MaimaiConsulationCenter.ViewModel
     }
     public class NewFidForNewColor : Behavior<Border>
     {
-        private string[] difcolors = { "#70D43E", "#F9B709", "#FE818D", "#9D51DD", "#DAAADF" };
+        private string[] difcolors = { "#70D43E", "#F9B709", "#FE818D", "#9D51DD", "#DAAADF", "#DD38B7" };
         protected override void OnAttached()
         {
             base.OnAttached();
@@ -597,6 +598,8 @@ namespace MaimaiConsulationCenter.ViewModel
         {
             ColorAnimation animation = new ColorAnimation();
             animation.To = (Color)ColorConverter.ConvertFromString(difcolors[GlobalValues.now_dif_index]);
+            if(GlobalValues.SingleSongShow.basic_info.genre== "宴会場")
+                animation.To = (Color)ColorConverter.ConvertFromString(difcolors[5]);
             animation.Duration = new Duration(TimeSpan.FromSeconds(0.2));
             AssociatedObject.Background.BeginAnimation(SolidColorBrush.ColorProperty, animation);
         }
@@ -854,6 +857,7 @@ namespace MaimaiConsulationCenter.ViewModel
         private static TranslateTransform translateTransform;
         private double XReMas = 325;
         private double XMas = 300;
+        private double XAdv = 200; //给双人谱宴谱使用
         protected override void OnAttached()
         {
             base.OnAttached();
@@ -864,13 +868,13 @@ namespace MaimaiConsulationCenter.ViewModel
         {
             translateTransform = new TranslateTransform();
             if (GlobalValues.SingleSongShow.charts.Count == 5)
-            {
                 translateTransform.X = XReMas;
-            }
-            else
-            {
+            else if (GlobalValues.SingleSongShow.charts.Count == 4)
                 translateTransform.X = XMas;
-            }
+            else if (GlobalValues.SingleSongShow.charts.Count == 2)
+                translateTransform.X = XAdv;
+            else
+                translateTransform.X = 0;
             await Task.Delay(100);
             AssociatedObject.RenderTransform = new TransformGroup
             {
@@ -884,13 +888,12 @@ namespace MaimaiConsulationCenter.ViewModel
         {
             var x = 0.0;
             if (GlobalValues.SingleSongShow.charts.Count == 5)
-            {
                 x = XReMas / 4 * GlobalValues.now_dif_index;
-            }
-            else
-            {
+            else if (GlobalValues.SingleSongShow.charts.Count == 4)
                 x = XMas / 3 * GlobalValues.now_dif_index;
-            }
+            else if (GlobalValues.now_dif_index == 1)
+                x = XAdv;
+            else x = 0;
             var xani = new DoubleAnimation(x, TimeSpan.FromSeconds(0.1));
             translateTransform.BeginAnimation(TranslateTransform.XProperty, xani);
         }
@@ -908,7 +911,83 @@ namespace MaimaiConsulationCenter.ViewModel
         private async void ChangeWidth(SongClick e)
         {
             await Task.Delay(100);
-            if (GlobalValues.now_dif_index == 4)
+            if (GlobalValues.now_dif_index == 4 && GlobalValues.SingleSongShow.charts.Count >2 )
+            {
+                AssociatedObject.Width = new GridLength(1, GridUnitType.Star);
+            }
+            else
+            {
+                AssociatedObject.Width = new GridLength(0, GridUnitType.Star);
+            }
+        }
+    }
+    public class DifChangeBasTB : Behavior<TextBlock>
+    {
+        protected override void OnAttached()
+        {
+            base.OnAttached();
+            Messenger.Default.Register<SongClick>(this, ChangeWidth);
+        }
+        private async void ChangeWidth(SongClick e)
+        {
+            await Task.Delay(100);
+            if (GlobalValues.SingleSongShow.charts.Count <= 2)
+            {
+                if (GlobalValues.SingleSongShow.charts.Count == 1)
+                    AssociatedObject.Text = "Notes";
+                else AssociatedObject.Text = "1P";
+            }
+            else AssociatedObject.Text = "Basic";
+        }
+    }
+    public class DifChangeAdvTB : Behavior<TextBlock>
+    {
+        protected override void OnAttached()
+        {
+            base.OnAttached();
+            Messenger.Default.Register<SongClick>(this, ChangeWidth);
+        }
+        private async void ChangeWidth(SongClick e)
+        {
+            await Task.Delay(100);
+            if (GlobalValues.SingleSongShow.charts.Count <= 2)
+            {
+                AssociatedObject.Text = "2P";
+            }
+            else AssociatedObject.Text = "Advanced";
+        }
+    }
+    public class DifChangeAdv : Behavior<ColumnDefinition>
+    {
+        protected override void OnAttached()
+        {
+            base.OnAttached();
+            Messenger.Default.Register<SongClick>(this, ChangeWidth);
+        }
+        private async void ChangeWidth(SongClick e)
+        {
+            await Task.Delay(100);
+            if (GlobalValues.SingleSongShow.charts.Count >= 2)
+            {
+                AssociatedObject.Width = new GridLength(1, GridUnitType.Star);
+            }
+            else
+            {
+                AssociatedObject.Width = new GridLength(0, GridUnitType.Star);
+            }
+        }
+    }
+    public class DifChangeExpMas : Behavior<ColumnDefinition>
+    {
+        protected override void OnAttached()
+        {
+            base.OnAttached();
+            Messenger.Default.Register<SongClick>(this, ChangeWidth);
+        }
+        private async void ChangeWidth(SongClick e)
+        {
+            await Task.Delay(100);
+            if (GlobalValues.SingleSongShow.charts.Count >= 3)
             {
                 AssociatedObject.Width = new GridLength(1, GridUnitType.Star);
             }
@@ -1018,30 +1097,37 @@ namespace MaimaiConsulationCenter.ViewModel
                                 }
                                 catch { }*/
 
-
-                int cnt = 0;
-                foreach (var dif in item.ds)
+                if(item.basic_info.genre != "宴会場")
                 {
-                    switch (cnt)
+                    int cnt = 0;
+                    foreach (var dif in item.ds)
                     {
-                        case 0:
-                            item.easy = dif.ToString();
-                            break;
-                        case 1:
-                            item.advanced = dif.ToString();
-                            break;
-                        case 2:
-                            item.hard = dif.ToString();
-                            break;
-                        case 3:
-                            item.master = dif.ToString();
-                            break;
-                        case 4:
-                            item.remaster = dif.ToString();
-                            break;
+                        switch (cnt)
+                        {
+                            case 0:
+                                item.easy = dif.ToString();
+                                break;
+                            case 1:
+                                item.advanced = dif.ToString();
+                                break;
+                            case 2:
+                                item.hard = dif.ToString();
+                                break;
+                            case 3:
+                                item.master = dif.ToString();
+                                break;
+                            case 4:
+                                item.remaster = dif.ToString();
+                                break;
+                        }
+                        cnt++;
                     }
-                    cnt++;
                 }
+                else
+                {
+                    item.remaster = item.level[0];
+                }
+
             }
 
             return;

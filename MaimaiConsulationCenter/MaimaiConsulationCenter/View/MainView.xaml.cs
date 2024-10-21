@@ -38,22 +38,6 @@ namespace MaimaiConsulationCenter.View
             bud.SourceProvider.MediaPlayer.SetMedia(new FileInfo(bud_src), new String[] { "input-repeat=65535" });
             bud.SourceProvider.MediaPlayer.Play();
 
-            //bud.SourceProvider.MediaPlayer.EndReached += MediaPlayerEndEvent;
-        }
-
-        private void MediaPlayerEndEvent(object sender, Vlc.DotNet.Core.VlcMediaPlayerEndReachedEventArgs e)
-        {
-            var obj = bud; //注意更改
-            Task.Factory.StartNew(() =>
-            {
-                obj.Dispose();
-                Application.Current.Dispatcher.BeginInvoke(new Action(() =>
-                {
-                    obj.SourceProvider.CreatePlayer(libDirectory);
-                    obj.SourceProvider.MediaPlayer.Play(bud_src); //注意更改
-                    obj.SourceProvider.MediaPlayer.EndReached += MediaPlayerEndEvent;
-                }));
-            });
         }
 
         private void Border_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)

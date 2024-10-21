@@ -18,7 +18,7 @@ namespace MaimaiConsulationCenter.ViewModel
     public class DifForBorAni : Behavior<Border>
     {
         private TranslateTransform tt = new TranslateTransform();
-        private string[] difcolors = { "#70D43E", "#F9B709", "#FE818D", "#9D51DD", "#DAAADF" };
+        private string[] difcolors = { "#70D43E", "#F9B709", "#FE818D", "#9D51DD", "#DAAADF", "#DD38B7" };
         protected override void OnAttached()
         {
             base.OnAttached();
@@ -36,7 +36,10 @@ namespace MaimaiConsulationCenter.ViewModel
         private async void ClorAni(SongClick e)
         {
             await Task.Delay(500);
-            AssociatedObject.Background = new SolidColorBrush((Color)ColorConverter.ConvertFromString(difcolors[GlobalValues.now_dif_index]));
+            if(GlobalValues.SingleSongShow.basic_info.genre == "宴会場")
+                AssociatedObject.Background = new SolidColorBrush((Color)ColorConverter.ConvertFromString(difcolors[5]));
+            else
+                AssociatedObject.Background = new SolidColorBrush((Color)ColorConverter.ConvertFromString(difcolors[GlobalValues.now_dif_index]));
         }
         private void ClorAniDif(DifClick e)
         {
@@ -55,7 +58,7 @@ namespace MaimaiConsulationCenter.ViewModel
     public class DifForEliAni : Behavior<Ellipse>
     {
         private TranslateTransform tt = new TranslateTransform();
-        private string[] difcolors = { "#70D43E", "#F9B709", "#FE818D", "#9D51DD", "#DAAADF" };
+        private string[] difcolors = { "#70D43E", "#F9B709", "#FE818D", "#9D51DD", "#DAAADF", "#DD38B7" };
         protected override void OnAttached()
         {
             base.OnAttached();
@@ -78,7 +81,10 @@ namespace MaimaiConsulationCenter.ViewModel
                 Duration = TimeSpan.FromMilliseconds(1f),
             };
             AssociatedObject.BeginAnimation(Ellipse.OpacityProperty, opaAni);
-            AssociatedObject.Fill = new SolidColorBrush((Color)ColorConverter.ConvertFromString(difcolors[GlobalValues.now_dif_index]));
+            if (GlobalValues.SingleSongShow.basic_info.genre == "宴会場")
+                AssociatedObject.Fill = new SolidColorBrush((Color)ColorConverter.ConvertFromString(difcolors[5]));
+            else
+                AssociatedObject.Fill = new SolidColorBrush((Color)ColorConverter.ConvertFromString(difcolors[GlobalValues.now_dif_index]));
             tt.X = mouseP.X;
             tt.Y = mouseP.Y;
             var WidthHeightAni = new DoubleAnimation

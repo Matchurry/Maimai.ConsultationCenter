@@ -233,54 +233,137 @@
                                                    Margin="-5,0,0,0" Foreground="White" FontSize="10"/>
                                     </Grid>
   
-                                </Grid>
-                                <!--定数栏-->
-                                <Grid Grid.Row="1">
-                                    <Grid.ColumnDefinitions>
-                                        <ColumnDefinition/>
-                                        <ColumnDefinition/>
-                                        <ColumnDefinition/>
-                                        <ColumnDefinition/>
-                                        <ColumnDefinition/>
-                                    </Grid.ColumnDefinitions>
-                                    <Border Grid.Column="0" Background="#70D43E" Height="40" Width="40" Margin="0,-5,0,0" CornerRadius="5">
-                                        <Grid>
-                                            <Border Background="White" Margin="2" CornerRadius="5"/>
-                                            <Border Background="#70D43E" Margin="3" CornerRadius="4"/>
-                                            <TextBlock Text="{Binding easy}" Foreground="White" VerticalAlignment="Center" HorizontalAlignment="Center" FontWeight="Medium"/>
-                                        </Grid>
-                                    </Border>
-                                    <Border Grid.Column="1" Background="#F9B709" Height="40" Width="40" Margin="0,-5,0,0" CornerRadius="5">
-                                        <Grid>
-                                            <Border Background="White" Margin="2" CornerRadius="5"/>
-                                            <Border Background="#F9B709" Margin="3" CornerRadius="4"/>
-                                            <TextBlock Text="{Binding advanced}" Foreground="White" VerticalAlignment="Center" HorizontalAlignment="Center" FontWeight="Medium"/>
-                                        </Grid>
-                                    </Border>
-                                    <Border Grid.Column="2" Background="#FE818D" Height="40" Width="40" Margin="0,-5,0,0" CornerRadius="5">
-                                        <Grid>
-                                            <Border Background="White" Margin="2" CornerRadius="5"/>
-                                            <Border Background="#FE818D" Margin="3" CornerRadius="4"/>
-                                            <TextBlock Text="{Binding hard}" Foreground="White" VerticalAlignment="Center" HorizontalAlignment="Center" FontWeight="Medium"/>
-                                        </Grid>
-                                    </Border>
-                                    <Border Grid.Column="3" Background="#9D51DD" Height="40" Width="40" Margin="0,-5,0,0" CornerRadius="5">
-                                        <Grid>
-                                            <Border Background="White" Margin="2" CornerRadius="5"/>
-                                            <Border Background="#9D51DD" Margin="3" CornerRadius="4"/>
-                                            <TextBlock Text="{Binding master}" Foreground="White" VerticalAlignment="Center" HorizontalAlignment="Center" FontWeight="Medium"/>
-                                        </Grid>
-                                    </Border>
-                                    <Border Grid.Column="4" Background="#9D51DD" Height="40" Width="40" Margin="0,-5,0,0" CornerRadius="5">
-                                        <Grid>
-                                            <Border Background="White" Margin="2" CornerRadius="5"/>
-                                            <Border Background="#DAAADF" Margin="3" CornerRadius="4"/>
-                                            <Border Background="White" Margin="4" CornerRadius="3"/>
-                                            <TextBlock Text="{Binding remaster}" Foreground="#9D51DD" VerticalAlignment="Center" HorizontalAlignment="Center" FontWeight="Medium"/>
-                                        </Grid>
-                                    </Border>
-                                </Grid>
                             </Grid>
+                            <!--定数栏-->
+                            <Grid Grid.Row="1">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition/>
+                                    <ColumnDefinition/>
+                                    <ColumnDefinition/>
+                                    <ColumnDefinition/>
+                                    <ColumnDefinition/>
+                                </Grid.ColumnDefinitions>
+                                <Border Grid.Column="0" Background="#70D43E" Height="40" Width="40" Margin="0,-5,0,0" CornerRadius="5">
+                                    <Grid>
+                                        <Border Background="White" Margin="2" CornerRadius="5"/>
+                                        <Border Background="#70D43E" Margin="3" CornerRadius="4"/>
+                                        <TextBlock Text="{Binding easy}" Foreground="White" VerticalAlignment="Center" HorizontalAlignment="Center" FontWeight="Medium"/>
+                                    </Grid>
+                                    <Border.Style>
+                                        <Style TargetType="Border">
+                                            <Setter Property="Opacity" Value="1"/>
+                                            <Style.Triggers>
+                                                <DataTrigger Binding="{Binding basic_info.genre}" Value="宴会場">
+                                                    <Setter Property="Opacity" Value="0"/>
+                                                </DataTrigger>
+                                            </Style.Triggers>
+                                        </Style>
+                                    </Border.Style>
+                                </Border>
+                                <Border Grid.Column="1" Background="#F9B709" Height="40" Width="40" Margin="0,-5,0,0" CornerRadius="5">
+                                    <Grid>
+                                        <Border Background="White" Margin="2" CornerRadius="5"/>
+                                        <Border Background="#F9B709" Margin="3" CornerRadius="4"/>
+                                        <TextBlock Text="{Binding advanced}" Foreground="White" VerticalAlignment="Center" HorizontalAlignment="Center" FontWeight="Medium"/>
+                                    </Grid>
+                                    <Border.Style>
+                                        <Style TargetType="Border">
+                                            <Setter Property="Opacity" Value="1"/>
+                                            <Style.Triggers>
+                                                <DataTrigger Binding="{Binding basic_info.genre}" Value="宴会場">
+                                                    <Setter Property="Opacity" Value="0"/>
+                                                </DataTrigger>
+                                            </Style.Triggers>
+                                        </Style>
+                                    </Border.Style>
+                                </Border>
+                                <Border Grid.Column="2" Background="#FE818D" Height="40" Width="40" Margin="0,-5,0,0" CornerRadius="5">
+                                    <Grid>
+                                        <Border Background="White" Margin="2" CornerRadius="5"/>
+                                        <Border Background="#FE818D" Margin="3" CornerRadius="4"/>
+                                        <TextBlock Text="{Binding hard}" Foreground="White" VerticalAlignment="Center" HorizontalAlignment="Center" FontWeight="Medium"/>
+                                    </Grid>
+                                    <Border.Style>
+                                        <Style TargetType="Border">
+                                            <Setter Property="Opacity" Value="1"/>
+                                            <Style.Triggers>
+                                                <DataTrigger Binding="{Binding basic_info.genre}" Value="宴会場">
+                                                    <Setter Property="Opacity" Value="0"/>
+                                                </DataTrigger>
+                                            </Style.Triggers>
+                                        </Style>
+                                    </Border.Style>
+                                </Border>
+                                <Border Grid.Column="3" Background="#9D51DD" Height="40" Width="40" Margin="0,-5,0,0" CornerRadius="5">
+                                    <Grid>
+                                        <Border Background="White" Margin="2" CornerRadius="5"/>
+                                        <Border Background="#9D51DD" Margin="3" CornerRadius="4"/>
+                                        <TextBlock Text="{Binding master}" Foreground="White" VerticalAlignment="Center" HorizontalAlignment="Center" FontWeight="Medium"/>
+                                    </Grid>
+                                    <Border.Style>
+                                        <Style TargetType="Border">
+                                            <Setter Property="Opacity" Value="1"/>
+                                            <Style.Triggers>
+                                                <DataTrigger Binding="{Binding basic_info.genre}" Value="宴会場">
+                                                    <Setter Property="Opacity" Value="0"/>
+                                                </DataTrigger>
+                                            </Style.Triggers>
+                                        </Style>
+                                    </Border.Style>
+                                </Border>
+                                <Border Grid.Column="4" Height="40" Width="40" Margin="0,-5,0,0" CornerRadius="5">
+                                    <Grid>
+                                        <Border Background="White" Margin="2" CornerRadius="5"/>
+                                        <Border Margin="3" CornerRadius="4">
+                                            <Border.Style>
+                                                <Style TargetType="Border">
+                                                    <Setter Property="Background" Value="#DAAADF"/>
+                                                    <Style.Triggers>
+                                                        <DataTrigger Binding="{Binding basic_info.genre}" Value="宴会場">
+                                                            <Setter Property="Background" Value="#B12876"/>
+                                                        </DataTrigger>
+                                                    </Style.Triggers>
+                                                </Style>
+                                            </Border.Style>
+                                        </Border>
+                                        <Border Background="White" Margin="4" CornerRadius="3">
+                                            <Border.Style>
+                                                <Style TargetType="Border">
+                                                    <Setter Property="Opacity" Value="1"/>
+                                                    <Style.Triggers>
+                                                        <DataTrigger Binding="{Binding basic_info.genre}" Value="宴会場">
+                                                            <Setter Property="Opacity" Value="0"/>
+                                                        </DataTrigger>
+                                                    </Style.Triggers>
+                                                </Style>
+                                            </Border.Style>
+                                        </Border>
+                                        <TextBlock Text="{Binding remaster}" VerticalAlignment="Center" HorizontalAlignment="Center" FontWeight="Medium">
+                                            <TextBlock.Style>
+                                                <Style TargetType="TextBlock">
+                                                    <Setter Property="Foreground" Value="#9D51DD"/>
+                                                    <Style.Triggers>
+                                                        <DataTrigger Binding="{Binding basic_info.genre}" Value="宴会場">
+                                                            <Setter Property="Foreground" Value="White"/>
+                                                        </DataTrigger>
+                                                    </Style.Triggers>
+                                                </Style>
+                                            </TextBlock.Style>
+                                        </TextBlock>
+                                    </Grid>
+                                    <Border.Style>
+                                        <Style TargetType="Border">
+                                            <Setter Property="Background" Value="#9D51DD"/>
+                                            <Style.Triggers>
+                                                <DataTrigger Binding="{Binding basic_info.genre}" Value="宴会場">
+                                                    <Setter Property="Background" Value="#B12876"/>
+                                                </DataTrigger>
+                                            </Style.Triggers>
+                                        </Style>
+                                    </Border.Style>
+                                </Border>
+                            </Grid>
+                        </Grid>
                                 
                             
                             <!--右上的类型标识-->
@@ -308,7 +391,7 @@
                                                     <Setter Property="Background" Value="#69E03E"/>
                                                 </DataTrigger>
                                                 <DataTrigger Binding="{Binding basic_info.genre}" Value="宴会場">
-                                                    <Setter Property="Background" Value="#AC2B76"/>
+                                                    <Setter Property="Background" Value="#DD38B7"/>
                                                 </DataTrigger>
                                         </Style.Triggers>
                                         </Style>
@@ -629,18 +712,38 @@
                 
                 <Grid Margin="10,0">
                     <Grid.ColumnDefinitions>
-                        <ColumnDefinition/>
-                        <ColumnDefinition/>
-                        <ColumnDefinition/> 
-                        <ColumnDefinition/>
+                        <ColumnDefinition/> <!--Basic-->
+                        <ColumnDefinition> <!--Advanced-->
+                            <i:Interaction.Behaviors>
+                                <local:DifChangeAdv/>
+                            </i:Interaction.Behaviors>
+                        </ColumnDefinition>
+                        <ColumnDefinition> <!--Expert-->
+                            <i:Interaction.Behaviors>
+                                <local:DifChangeExpMas/>
+                            </i:Interaction.Behaviors>
+                        </ColumnDefinition>
+                        <ColumnDefinition> <!--Master-->
+                            <i:Interaction.Behaviors>
+                                <local:DifChangeExpMas/>
+                            </i:Interaction.Behaviors>
+                        </ColumnDefinition>
                         <ColumnDefinition> <!--RE:MASTER难度可以根据绑定值触发事件使得width为0-->
                             <i:Interaction.Behaviors>
                                 <local:DifChange/>
                             </i:Interaction.Behaviors>
                         </ColumnDefinition>
                     </Grid.ColumnDefinitions>
-                    <TextBlock Grid.Column="0" Text="Basic" MouseDown="BasicClick" Cursor="Hand" FontWeight="Bold" Foreground="White" VerticalAlignment="Center" HorizontalAlignment="Center"/>
-                    <TextBlock Grid.Column="1" Text="Advanced" MouseDown="AdvClick" Cursor="Hand" FontWeight="Bold" Foreground="White" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+                    <TextBlock Grid.Column="0" Text="Basic" MouseDown="BasicClick" Cursor="Hand" FontWeight="Bold" Foreground="White" VerticalAlignment="Center" HorizontalAlignment="Center">
+                        <i:Interaction.Behaviors>
+                            <local:DifChangeBasTB/>
+                        </i:Interaction.Behaviors>
+                    </TextBlock>
+                    <TextBlock Grid.Column="1" Text="Advanced" MouseDown="AdvClick" Cursor="Hand" FontWeight="Bold" Foreground="White" VerticalAlignment="Center" HorizontalAlignment="Center">
+                        <i:Interaction.Behaviors>
+                            <local:DifChangeAdvTB/>
+                        </i:Interaction.Behaviors>
+                    </TextBlock>
                     <TextBlock Grid.Column="2" Text="Hard" MouseDown="HardClick" Cursor="Hand" FontWeight="Bold" Foreground="White" VerticalAlignment="Center" HorizontalAlignment="Center"/>
                     <TextBlock Grid.Column="3" Text="Master" MouseDown="MasterClick" Cursor="Hand" FontWeight="Bold" Foreground="White" VerticalAlignment="Center" HorizontalAlignment="Center"/>
                     <TextBlock Grid.Column="4" Text="Re:Master" MouseDown="RemasClick" Cursor="Hand" FontWeight="Bold" Foreground="White" VerticalAlignment="Center" HorizontalAlignment="Center"/>
