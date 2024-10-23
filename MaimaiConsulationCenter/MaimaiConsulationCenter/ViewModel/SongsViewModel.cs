@@ -1,7 +1,11 @@
-﻿using GalaSoft.MvvmLight.Messaging;
+﻿using GalaSoft.MvvmLight.Command;
+using GalaSoft.MvvmLight.Messaging;
+using HandyControl.Controls;
+using HandyControl.Tools.Extension;
 using MaimaiConsulationCenter.Common;
 using MaimaiConsulationCenter.Model;
 using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.ObjectModel;
 using System.IO;
@@ -14,7 +18,9 @@ using System.Windows.Interactivity;
 using System.Windows.Media;
 using System.Windows.Media.Animation;
 using System.Windows.Media.Imaging;
+using System.Windows.Shapes;
 using static MaimaiConsulationCenter.Model.SongModel;
+using Path = System.IO.Path;
 
 namespace MaimaiConsulationCenter.ViewModel
 {
@@ -49,6 +55,75 @@ namespace MaimaiConsulationCenter.ViewModel
             xdSum = 100 * breaks;
         }
     };
+    /// <summary>
+    /// 给全曲展示元素中Border的单击动画行为
+    /// </summary>
+    public class ClickAniEli : Behavior<Ellipse>
+    {
+        private TranslateTransform tt = new TranslateTransform();
+        private bool is_clicked = false;
+        protected override void OnAttached()
+        {
+            base.OnAttached();
+            AssociatedObject.RenderTransform = new TransformGroup
+            {
+                Children =
+                {
+                    tt
+                }
+            };
+            Messenger.Default.Register<SongClick>(this, Ani);
+        }
+        private void Ani(SongClick e)
+        {
+            tt.X = 0;
+            tt.Y = 0;
+            var dc = AssociatedObject.DataContext;
+            if (dc is SongModel.Root item) { 
+                if (item.id != GlobalValues.SingleSongShow.id) return; }
+            else return;
+            var mouseP = Mouse.GetPosition(AssociatedObject);
+            if (!is_clicked)
+            {
+                tt.X = mouseP.X;
+                tt.Y = mouseP.Y;
+                is_clicked = true;
+            }
+            else
+            {
+                tt.X = mouseP.X - 300;
+                tt.Y = mouseP.Y - 300;
+            }
+
+            Console.WriteLine(mouseP.X + " " + mouseP.Y);
+            var widthHeightAni = new DoubleAnimation
+            {
+                From = 0,
+                To = 600,
+                Duration = TimeSpan.FromSeconds(0.5f),
+                EasingFunction = new PowerEase { EasingMode = EasingMode.EaseOut }
+            };
+            var leftTopAni = new DoubleAnimation
+            {
+                From = 0,
+                To = -300,
+                Duration = TimeSpan.FromSeconds(0.5f),
+                EasingFunction = new PowerEase { EasingMode = EasingMode.EaseOut }
+            };
+            var opaAni = new DoubleAnimation
+            {
+                From = 0.5,
+                To = 0,
+                Duration = TimeSpan.FromSeconds(1f),
+                EasingFunction = new PowerEase { EasingMode = EasingMode.EaseOut }
+            };
+            AssociatedObject.BeginAnimation(Ellipse.OpacityProperty, opaAni);
+            AssociatedObject.BeginAnimation(Ellipse.WidthProperty, widthHeightAni);
+            AssociatedObject.BeginAnimation(Ellipse.HeightProperty, widthHeightAni);
+            AssociatedObject.BeginAnimation(Canvas.LeftProperty, leftTopAni);
+            AssociatedObject.BeginAnimation(Canvas.TopProperty, leftTopAni);
+        }
+    }
     public class HintTextForHintTB : Behavior<TextBlock>
     {
         protected override void OnAttached()
@@ -563,6 +638,7 @@ namespace MaimaiConsulationCenter.ViewModel
         {
             base.OnAttached();
             (AssociatedObject as Grid).MouseDown += NewSong;
+            AssociatedObject.MouseRightButtonDown += CopySong;
         }
         protected override void OnDetaching()
         {
@@ -579,6 +655,17 @@ namespace MaimaiConsulationCenter.ViewModel
                 GlobalValues.now_dif_index = songItem.ds.Count - 1;
             }
             Messenger.Default.Send(new SongClick());
+        }
+        private void CopySong(object sender, MouseButtonEventArgs e)
+        {
+            var obj = AssociatedObject.DataContext;
+            if(obj is SongModel.Root songItem)
+            {
+                Clipboard.SetText(songItem.title);
+                Task.Run(() => {
+                    Growl.Info($"歌曲名已复制\n{songItem.title}");
+                });
+            }
         }
     }
     public class NewFidForNewColor : Behavior<Border>

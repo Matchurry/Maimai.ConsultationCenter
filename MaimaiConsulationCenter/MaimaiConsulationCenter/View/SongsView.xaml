@@ -139,10 +139,11 @@
                                         </Style.Triggers>
                                     </Style>
                                 </Border.Style>
+
                             </Border>
                             <Border Background="White" Margin="11" CornerRadius="10"/>
                             
-                            <Border Margin="12" CornerRadius="10"> <!--以上都是卡片边框装饰-->
+                        <Border Margin="12" CornerRadius="10" x:Name="tarBd"> <!--以上都是卡片边框装饰-->
                             <Border.Style>
                                 <Style TargetType="{x:Type Border}">
                                     <Setter Property="Background" Value="#319DF8"/>
@@ -166,6 +167,20 @@
                                     </Style.Triggers>
                                 </Style>
                             </Border.Style>
+                            <Canvas>
+                                <Canvas.Clip>
+                                    <RectangleGeometry Rect="0,0,250,135"/>
+                                </Canvas.Clip>
+                                <Ellipse RenderTransformOrigin="0.5 0.5" Width="200" Height="200" Canvas.Left="0" Canvas.Top="0" 
+                                         StrokeThickness="0" Fill="White" Opacity="0">
+                                    <Ellipse.RenderTransform>
+                                        <TranslateTransform X="0" Y="0"/>
+                                    </Ellipse.RenderTransform>
+                                    <i:Interaction.Behaviors>
+                                        <local:ClickAniEli/>
+                                    </i:Interaction.Behaviors>
+                                </Ellipse>
+                            </Canvas>
                         </Border>
                             
                         <Grid Background="Transparent"> <!--卡片内部装饰-->

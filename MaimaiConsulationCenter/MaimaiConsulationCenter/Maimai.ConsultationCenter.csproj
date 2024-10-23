@@ -217,9 +217,14 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="Model\UserRecordsModel.cs" />
+    <Compile Include="Model\VersionProgressModel.cs" />
     <Compile Include="ViewModel\SongsViewModel.cs" />
+    <Compile Include="ViewModel\VersionProgressViewModel.cs" />
     <Compile Include="View\SongsView.xaml.cs">
       <DependentUpon>SongsView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\VersionProgress.xaml.cs">
+      <DependentUpon>VersionProgress.xaml</DependentUpon>
     </Compile>
     <Page Include="Assets\Styles\DefaultStyle.xaml">
       <SubType>Designer</SubType>
@@ -289,6 +294,10 @@
       <SubType>Code</SubType>
     </Compile>
     <Page Include="View\SongsView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\VersionProgress.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
