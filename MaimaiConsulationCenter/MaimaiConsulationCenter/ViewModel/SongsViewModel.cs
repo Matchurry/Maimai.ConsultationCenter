@@ -498,6 +498,9 @@ namespace MaimaiConsulationCenter.ViewModel
             rani.EasingFunction = new PowerEase { EasingMode = EasingMode.EaseOut };
             trans.BeginAnimation(TranslateTransform.YProperty, rani);
             await Task.Delay(200);
+
+            if (GlobalValues.SingleSongShow.basic_info.genre == "宴会場") return;
+
             if (floor > 22.512)
                 AssociatedObject.Text = $"该谱面对应的难度您已经无法吃分了哦！";
             else if (floor < 19.400)
@@ -540,6 +543,7 @@ namespace MaimaiConsulationCenter.ViewModel
         }
         private void Rota(SongClick e)
         {
+            if (GlobalValues.SingleSongShow.basic_info.genre == "宴会場") return;
             var rota = new RotateTransform();
             rota.Angle = -100.0;
             AssociatedObject.RenderTransform = new TransformGroup
@@ -608,6 +612,7 @@ namespace MaimaiConsulationCenter.ViewModel
         }
         private void Rota(SongClick e)
         {
+            if (GlobalValues.SingleSongShow.basic_info.genre == "宴会場") return;
             var rota = new RotateTransform();
             rota.Angle = -100.0;
             AssociatedObject.RenderTransform = new TransformGroup

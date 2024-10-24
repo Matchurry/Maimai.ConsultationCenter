@@ -238,7 +238,8 @@
                                  Command="{Binding NavChangedCommand}" CommandParameter="SongsView"/>
                     <RadioButton Content="成绩查询" Style="{StaticResource NavButtonStyle}"
                                  Command="{Binding NavChangedCommand}" CommandParameter="PointsSearchView"/>
-                    <RadioButton Content="版本进度" Style="{StaticResource NavButtonStyle}"/>
+                    <RadioButton Content="版本进度" Style="{StaticResource NavButtonStyle}"
+                                 Command="{Binding NavChangedCommand}" CommandParameter="VersionProgress"/>
                     <RadioButton Content="个人中心" Style="{StaticResource NavButtonStyle}"/>
                 </StackPanel>
 

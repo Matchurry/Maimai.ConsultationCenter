@@ -56,7 +56,7 @@ namespace MaimaiConsulationCenter.View
 
         private void btnMax_Click(object sender, RoutedEventArgs e)
         {
-            WindowState = WindowState == WindowState.Maximized ? WindowState.Normal : WindowState.Maximized;
+            return;
         }
 
         private void btnClose_Click(object sender, RoutedEventArgs e)

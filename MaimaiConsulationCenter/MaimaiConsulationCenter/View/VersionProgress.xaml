@@ -8,10 +8,59 @@
              xmlns:c="clr-namespace:MaimaiConsulationCenter.Common"
              xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
              xmlns:hc="https://handyorg.github.io/handycontrol"
+             FontFamily="Microsoft YaHei" FontWeight="ExtraLight" FontSize="12" Foreground="Black"
              mc:Ignorable="d" 
              d:DesignHeight="670" d:DesignWidth="1150"
-            Height="670" Width="1150">
+             Height="670" Width="1150">
     <Grid>
-            
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="2.5*"/>
+            <ColumnDefinition Width="6*"/>
+            <ColumnDefinition Width="1*"/>
+        </Grid.ColumnDefinitions>
+        <!--左侧版本区域-->
+        <ItemsControl Grid.Column="0" ItemsSource="{Binding Versions}" VirtualizingPanel.ScrollUnit="Pixel"
+                      VirtualizingStackPanel.IsVirtualizing="True"
+                      VirtualizingStackPanel.VirtualizationMode="Recycling">
+            <ItemsControl.ItemsPanel>
+                <ItemsPanelTemplate>
+                    <VirtualizingStackPanel/>
+                </ItemsPanelTemplate>
+            </ItemsControl.ItemsPanel>
+            <ItemsControl.Template>
+                <ControlTemplate>
+                    <hc:ScrollViewer CanContentScroll="True" VirtualizingPanel.ScrollUnit="Pixel" IsInertiaEnabled="True"
+                                     VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Hidden">
+                        <ItemsPresenter/>
+                    </hc:ScrollViewer>
+                </ControlTemplate>
+            </ItemsControl.Template>
+            <ItemsControl.ItemTemplate>
+                <DataTemplate>
+                    <Grid Height="60">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="125"/>
+                            <ColumnDefinition/>
+                        </Grid.ColumnDefinitions>
+                        <Image Grid.Column="0" Source="{Binding ImgSrc}" MaxHeight="60"/>
+                        <TextBlock Grid.Column="1" Text="{Binding VersionName}" VerticalAlignment="Center" HorizontalAlignment="Left" FontSize="15" Margin="5 0"/>
+                    </Grid>
+                </DataTemplate>
+            </ItemsControl.ItemTemplate>
+        </ItemsControl>
+        
+        
+        <ListBox Grid.Column="1" Background="Transparent" BorderThickness="0" Style="{StaticResource ListBoxCustom}" ItemsSource="{Binding VersionSongs}">
+            <ListBox.ItemsPanel>
+                <ItemsPanelTemplate>
+                    <hc:HoneycombPanel hc:PanelElement.FluidMoveBehavior="{StaticResource BehaviorXY200}"/>
+                </ItemsPanelTemplate>
+            </ListBox.ItemsPanel>
+            <ListBox.ItemTemplate>
+                <DataTemplate>
+                    <Image Source="D:\MatchurryPanMoving\.NET\git\MaimaiConsultationCentre\MaimaiConsulationCenter\MaimaiConsulationCenter\Assets\Images\Logo.png" Width="50"/>
+                </DataTemplate>
+            </ListBox.ItemTemplate>
+        </ListBox>
     </Grid>
 </UserControl>

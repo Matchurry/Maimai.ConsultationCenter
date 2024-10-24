@@ -225,6 +225,21 @@ namespace MaimaiConsulationCenter.DataAccess
             //在此计算底板
             GlobalValues.B15Floor = GlobalValues.B50.charts.dx.Last().ra;
             GlobalValues.B35Floor = GlobalValues.B50.charts.sd.Last().ra;
+
+            //在此初始化版本数据
+            string[] vs = { "maimai", "maimai PLUS", "maimai GreeN","maimai GreeN PLUS","maimai ORANGE", "maimai ORANGE PLUS",
+                "maimai PiNK", "maimai PiNK PLUS", "maimai MURASAKi", "maimai MURASAKi PLUS","maimai MiLK","maimai MiLK PLUS",
+                "maimai FiNALE","maimai DX","maimai DX PLUS","maimai DX Splash","maimai DX Splash PLUS",
+                "maimai DX UNiVERSE","maimai DX UNiVERSE PLUS","maimai DX FESTiVAL","maimai DX FESTiVAL PLUS",
+                "maimai DX BUDDiES", "maimai DX BUDDiES PLUS","maimai DX PRiSM"};
+            foreach (string s in vs)
+            {
+                GlobalValues.Versions.Add(new VersionModel
+                {
+                    VersionName = s,
+                    ImgSrc = $"../Assets/Images/MaiVersions/{s}.png"
+                });
+            }
             return;
         }
     }

@@ -217,6 +217,7 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="Model\UserRecordsModel.cs" />
+    <Compile Include="Model\VersionModel.cs" />
     <Compile Include="Model\VersionProgressModel.cs" />
     <Compile Include="ViewModel\SongsViewModel.cs" />
     <Compile Include="ViewModel\VersionProgressViewModel.cs" />
@@ -1435,6 +1436,30 @@
     <Resource Include="Assets\Images\MaiSongImages\11607.png" />
   </ItemGroup>
   <ItemGroup>
+    <Resource Include="Assets\Images\MaiVersions\maimai DX BUDDiES PLUS.png" />
+    <Resource Include="Assets\Images\MaiVersions\maimai DX BUDDiES.png" />
+    <Resource Include="Assets\Images\MaiVersions\maimai DX FESTiVAL PLUS.png" />
+    <Resource Include="Assets\Images\MaiVersions\maimai DX FESTiVAL.png" />
+    <Resource Include="Assets\Images\MaiVersions\maimai DX PLUS.png" />
+    <Resource Include="Assets\Images\MaiVersions\maimai DX PRiSM.png" />
+    <Resource Include="Assets\Images\MaiVersions\maimai DX Splash PLUS.png" />
+    <Resource Include="Assets\Images\MaiVersions\maimai DX Splash.png" />
+    <Resource Include="Assets\Images\MaiVersions\maimai DX UNiVERSE PLUS.png" />
+    <Resource Include="Assets\Images\MaiVersions\maimai DX UNiVERSE.png" />
+    <Resource Include="Assets\Images\MaiVersions\maimai DX.png" />
+    <Resource Include="Assets\Images\MaiVersions\maimai FiNALE.png" />
+    <Resource Include="Assets\Images\MaiVersions\maimai GreeN.png" />
+    <Resource Include="Assets\Images\MaiVersions\maimai MiLK PLUS.png" />
+    <Resource Include="Assets\Images\MaiVersions\maimai MiLK.png" />
+    <Resource Include="Assets\Images\MaiVersions\maimai MURASAKi PLUS.png" />
+    <Resource Include="Assets\Images\MaiVersions\maimai MURASAKi.png" />
+    <Resource Include="Assets\Images\MaiVersions\maimai ORANGE PLUS.png" />
+    <Resource Include="Assets\Images\MaiVersions\maimai ORANGE.png" />
+    <Resource Include="Assets\Images\MaiVersions\maimai PiNK PLUS.png" />
+    <Resource Include="Assets\Images\MaiVersions\maimai PiNK.png" />
+    <Resource Include="Assets\Images\MaiVersions\maimai PLUS.png" />
+    <Resource Include="Assets\Images\MaiVersions\maimai.png" />
+    <Resource Include="Assets\Images\MaiVersions\maimai GreeN PLUS.png" />
     <Content Include="Assets\VLC\axvlc.dll" />
     <Content Include="Assets\VLC\libvlc.dll" />
     <Content Include="Assets\VLC\libvlccore.dll" />

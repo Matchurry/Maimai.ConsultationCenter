@@ -1,4 +1,6 @@
-﻿using System;
+﻿using MaimaiConsulationCenter.Common;
+using MaimaiConsulationCenter.ViewModel;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -23,6 +25,8 @@ namespace MaimaiConsulationCenter.View
         public VersionProgress()
         {
             InitializeComponent();
+            this.DataContext = new VersionProgressViewModel();
+            Console.WriteLine(VersionProgressViewModel.test.Count);
         }
     }
 }

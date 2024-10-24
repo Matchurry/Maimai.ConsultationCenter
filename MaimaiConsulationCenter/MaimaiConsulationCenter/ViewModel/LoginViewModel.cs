@@ -112,6 +112,7 @@ namespace MaimaiConsulationCenter.ViewModel
                         cache.Add("FirstPageView", new FirstPageView(), new CacheItemPolicy() { AbsoluteExpiration = DateTimeOffset.Now.AddDays(1) });
                         cache.Add("PointsSearchView", new PointsSearchView(), new CacheItemPolicy() { AbsoluteExpiration = DateTimeOffset.Now.AddDays(1) });
                         cache.Add("SongsView", new SongsView(), new CacheItemPolicy() { AbsoluteExpiration = DateTimeOffset.Now.AddDays(1) });
+                        cache.Add("VersionProgress", new VersionProgress(), new CacheItemPolicy() { AbsoluteExpiration = DateTimeOffset.Now.AddDays(1) });
                         dataLoadedSource.SetResult(true); //发送缓存结束
                     }));
                     await dataLoadedSource.Task; //等待缓存结束
