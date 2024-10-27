@@ -26,7 +26,6 @@ namespace MaimaiConsulationCenter.View
         {
             InitializeComponent();
             this.DataContext = new VersionProgressViewModel();
-            Console.WriteLine(VersionProgressViewModel.test.Count);
         }
     }
 }

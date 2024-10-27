@@ -20,5 +20,6 @@ namespace MaimaiConsulationCenter.Common
         public static int B15Floor { get; set; } = 0;
         public static int B35Floor { get; set; } = 0;
         public static ObservableCollection<VersionModel> Versions { get; set; } = new ObservableCollection<VersionModel>();
+        public static ObservableCollection<SongModel.Root> VersionsScoreShow = new ObservableCollection<SongModel.Root>();
     }
 }

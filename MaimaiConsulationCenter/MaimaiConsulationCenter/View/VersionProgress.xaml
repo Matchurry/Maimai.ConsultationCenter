@@ -20,7 +20,7 @@
         </Grid.ColumnDefinitions>
         <!--左侧版本区域-->
         <ItemsControl Grid.Column="0" ItemsSource="{Binding Versions}" VirtualizingPanel.ScrollUnit="Pixel"
-                      VirtualizingStackPanel.IsVirtualizing="True"
+                      VirtualizingStackPanel.IsVirtualizing="True" VerticalAlignment="Center" HorizontalAlignment="Center"
                       VirtualizingStackPanel.VirtualizationMode="Recycling">
             <ItemsControl.ItemsPanel>
                 <ItemsPanelTemplate>
@@ -30,7 +30,7 @@
             <ItemsControl.Template>
                 <ControlTemplate>
                     <hc:ScrollViewer CanContentScroll="True" VirtualizingPanel.ScrollUnit="Pixel" IsInertiaEnabled="True"
-                                     VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Hidden">
+                                     VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Visible">
                         <ItemsPresenter/>
                     </hc:ScrollViewer>
                 </ControlTemplate>
@@ -38,6 +38,9 @@
             <ItemsControl.ItemTemplate>
                 <DataTemplate>
                     <Grid Height="60">
+                        <i:Interaction.Behaviors>
+                            <local:VerClickGrid/>
+                        </i:Interaction.Behaviors>
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="125"/>
                             <ColumnDefinition/>
@@ -48,19 +51,42 @@
                 </DataTemplate>
             </ItemsControl.ItemTemplate>
         </ItemsControl>
-        
-        
-        <ListBox Grid.Column="1" Background="Transparent" BorderThickness="0" Style="{StaticResource ListBoxCustom}" ItemsSource="{Binding VersionSongs}">
-            <ListBox.ItemsPanel>
+        <!--右侧显示版本数据-->
+        <ItemsControl Grid.Column="1" Background="Transparent" BorderThickness="0" ItemsSource="{Binding VersionSongs}"
+                HorizontalContentAlignment="Center" VerticalContentAlignment="Center">
+            <ItemsControl.ItemsPanel>
                 <ItemsPanelTemplate>
-                    <hc:HoneycombPanel hc:PanelElement.FluidMoveBehavior="{StaticResource BehaviorXY200}"/>
+                    <hc:HoneycombPanel hc:PanelElement.FluidMoveBehavior="{StaticResource BehaviorXY200}"
+                                    HorizontalAlignment="Center" VerticalAlignment="Center">
+                    </hc:HoneycombPanel>
                 </ItemsPanelTemplate>
-            </ListBox.ItemsPanel>
-            <ListBox.ItemTemplate>
+            </ItemsControl.ItemsPanel>
+            <ItemsControl.Template>
+                <ControlTemplate>
+                    <hc:ScrollViewer CanContentScroll="True" VirtualizingPanel.ScrollUnit="Pixel" IsInertiaEnabled="True"
+                                     VerticalScrollBarVisibility="Hidden" HorizontalScrollBarVisibility="Hidden">
+                        <i:Interaction.Behaviors>
+                            <local:ScrollViewAni/>
+                        </i:Interaction.Behaviors>
+                        <ItemsPresenter/>
+                    </hc:ScrollViewer>
+                </ControlTemplate>
+            </ItemsControl.Template>
+            <ItemsControl.ItemTemplate>
                 <DataTemplate>
-                    <Image Source="D:\MatchurryPanMoving\.NET\git\MaimaiConsultationCentre\MaimaiConsulationCenter\MaimaiConsulationCenter\Assets\Images\Logo.png" Width="50"/>
+                    <Grid Margin="5">
+                        <Border Width="200" Height="200" CornerRadius="100">
+                            <Border.Background>
+                                <ImageBrush ImageSource="{Binding song_img_src}"/>
+                            </Border.Background>
+                        </Border>
+                        <Border Background="White" Width="80" Height="80" CornerRadius="40" HorizontalAlignment="Right" VerticalAlignment="Top">
+                            <TextBlock Text="{Binding master}" FontSize="20" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                        </Border>
+                    </Grid>
                 </DataTemplate>
-            </ListBox.ItemTemplate>
-        </ListBox>
+            </ItemsControl.ItemTemplate>
+        </ItemsControl>
+
     </Grid>
 </UserControl>

@@ -34,6 +34,7 @@ namespace MaimaiConsulationCenter.View
 
             var currentDirectory = System.IO.Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "..","..","Assets", "VLC");
             libDirectory = new DirectoryInfo(currentDirectory);
+
             bud.SourceProvider.CreatePlayer(libDirectory);
 
             bud.SourceProvider.MediaPlayer.SetMedia(new FileInfo(bud_src), new String[] { "input-repeat=65535" });

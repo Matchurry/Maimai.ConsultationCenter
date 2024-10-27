@@ -9,9 +9,15 @@ namespace MaimaiConsulationCenter.Model
         {
             public string title { get; set; }
             public string artist { get; set; }
+            /// <summary>
+            /// 所属类别
+            /// </summary>
             public string genre { get; set; }
             public int bpm { get; set; }
             public string release_date { get; set; }
+            /// <summary>
+            /// 所属版本
+            /// </summary>
             public string from { get; set; }
             public bool is_new { get; set; }
         }
@@ -32,7 +38,13 @@ namespace MaimaiConsulationCenter.Model
             public string song_img_src { get; set; }
             public string title { get; set; } = "test";
             public string type { get; set; }
+            /// <summary>
+            /// 包含小数的定数
+            /// </summary>
             public List<double> ds { get; set; }
+            /// <summary>
+            /// 仅包含是否+的定数
+            /// </summary>
             public List<string> level { get; set; }
             public string easy { get; set; } = "";
             public string advanced { get; set; } = "";
